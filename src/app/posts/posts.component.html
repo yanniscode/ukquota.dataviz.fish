@@ -1,0 +1,28 @@
+
+  
+  <div class="row">
+
+  
+  <table class="table table-bordered table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Specie</th>
+          <th scope="col">Zone</th>
+          <th scope="col">Weight</th>
+          <th scope="col">Quota</th>
+        
+        </tr>
+      </thead>
+      <tbody *ngFor="let post of posts">
+        <tr>
+          <th scope="col">{{ post.value_date_xlsx }}</th>
+          <td>{{ post.name_specie }}</td>
+          <td>{{ post.name_zone }}</td>
+          <td>{{ post.value_landing }}</td>
+          <td>{{ post.value_quota }}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
