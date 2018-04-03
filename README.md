@@ -2,6 +2,7 @@
 Data fishing platform project by Code.bzh.
 With Angular, ChartJS, express, sequelize and mysql
 
+Run `npm run build` to run the app
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.7. 
 
