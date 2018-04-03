@@ -1,6 +1,9 @@
 # SakanaApi
+Data fishing platform project by Code.bzh.
+With Angular, ChartJS, express, sequelize and mysql
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.7. COUCOU !!! 
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.7. 
 
 ## Development server
 
