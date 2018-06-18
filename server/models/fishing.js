@@ -10,27 +10,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     id_specie: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'species',
-        key: 'id_specie'
-      }
+      allowNull: true
     },
-    id_zone: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'zones',
-        key: 'id_zone'
-      }
-    },
-    id_date: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'dates',
-        key: 'id_date'
-      }
+    date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
     },
     value_landing: {
       type: DataTypes.INTEGER(11),
@@ -41,7 +25,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     }
   }, {
-    tableName: 'fishing',
-    timestamps: false
+    tableName: 'fishing'
   });
 };

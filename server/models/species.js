@@ -10,10 +10,17 @@ module.exports = function(sequelize, DataTypes) {
     },
     name_specie: {
       type: DataTypes.STRING(40),
-      allowNull: false
+      allowNull: true
+    },
+    super_zone: {
+      type: DataTypes.STRING(40),
+      allowNull: true
+    },
+    zone: {
+      type: DataTypes.STRING(40),
+      allowNull: true
     }
   }, {
-    tableName: 'species',
-    timestamps: false
+    tableName: 'species'
   });
 };

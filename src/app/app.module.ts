@@ -18,15 +18,15 @@ import { ChartsModule } from 'ng2-charts';
 const ROUTES = [
   {
     path: '',
-    redirectTo: 'linechart',
+    redirectTo: 'graphique',
     pathMatch: 'full'
   },
   {
-    path: 'posts',
+    path: 'tableau',
     component: PostsComponent
   },
   {
-    path: 'linechart',
+    path: 'graphique',
     component: LinechartComponent
   }
 ];

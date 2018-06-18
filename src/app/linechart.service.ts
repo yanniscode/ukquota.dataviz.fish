@@ -9,7 +9,7 @@ export class LinechartService {
 
   // Get all posts from the API
   getAllPosts() {
-    return this.http.get('/api/linechart')
+    return this.http.get('/api/graphique')
       .map(res => res.json());
   }
 }

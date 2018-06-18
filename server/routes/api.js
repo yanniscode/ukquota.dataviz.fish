@@ -29,25 +29,24 @@
     res.send("api works");
     });
 
-    router.get("/posts", function(req, res, next) {
+    router.get("/tableau", function(req, res, next) { // posts
     /*model.fishing.findAll().then(fishing => {*/
 
-    sequelize.query("SELECT DISTINCT name_specie, value_quota, value_landing, name_zone, value_date_xlsx FROM `fishing` INNER JOIN `Dates` ON Fishing.id_date = Dates.id_date INNER JOIN `species` ON Fishing.id_specie = species.id_specie INNER JOIN `zones` ON Fishing.id_zone = zones.id_zone", { type : sequelize.QueryTypes.SELECT} )
-    .then(fishing => {
-            
+        sequelize.query("SELECT * FROM `fishing` INNER JOIN `species` ON fishing.id_specie = species.id_specie", { type : sequelize.QueryTypes.SELECT} )
+        .then(fishing => {            
             console.log(fishing);
             res.json(fishing);
         });
     });
 
-    router.get("/linechart", function(req, res, next) {
-    model.zones.findOne().then(zones => {
-        console.log(zones.toJSON());
+router.get("/graphique", function(req, res, next) {
+    model.fishing.findOne().then(fishing => {
+        console.log(fishing.toJSON());
         console.log("Yeah");
     });
-    });
+});
 
-    router.get("/posts2", (req, res) => {
+router.get("/posts2", (req, res) => { // test (objet JSON) : marche seulement sur /api/posts2
     res.json([
         {
         id: 1,
@@ -60,11 +59,11 @@
         body: "iushfidugifnfinf22222u"
         }
     ]);
-    });
+});
 
     module.exports = router;
 
-    /*sequelize.query('SELECT name_specie, value_quota, value_landing, name_zone , value_date_xlsx'
+    /*  sequelize.query('SELECT name_specie, value_quota, value_landing, name_zone , value_date_xlsx' // marche pas à tester ??
     FROM Fishing
     INNER JOIN Dates 
         ON Fishing.id_date = dates.id_date 
@@ -82,3 +81,4 @@
             console.log([fishing])
         });
     */
+
