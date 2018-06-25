@@ -4,8 +4,13 @@
 
 - modifications : 
 
+-- Commit 7 :
 ~~ possibilité d'interroger une BDD Mysql et de répondre les données sur un tableau
 ~~ possibilité d'interroger une BDD Mysql et de répondre les données d'un objet 'json' sur un graphique (un seul pour l'instant, et l'abscisse OU l'ordonnée)
+
+-- Commit 8 :
+~~ ajout du module 'quickstart-2.1.js de récupérations de données sélectionnées d'une pièce-jointe de mail au format '.xlsx', de leur parsage en fichier '.csv' (qui seront enregistrés dans le dossier 'Tableaux') et l'intégration de données selectionnées en Base de donnée MySQL (fichier : 'datafishuk-3.0.sql'). Ce module est intégré de https://github.com/DarKaweit/Node-Extract_SQL-Insert (à consulter pour plus de détails)
+
 
 Data fishing platform project by Code.bzh.
 With Angular, ChartJS, express, sequelize and mysql
