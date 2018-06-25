@@ -1,5 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Chart } from 'chart.js';
+
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  OnChanges,
+  EventEmitter,
+  ElementRef,
+  Input,
+  Output,
+  NgModule,
+  SimpleChanges,
+  Directive
+} from '@angular/core';
+
 import { LinechartService } from '../linechart.service';
+
+import { HttpClient } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Data } from '@angular/router';
 
 @Component({
   selector: 'app-linechart',
@@ -9,27 +28,75 @@ import { LinechartService } from '../linechart.service';
 
 export class LinechartComponent implements OnInit {
 
-  // instantiate posts to an empty array
+
+  constructor (private httpService: HttpClient) { }
+
+
+  // instantiate posts to an empty array :
 
   linechartPosts: any = [];
-  constructor(private linechartService: LinechartService) { }
 
-  chartData = [
-    { data: [330, 600, 260, 700], label: 'Account A' },
-    { data: [120, 455, 100, 340], label: 'Account B' },
-    { data: [45, 67, 800, 500], label: 'Account C' }
+  // ADD CHART OPTIONS.
+  chartOptions = {
+    responsive: true,
+    scales: {
+      yAxes: [{
+          ticks: {
+              beginAtZero: true,
+          }
+      }]
+    }
+  };
+
+  // CHART STRUCTURE:
+
+  chartData: any = [
+    {
+      data : [],
+      label: 'Captures',
+    },
+    {
+      data : [],
+      label: 'Quotas',
+    }
   ];
-  chartLabels = ['January', 'February', 'Mars', 'April'];
+  chartLabels = [];
 
   onChartClick(event) {
     console.log(event);
   }
 
-  ngOnInit() {
-    // Retrieve posts from the API
-    this.linechartService.getAllPosts().subscribe(posts => {
-      this.linechartPosts = posts;
-    });
-  }
-}
 
+//  INSERTION DE DONNEES D'UN OBJET EXTRAIT DE LA BDD (ne prend pas encore les abscisses en même temps)
+
+  public ngOnInit(): any {
+
+    this.httpService.get('./api/landing', {responseType: 'json'})
+    .subscribe(
+      fishs => {
+        Object.entries(fishs).forEach(([key, val]) => {
+
+          this.chartData = [
+            {
+              data : [Object.values(fishs)[0]],
+              label: [Object.keys(fishs)[0]],
+            },
+            {
+              data : [Object.values(fishs)[1]],
+              label: [Object.keys(fishs)[1]],
+            }
+          ];
+          this.chartLabels = [Object.values(fishs)[2]]; // Attention : marche uniquement seul (si l'on retire 'chartData')
+
+        },
+          (err: HttpErrorResponse) => {
+            console.log (err.message);
+          }
+        );
+      }
+    );
+
+  }
+
+
+}

@@ -18,6 +18,7 @@ export class PostsComponent implements OnInit {
     // Retrieve posts from the API
     this.postsService.getAllPosts().subscribe(posts => {
       this.posts = posts;
+      console.log(posts);
     });
   }
 }

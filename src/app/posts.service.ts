@@ -13,4 +13,8 @@ export class PostsService {
     return this.http.get('/api/tableau')
     .map(res => res.json());
   }
+  getOnePost() {
+    return this.http.get('/api/tableau2') // value_landing: 14712, date: "2017-11-15" (ex)
+      .map(res => res.json());
+  }
 }

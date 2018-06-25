@@ -1,4 +1,12 @@
-# SakanaApi
+# SakanaApi (en test)
+
+//~~ Dernières modifications : 25/06/18
+
+- modifications : 
+
+~~ possibilité d'interroger une BDD Mysql et de répondre les données sur un tableau
+~~ possibilité d'interroger une BDD Mysql et de répondre les données d'un objet 'json' sur un graphique (un seul pour l'instant, et l'abscisse OU l'ordonnée)
+
 Data fishing platform project by Code.bzh.
 With Angular, ChartJS, express, sequelize and mysql
 

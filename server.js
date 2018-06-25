@@ -3,11 +3,11 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
-var models = require('./server/models');
+
+const models = require('./server/models');
 
 // Get our API routes
 const api = require('./server/routes/api');
-
 const app = express();
 
 // Parsers for POST data
