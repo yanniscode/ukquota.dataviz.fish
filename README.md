@@ -1,19 +1,32 @@
 # SakanaApi (en test)
 
-//~~ Dernières modifications : 25/06/18
+Dernières modifications : 05/07/18
 
-- modifications : 
+- modifications :
 
--- Commit 7 :
-~~ possibilité d'interroger une BDD Mysql et de répondre les données sur un tableau
-~~ possibilité d'interroger une BDD Mysql et de répondre les données d'un objet 'json' sur un graphique (un seul pour l'instant, et l'abscisse OU l'ordonnée)
+
+-- Commit 9 :
+
+Ajout de html, de CSS et possibilité d'affichage de tableaux et de graphiques (design en travail) sur des données extraites d'une BDD MySQL
+
 
 -- Commit 8 :
-~~ ajout du module 'quickstart-2.1.js de récupérations de données sélectionnées d'une pièce-jointe de mail au format '.xlsx', de leur parsage en fichier '.csv' (qui seront enregistrés dans le dossier 'Tableaux') et l'intégration de données selectionnées en Base de donnée MySQL (fichier : 'datafishuk-3.0.sql'). Ce module est intégré de https://github.com/DarKaweit/Node-Extract_SQL-Insert (à consulter pour plus de détails)
+
+Ajout du module 'quickstart-2.1.js de récupérations de données sélectionnées d'une pièce-jointe de mail au format '.xlsx', de leur parsage en fichier '.csv' (qui seront enregistrés dans le dossier 'Tableaux') et l'intégration de données selectionnées en Base de donnée MySQL (fichier : 'datafishuk-3.0.sql'). Ce module est intégré à partir de https://github.com/DarKaweit/Node-Extract_SQL-Insert (à consulter pour plus de détails)
 
 
-Data fishing platform project by Code.bzh.
-With Angular, ChartJS, express, sequelize and mysql
+-- Commit 7 :
+
+Possibilité d'interroger une BDD Mysql et de répondre les données sur un tableau
+Possibilité d'interroger une BDD Mysql et de répondre les données d'un objet 'json' sur un graphique (Attention : pour l'instant, au choix : l'abscisse ou l'ordonnée)
+
+
+
+Data fishing platform project 
+
+by Code.bzh.
+
+With Angular, ChartJS, Express, Sequelize, MySQL, and Api Gmail
 
 Run `npm run build` to run the app
 

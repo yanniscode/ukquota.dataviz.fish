@@ -1,4 +1,38 @@
-<h1>
-  {{title}}
-</h1>
+<!--div style="text-align:left;width:500px;"-->
+  <h1>
+  <!--  {{title}} -->
+  </h1>
+
+
+<div>
+  <canvas
+      baseChart
+      [chartType]="'bar'"
+      [datasets]="chartData"
+      [labels]="chartLabels"
+      [options]="chartOptions"
+      [legend]="true"
+      [colors]="colors"
+      (chartClick)="onChartClick($event)">
+  </canvas>
+</div>
 <router-outlet></router-outlet>
+
+  <!--table *ngIf="arrBirds">  < TEST IMPORT DE DONNÉES .JSON (fichier birds.js >
+    < ADD HEADERS >
+    <tr>
+        <th>ID</th>
+        <th>Name of Bird</th>
+        <th>Scientific Name of Bird</th>
+        <th>Type of Bird</th>
+    </tr>
+
+    <BIND ARRAY TO TABLE >
+    <tr *ngFor="let bird of arrBirds">
+        <td>{{bird.ID}}</td>
+        <td>{{bird.Name}}</td>
+        <td>{{bird.Scientific_Name}}</td>
+        <td>{{bird.Type}}</td>
+    </tr>
+  </table>
+</div-->

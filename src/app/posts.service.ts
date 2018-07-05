@@ -9,12 +9,17 @@ export class PostsService {
 
 
   // Get all posts from the API
-  getAllPosts() {
-    return this.http.get('/api/tableau')
+  // partie back-end (route qui affiche les infos au format '.json'.
+  // Elles seront récupérées par le Front-End pour être affichée sur 'localhost:3000/posts
+
+  getAllFishings() {
+    return this.http.get('/api/AllFishings') // REQUÊTE GÉNÉRALE : 'AllFishings'
     .map(res => res.json());
   }
-  getOnePost() {
-    return this.http.get('/api/tableau2') // value_landing: 14712, date: "2017-11-15" (ex)
+  getOneFishing() {
+    return this.http.get('/api/NorthSeaCodAtDate') // REQUÊTE PRÉCISE : 'NorthSeaCodAtDate'
       .map(res => res.json());
   }
+
+
 }

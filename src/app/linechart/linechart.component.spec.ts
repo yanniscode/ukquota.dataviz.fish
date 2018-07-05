@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { LinechartComponent } from './linechart.component';
 
 describe('LinechartComponent', () => {

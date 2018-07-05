@@ -20,6 +20,8 @@
 
 Référence : <a href="https://github.com/wahengchang/nodejs-cron-job-must-know">https://github.com/wahengchang/nodejs-cron-job-must-know</a>
 <br /></br></strong>
+Prérequis : avoir installé Node.je et les modules complémentaires.<br><br>
+Lancement : à la racine du projet : 'node quickstart_launcher-1.0.js'<br><br>
 Ce module permet l'exécution automatique de "quickstart-2.1.js", mais pourrait exécuter plusieurs scripts simultanément (à insérer dans la liste).</br>
 Ses paramètres sont réglables selon l'ordre suivant :</br>
 Secondes, minutes, heures, jour du mois, mois, jour de la semaine :</br></br> 

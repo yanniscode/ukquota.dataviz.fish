@@ -1,5 +1,3 @@
-import { Chart } from 'chart.js';
-
 import {
   Component,
   OnDestroy,
@@ -16,6 +14,8 @@ import {
 
 import { LinechartService } from '../linechart.service';
 
+import { Http } from '@angular/http';
+
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Data } from '@angular/router';
@@ -26,8 +26,10 @@ import { Data } from '@angular/router';
   styleUrls: ['./linechart.component.css']
 })
 
+
 export class LinechartComponent implements OnInit {
 
+  title = 'Dataviz.fish';
 
   constructor (private httpService: HttpClient) { }
 
@@ -36,17 +38,24 @@ export class LinechartComponent implements OnInit {
 
   linechartPosts: any = [];
 
-  // ADD CHART OPTIONS.
+  // ADD CHART OPTIONS :
+
   chartOptions = {
-    responsive: true,
+  /*  responsive: true, */ // cf : fichier 'linechart.component.css'
     scales: {
       yAxes: [{
-          ticks: {
-              beginAtZero: true,
-          }
-      }]
-    }
+        ticks: {
+          beginAtZero: true,  // option = graphic begins at 0
+        }
+      }],
+    },
+    chartLabels: [{
+      time: {
+        unit: 'day'
+      }
+    }],
   };
+
 
   // CHART STRUCTURE:
 
@@ -67,36 +76,84 @@ export class LinechartComponent implements OnInit {
   }
 
 
-//  INSERTION DE DONNEES D'UN OBJET EXTRAIT DE LA BDD (ne prend pas encore les abscisses en même temps)
+//  constructor(private linechartService: LinechartService) { }
 
-  public ngOnInit(): any {
+ngOnInit(): any {
 
-    this.httpService.get('./api/landing', {responseType: 'json'})
+// ******************** TEST BOUCLE 'for': (à revoir) : les cabillauds pêchés dans différentes zones à une date donnée
+
+  this.httpService.get('./api/CodAtDate', {responseType: 'json'})
     .subscribe(
       fishs => {
-        Object.entries(fishs).forEach(([key, val]) => {
 
-          this.chartData = [
-            {
-              data : [Object.values(fishs)[0]],
-              label: [Object.keys(fishs)[0]],
-            },
-            {
-              data : [Object.values(fishs)[1]],
-              label: [Object.keys(fishs)[1]],
-            }
-          ];
-          this.chartLabels = [Object.values(fishs)[2]]; // Attention : marche uniquement seul (si l'on retire 'chartData')
+        for (let i = 0; i < Object.keys(fishs).length; i++) {
 
-        },
-          (err: HttpErrorResponse) => {
-            console.log (err.message);
-          }
-        );
+          console.log(fishs[i]);
+          console.log('Obj length :');
+          console.log(Object.keys(fishs).length);
+
+          console.log('Obj values:');
+          console.log(Object.values(fishs));
+
+          console.log(fishs[i].value_landing);
+          console.log(fishs[i].value_quota);
+          console.log(fishs[i].date);
+
+          const landingdatas = fishs[i].value_landing;  // values: value_landing
+          console.log('landingdatas :');
+          console.log(landingdatas);
+          this.chartData[0].data.push(landingdatas);
+          console.log('this.chartData (landing):');
+          console.log(this.chartData[0].data);
+
+          const quotadatas = fishs[i].value_quota;  // values: value_quota
+          console.log('quotadatas :');
+          console.log(quotadatas);
+          this.chartData[1].data.push(quotadatas);
+          console.log('this.chartData (quota):');
+          console.log(this.chartData[1].data);
+
+          const zonedatas = fishs[i].zone;  // values : zone;
+          console.log('zonedatas :');
+          console.log(zonedatas);
+          this.chartLabels.push(zonedatas);
+          console.log('this.chartLabels :');
+          console.log(this.chartLabels);
+
+        } // fin de boucle 'for'
+
       }
     );
 
-  }
+  this.httpService.get('./api/CodAtDate', {responseType: 'json'})
+    .subscribe(
+      fishs => {
+
+        for (let i = 0; i < Object.keys(fishs).length; i++) {
+
+          this.chartData = [
+            {
+              data: [],
+              label: [Object.keys(fishs[i])[0], ' ' + Object.values(fishs[i])[3], ' ' + Object.values(fishs[i])[4], ' '
+              + Object.values(fishs[i])[2]],
+            },
+            {
+              data: [],
+              label: [Object.keys(fishs[i])[1], ' ' + Object.values(fishs[i])[3], ' ' + Object.values(fishs[i])[4], ' '
+              + Object.values(fishs[i])[2]],
+            }
+          ];
+
+          console.log('this.chartData (bis):');
+          console.log(this.chartData);
+          console.log(Object.keys(fishs[i])[0]);
+        }
+
+      }
+    );
 
 
-}
+  } // fin de boucle : ngOnInit
+
+
+} // fin de boucle : export class

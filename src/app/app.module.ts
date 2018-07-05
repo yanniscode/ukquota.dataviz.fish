@@ -9,17 +9,16 @@ import { PostsComponent } from './posts/posts.component';
 import { PostsService } from './posts.service';
 import { LinechartService } from './linechart.service';
 
-
 import { ChartsModule } from 'ng2-charts'; // ajout
 import { HttpClientModule } from '@angular/common/http';
 
-// Routes
 
+// Routes
 
 const ROUTES = [
   {
     path: '',
-    redirectTo: 'graph', // 'table' enlevé pour tests 'json'
+    redirectTo: 'graph', // affiche par défaut un graphique sur la page web
     pathMatch: 'full'
   },
   {
@@ -36,14 +35,14 @@ const ROUTES = [
   declarations: [
     AppComponent,
     LinechartComponent,
-    PostsComponent
+    PostsComponent,
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(ROUTES), // Add routes to the app
     HttpModule,
     ChartsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [PostsService, LinechartService], // Add the posts service
   bootstrap: [AppComponent]
