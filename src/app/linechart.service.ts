@@ -8,9 +8,10 @@ export class LinechartService {
 
   constructor(private http: Http) { }
 
-  // Get all posts from the API
   // Get all posts from the API == partie back-end (route qui affiche les infos au format '.json'.
-  // Elles seront récupérées par le Front-End pour être affichée sur 'localhost:3000/linechart
+  // Elles seront récupérées par le Front-End pour être affichée sur 'localhost:3000/linechart'
+  // ATTENTION : methode qui ne marche pas >> utiliser la classe LinechartComponent à la place (dans 'linechart.component.ts')
+
   getAllFishings() {
     return this.http.get('/api/AllFishings') // objet 'fishing' (id, values, zone...)
       .map(res => res.json());

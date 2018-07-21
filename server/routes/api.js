@@ -38,7 +38,7 @@
     router.get("/AllFishings", function(req, res, next) { // envoie la donnée sur http://localhost:3000/api/tableposts
     // requête générale qui marche (pour 'test_sakana'): (prend toutes les données actuelles):
 
-        sequelize.query("SELECT name_specie, date, value_landing, value_quota, super_zone, zone FROM `fishing` INNER JOIN `species` ON fishing.id_specie = species.id_specie", { type : sequelize.QueryTypes.SELECT } )
+        sequelize.query("SELECT name_specie, date, value_landing, value_quota, super_zone, zone FROM `fishing` INNER JOIN `species` ON fishing.id_specie = species.id_specie ORDER BY date ASC", { type : sequelize.QueryTypes.SELECT } )
         .then(fishing => {           
             console.log(fishing);
             res.json(fishing);
@@ -59,6 +59,17 @@
 
     });
 
+// REQUÊTE SUR DIFFÉRENTS OBJETS : 'CodAtZone':
+
+router.get("/CodAtZone", function(req, res, next) { // envoie la donnée sur http://localhost:3000/api/landings
+
+    sequelize.query("SELECT value_landing, value_quota, date, name_specie, super_zone, zone FROM `fishing` INNER JOIN `species` ON fishing.id_specie = species.id_specie WHERE super_zone = 'North sea' AND name_specie = 'Cod' ORDER BY date ASC", { type : sequelize.QueryTypes.SELECT } )
+    .then(fishing => {            
+            console.log(fishing);
+            res.json(fishing);
+        });
+
+    });
     
 // REQUÊTE SUR UN OBJET : 'NorthSeaCodAtDate' :
     

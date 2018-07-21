@@ -8,7 +8,7 @@
     <div class="column" style="background-color:rgb(241, 241, 241);">
         <canvas
             baseChart
-            [chartType]="'line'"
+            [chartType]="'bar'"
             [datasets]="chartData"
             [labels]="chartLabels"
             [options]="chartOptions"
@@ -16,17 +16,17 @@
             (chartClick)="onChartClick($event)">
         </canvas> <!-- chartData = axe des Y, chartLabels = Axe des X -->
     </div>
-    <div class="column" style="background-color:rgb(255, 213, 213);">
+    <!--    div class="column" style="background-color:rgb(255, 213, 213);">
         <canvas
             baseChart
-            [chartType]="'bar'"
+            [chartType]="'line'"
             [datasets]="chartData"
             [labels]="chartLabels"
             [options]="chartOptions"
             [legend]="true"      
             (chartClick)="onChartClick($event)">
-        </canvas> <!-- "chartData" = axe des Y, chartLabels = Axe des X -->
-    </div>
+        </canvas    --> <!-- "chartData" = axe des Y, chartLabels = Axe des X -->
+    <!--    /div    -->
     <!--    div class="column" style="background-color:rgb(255, 213, 213);">
         <canvas
             baseChart

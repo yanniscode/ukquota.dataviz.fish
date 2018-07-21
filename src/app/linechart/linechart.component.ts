@@ -20,6 +20,9 @@ import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Data } from '@angular/router';
 
+import { Chart } from 'chart.js';
+import 'chartjs-plugin-zoom';
+
 @Component({
   selector: 'app-linechart',
   templateUrl: './linechart.component.html',
@@ -39,9 +42,8 @@ export class LinechartComponent implements OnInit {
   linechartPosts: any = [];
 
   // ADD CHART OPTIONS :
-
   chartOptions = {
-  /*  responsive: true, */ // cf : fichier 'linechart.component.css'
+    responsive: true,  // cf : fichier 'linechart.component.css'
     scales: {
       yAxes: [{
         ticks: {
@@ -54,19 +56,39 @@ export class LinechartComponent implements OnInit {
         unit: 'day'
       }
     }],
+    pan: {
+      enabled: true,
+      mode: 'xy',
+      speed: 20,
+      threshold: 10
+    },
+    zoom: {
+      enabled: true,
+      mode: 'xy',
+      sensitivity: 100,
+      rangeMin: {
+        // Format of min pan range depends on scale type
+        x: null,
+        y: 0  // le graphique ne prend pas en compte les chiffres négatifs
+      },
+      rangeMax: {
+        // Format of max pan range depends on scale type
+        x: null,
+        y: null
+      }
+    }
   };
 
 
   // CHART STRUCTURE:
-
   chartData: any = [
     {
-      data : [],
-      label: 'Captures',
+      data: [],
+      label: 'Captures'
     },
     {
-      data : [],
-      label: 'Quotas',
+      data: [],
+      label: 'Quotas'
     }
   ];
   chartLabels = [];
@@ -80,9 +102,68 @@ export class LinechartComponent implements OnInit {
 
 ngOnInit(): any {
 
-// ******************** TEST BOUCLE 'for': (à revoir) : les cabillauds pêchés dans différentes zones à une date donnée
+// ******************* LABELS (TEST A) */
 
-  this.httpService.get('./api/CodAtDate', {responseType: 'json'})
+  this.httpService.get('./api/CodAtZone', {responseType: 'json'})
+    .subscribe(
+      fishs => {
+
+        this.chartData = [
+          {
+            data: [],
+            label: [
+              Object.keys(fishs[0])[0], ' ' + Object.values(fishs[0])[3], /* ' ' + Object.values(fishs[0])[2],*/ ' '
+              + Object.values(fishs[0])[4]
+            ],
+          },
+          {
+            data: [],
+            label: [
+              Object.keys(fishs[0])[1], ' ' + Object.values(fishs[0])[3], /* ' ' + Object.values(fishs[0])[2],*/ ' '
+              + Object.values(fishs[0])[4]
+            ],
+          }
+        ];
+
+        console.log('this.chartData (bis):');
+        console.log(this.chartData);
+        console.log(Object.keys(fishs[0])[0]);
+
+// ******************** LABELS (TEST B) avec BOUCLE 'for' (à voir, si nécessaire) - EX : les cabillauds pêchés dans différentes
+// zones à une date donnée
+
+
+/*        for (let i = 0; i < Object.keys(fishs).length; i++) {
+
+          this.chartData = [
+            {
+              data: [],
+              label: [
+                Object.keys(fishs[i])[0], ' ' + Object.values(fishs[i])[3], ' ' + Object.values(fishs[i])[2]
+              ],
+            },
+            {
+              data: [],
+              label: [
+                Object.keys(fishs[i])[1], ' ' + Object.values(fishs[i])[3], ' ' + Object.values(fishs[i])[2]
+              ],
+            }
+          ];
+
+          console.log('this.chartData (bis):');
+          console.log(this.chartData);
+          console.log(Object.keys(fishs[i])[0]);
+
+
+        }
+*/
+
+      }
+    );
+
+/* DATAS : */
+  this.httpService.get('./api/CodAtZone', {responseType: 'json'})
+  // possibilité de changer le chemin ici pour transformer la requête SQL manuellement (ex : './api/CodAtDate')
     .subscribe(
       fishs => {
 
@@ -113,10 +194,17 @@ ngOnInit(): any {
           console.log('this.chartData (quota):');
           console.log(this.chartData[1].data);
 
-          const zonedatas = fishs[i].zone;  // values : zone;
+/*          const zonedatas = fishs[i].zone;  // values : zone; // à modifier au besoin
           console.log('zonedatas :');
           console.log(zonedatas);
           this.chartLabels.push(zonedatas);
+          console.log('this.chartLabels :');
+          console.log(this.chartLabels);
+*/
+          const datedatas = fishs[i].date;  // values : zone;
+          console.log('datedatas :');
+          console.log(datedatas);
+          this.chartLabels.push(datedatas);
           console.log('this.chartLabels :');
           console.log(this.chartLabels);
 
@@ -124,33 +212,27 @@ ngOnInit(): any {
 
       }
     );
-
-  this.httpService.get('./api/CodAtDate', {responseType: 'json'})
-    .subscribe(
-      fishs => {
+/*
+    this.httpService.get('./api/CodAtDate', {responseType: 'json'})
+    // possibilité de changer le chemin ici pour changer de requête manuellement (ex : './api/CodAtDate')
+      .subscribe(
+        fishs => {
 
         for (let i = 0; i < Object.keys(fishs).length; i++) {
 
-          this.chartData = [
-            {
-              data: [],
-              label: [Object.keys(fishs[i])[0], ' ' + Object.values(fishs[i])[3], ' ' + Object.values(fishs[i])[4], ' '
-              + Object.values(fishs[i])[2]],
-            },
-            {
-              data: [],
-              label: [Object.keys(fishs[i])[1], ' ' + Object.values(fishs[i])[3], ' ' + Object.values(fishs[i])[4], ' '
-              + Object.values(fishs[i])[2]],
-            }
-          ];
+          const datedatas = fishs[i].date;  // values : zone;
+          console.log('datedatas :');
+          console.log(datedatas);
+          this.chartLabels.push(datedatas);
+          console.log('this.chartLabels :');
+          console.log(this.chartLabels);
 
-          console.log('this.chartData (bis):');
-          console.log(this.chartData);
-          console.log(Object.keys(fishs[i])[0]);
-        }
+        } // fin de boucle 'for'
 
       }
     );
+*/
+
 
 
   } // fin de boucle : ngOnInit

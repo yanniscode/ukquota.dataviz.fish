@@ -10,7 +10,7 @@ export class PostsService {
 
   // Get all posts from the API
   // partie back-end (route qui affiche les infos au format '.json'.
-  // Elles seront récupérées par le Front-End pour être affichée sur 'localhost:3000/posts
+  // Elles seront récupérées par le Front-End pour être affichée sur 'localhost:3000/posts'
 
   getAllFishings() {
     return this.http.get('/api/AllFishings') // REQUÊTE GÉNÉRALE : 'AllFishings'

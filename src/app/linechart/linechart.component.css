@@ -4,9 +4,9 @@
 /* Create two equal columns that floats next to each other */ /*cf : w3schools columns */
 .column {
     float: left;
-    width: 50%;
+    width: 100%;    /* width: 50%; pour 2 graphiques */
     padding: 10px;
-    height: 300px;   /* Should be removed. Only for demonstration */
+    height: 100%;   /* heigth: 300 px lorsque 2 graphiques */
 }
 
 
