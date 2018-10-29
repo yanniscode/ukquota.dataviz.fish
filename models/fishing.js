@@ -10,7 +10,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     id_specie: {
       type: DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
+      references: {
+        model: 'species',
+        key: 'id_specie'
+      }
     },
     date: {
       type: DataTypes.DATEONLY,

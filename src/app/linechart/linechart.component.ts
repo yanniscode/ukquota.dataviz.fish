@@ -9,12 +9,13 @@ import {
   Output,
   NgModule,
   SimpleChanges,
-  Directive
+  Directive,
+  NgZone
 } from '@angular/core';
 
-import { LinechartService } from '../linechart.service';
+// import { LinechartService } from '../linechart.service';
 
-import { Http } from '@angular/http';
+// import { Http } from '@angular/http';
 
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -104,6 +105,15 @@ ngOnInit(): any {
 
 // ******************* LABELS (TEST A) */
 
+/* Pour la pêche numéro 0 :
+Object.values(fishs[0])[0] = value_landing
+Object.values(fishs[0])[1] = value_quota
+Object.values(fishs[0])[2] = date
+Object.values(fishs[0])[3] = name_specie
+Object.values(fishs[0])[4] = super_zone
+Object.values(fishs[0])[5] = zone
+*/
+
   this.httpService.get('./api/CodAtZone', {responseType: 'json'})
     .subscribe(
       fishs => {
@@ -161,7 +171,7 @@ ngOnInit(): any {
       }
     );
 
-/* DATAS : */
+  /* DATAS : */
   this.httpService.get('./api/CodAtZone', {responseType: 'json'})
   // possibilité de changer le chemin ici pour transformer la requête SQL manuellement (ex : './api/CodAtDate')
     .subscribe(
@@ -201,13 +211,21 @@ ngOnInit(): any {
           console.log('this.chartLabels :');
           console.log(this.chartLabels);
 */
-          const datedatas = fishs[i].date;  // values : zone;
+          const datedatas = fishs[i].date;  // values : date;
           console.log('datedatas :');
           console.log(datedatas);
           this.chartLabels.push(datedatas);
           console.log('this.chartLabels :');
           console.log(this.chartLabels);
 
+
+/*        const speciesdatas = fishs[i].name_specie;  // values : name_specie; // à modifier au besoin
+          console.log('speciesdatas :');
+          console.log(speciesdatas);
+          this.chartLabels.push(speciesdatas);
+          console.log('this.chartLabels :');
+          console.log(this.chartLabels);
+*/
         } // fin de boucle 'for'
 
       }

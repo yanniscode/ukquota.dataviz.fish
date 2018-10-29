@@ -9,8 +9,11 @@
 
     <base href="/">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.css">
+    
     <link href="css/singlePageTemplate.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"--> 
     <!--"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.css" ANCIENNE VERSION--> 
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 
@@ -28,91 +31,52 @@
   <body>
 
     <!-- Header Section -->
-    <!--img class="grandimg" src="images/SKNbusiness.png" alt=""-->
+    <!-- background-img class="grandimg" src="images/SKNbusiness.png" -->
+
     <header>
 
       <section class="hero" id="hero">
+
         <h2 class="hero_header">DATA.VIZ <span class="light">FISH</span></h2>
         <p class="tagline">Promotion and communication of fishing datas</p>       
         <div class="flex-container1">     
           <div>
             <nav class="descriptionLeft">
               <ul>
-                <li><a href="#fishing_data">FISHING STATISTICS</a></li>       
+                <li><a href="#fishing_data">STATISTIQUES DE PÊCHE</a></li>       
                 <li><a href="#contact">NEWS</a></li>
-                <li><a href="#about">ABOUT US</a></li>
-                <li><a href="#partners">PARTNERS</a></li>
+                <li><a href="#about">A PROPOS</a></li>
+                <li><a href="#partners">PARTENAIRES</a></li>
                 <li><a href="#contact">CONTACT</a></li>             
-                <li><a href="#contact">SUSCRIBE</a></li>
+                <li><a href="#contact">SOUSCRIRE</a></li>
               </ul>
             </nav>
           </div>
           <div>
             <h4 class="logo">FISHING</h4>
+            <br><br>
             <h4 class="logo">STATISTICS</h4>
           </div>
         </div>
+
       </section>
 
     </header>
 
-    <!-- Requests Section -->
-    <div class="gallery">
-
-      <br>
-      <h4 class="logo" id="fishing_data">REQUESTS</h4>
-      <br>
-      <div class="thumbnail">      
-        <h1 class="stats">DATA FISH</h1>
-        <h4>TITLE</h4>
-        <p>One line description</p>
-      </div>
-      <div class="thumbnail">
-        <h1 class="stats">CARTOGRAPHIE</h1>
-        <h4>TITLE</h4>
-        <p>CARTOGRAPHIE</p>
-      </div>
-      <div class="thumbnail">
-        <h1 class="stats">SPECIES</h1>
-        <h4>TITLE</h4>
-        <p>One line description</p>
-      </div>
-      <div class="thumbnail">
-        <h1 class="stats">TIME</h1>
-        <h4>TITLE</h4>
-        <p>One line description</p>
-      </div>
-      <div class="thumbnail">
-        <h1 class="stats">ZONE FISHING</h1>
-        <h4>TITLE</h4>
-        <p>One line description</p>
-      </div>	  
-      <div class="thumbnail">
-        <h1 class="stats">AFFICHAGE</h1>
-        <h4>TITLE</h4>
-        <p>One line description</p>
-      </div>
-        <div class="thumbnail">
-          <h1 class="button">RESET</h1>
-        </div>
-      <div class="thumbnail">
-        <h1 class="button">SUBMIT</h1>
-      </div>
-
+    <div id="fishing_data">
+      <!-- Graphics, Tables and Maps Section -->
+      <section class="banner">
+        <h2 class="parallax">GRAPHIQUES, TABLEAUX et CARTES</h2>
+          <div>
+            <app-root></app-root>
+          </div>
+        <br>
+      </section>
     </div>
 
-    <!-- Graphics, Tables and Maps Section -->
-    <section class="banner">
-      <h2 class="parallax">GRAPHICS, TABLES AND MAPS</h2>
-        <div>
-          <app-root></app-root>
-        </div>
-      <br>
-    </section>
-    
     <!-- About us Section -->
     <section class="about" id="about">
-      <h4 class="logo2">ABOUT US</h4>
+      <h4 class="logo2">A PROPOS</h4>
       <p class="text_column">Association créée par Seb, économiste et enseignant. Notre objectif est de vulgariser les données de pêche non agrégées. Donner un accès simple aux données publiques disponibles.</p>		
     </section>
 
@@ -121,14 +85,14 @@
       
       <div class="flex-container2" id="partners">          
         <div>
-          <h3>PARTNERS</h3>
+          <h3>PARTENAIRES</h3>
           <img src="./assets/img/gateau-crocodiles-chezbogato.jpg" width="70%"/>
           <p>Hello You !</p>
         </div>
         <div>
           <h3>CONTACT</h3>
           <img src="./assets/img/seb.jpg" width="70%"/>
-          <p>Seb, Himself !</p>
+          <p>Seb</p>
         </div>          
       </div>
       
@@ -136,15 +100,19 @@
 
     <section class="footer_banner" id="contact">
       <h2 class="hidden">Footer Banner Section </h2>
-      <p class="hero_header">FOR THE LATEST NEWS &amp; UPDATES</p>
-      <div class="button">subscribe</div>
-      <div class="button"><a href="#hero">back to the top</a></div>
+      <p class="hero_header">POUR LES DERNIÈRES NOUVELLES &amp; MISES À JOUR</p>
+      <div class="button">SOUSCRIRE</div>
+      <div class="button"><a href="#hero">HAUT DE PAGE</a></div>
     </section>
     
     <!-- Copyrights Section -->
     <div class="copyright">
       <strong>&copy; 2015 - Light Theme</strong>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
   </body>
 

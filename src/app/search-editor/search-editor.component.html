@@ -1,0 +1,42 @@
+<!-- The $ is a convention that indicates heroes$ is an Observable, not an array. -->
+<!-- The *ngFor can't do anything with an Observable. But there's also a pipe character (|) followed by async, which identifies Angular's AsyncPipe.
+The AsyncPipe subscribes to an Observable automatically so you won't have to do so in the component class.-->
+
+
+<form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+  
+  <div class="thumbnail"> <!-- class="thumbnail" -->
+    <div formArrayName="nameSpecie">
+      <h1 class="stats">NAME SPECIES</h1> <button (click)="addNameSpecie()">Add Name Specie</button>
+      <br>
+      <div *ngFor="let nameSpecie of nameSpecie.controls; let i=index">
+        <!-- The repeated alias template -->
+          <div class="column" id="search-component">
+            <input #searchBox id="search-box" (keyup)="search(searchBox.value)" [formControlName]="i"/>
+            <ul class="search-result">
+              <li *ngFor="let data of namesp$ | async">
+                <a><!-- routerLink="/{{data.name_specie}}"-->
+                  {{data.name_specie}}
+                </a>
+              </li>
+            </ul>
+          </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="thumbnail">
+    <button type="submit">Submit</button>
+  </div>
+
+</form>
+
+
+<p>
+  Form Values: {{ searchForm.value | json }}
+</p>
+
+<p>
+  Form Status: {{ searchForm.status }}
+</p>

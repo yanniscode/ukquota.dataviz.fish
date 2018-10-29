@@ -1,9 +1,9 @@
-BASE DE DONNEES (MYSQL) - VERSION 3.0 pour Node-Extract_SQL-Insert(commit N° 6)     
+BASE DE DONNEES (MYSQL) - VERSION 3.0 pour Node-Extract_SQL-Insert(commit Nï¿½ 6)     
 
 
-Nouvelle table 'cron_infos' (vérificateur de lancement du module de tâche programmée 'node_cron' permettant d'automatiser le lancement du fichier 'quickstart-2.1.js' à intervalles déterminées
+Nouvelle table 'cron_infos' (vï¿½rificateur de lancement du module de tï¿½che programmï¿½e 'node_cron' permettant d'automatiser le lancement du fichier 'quickstart-2.1.js' ï¿½ intervalles dï¿½terminï¿½es
 
 // Pour l'utiliser, copiez-collez le fichier 'datafishuk-3.0.sql' dans votre console MYSQL.
-(il contient les données de base de la table 'species' (id_specie, name_specie, super-zones et zones), qui sont immuables)
+(il contient les donnï¿½es de base de la table 'species' (id_specie, name_specie, super-zones et zones), qui sont immuables)
 
-**** ATTENTION : l'utilisation de ce fichier est irrévocable et supprime définitivement les données de votre base de donnée.
+**** ATTENTION : l'utilisation de ce fichier est irrï¿½vocable et supprime dï¿½finitivement les donnï¿½es de votre base de donnï¿½e.

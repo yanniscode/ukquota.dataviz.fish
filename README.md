@@ -1,8 +1,16 @@
 # SakanaApi (en test)
 
-Dernières modifications : 05/07/18
+Dernières modifications : 28/10/18
 
 - modifications :
+
+-- commit 10 : 
+
+Travail en cours : création d'un formulaire d'interrogation des données sur un graphique de la librairie 'chart.js' (type 'linechart')
+
+Modification de CSS (header...)
+
+Suppression de 'quickstart-2.1.js non fonctionnel dans ce module. Le retrouver ici :  https://github.com/DarKaweit/Node-Extract_SQL-Insert
 
 
 -- Commit 9 :
