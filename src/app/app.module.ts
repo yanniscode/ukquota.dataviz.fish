@@ -24,6 +24,10 @@ import { FormsModule } from '@angular/forms'; // <-- NgModel lives here !
 import { SearchEditorComponent } from './search-editor/search-editor.component';
 
 import { ChartsModule } from 'ng2-charts';
+import { TabsComponent } from './tabs/tabs.component'; /* essai d'onglets 1 */
+
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations'; /* 'material design' import */
+import {MatTabsModule} from '@angular/material/tabs'; /* essai d'onglets 2 */
 
 /*
 const ROUTES = [
@@ -54,6 +58,8 @@ const ROUTES = [
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    MatTabsModule /* import pour les onglets */
 
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
@@ -62,11 +68,13 @@ const ROUTES = [
       InMemoryDataService, { dataEncapsulation: false }
     )*/
   ],
+  exports: [ MatTabsModule ],
   declarations: [
     AppComponent,
     LinechartComponent,
     PostsComponent,
     SearchEditorComponent,
+    TabsComponent,
   ],
   providers: [
     PostsService,

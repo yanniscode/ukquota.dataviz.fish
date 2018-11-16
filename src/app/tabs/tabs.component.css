@@ -1,3 +1,11 @@
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%; /* "1479px" */
+    height: 95%; /* "739px" */
+}
+
 .row {
     margin: auto;
     width: 95%;

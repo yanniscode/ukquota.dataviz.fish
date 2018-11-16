@@ -1,0 +1,18 @@
+<div>
+
+  <mat-tab-group>
+    <mat-tab label="Tableau">
+      <h1 class="stats">TABLEAU</h1>
+      <app-posts></app-posts>
+    </mat-tab>
+    <mat-tab label="Graphique">
+      <h1 class="stats">GRAPHIQUE</h1>
+      <app-linechart></app-linechart>
+      <router-outlet></router-outlet>
+    </mat-tab>
+    <mat-tab label="Carte">
+      <h1 class="stats">CARTE</h1>
+      <img src="../../assets/img/open_sea_map-test.png" class="row"/> <!-- composant 'openseamap' à réaliser -->
+    </mat-tab>
+  </mat-tab-group>
+</div>
