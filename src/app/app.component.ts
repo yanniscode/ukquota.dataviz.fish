@@ -10,11 +10,11 @@ import { Chart } from 'chart.js';
   selector: 'app-root',
   templateUrl: './app.component.html',
   providers: [],
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 
 export class AppComponent {
-  title = 'Sakana App';
+  title = 'Dataviz Fish App';
 
   constructor() {
   }

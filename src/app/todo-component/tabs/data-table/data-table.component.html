@@ -1,0 +1,19 @@
+<!-- <div class="submit"> -->
+  <!-- <button mat-button class="button" (click)="getSelectedRows()">Lignes sélectionnées</button> -->
+  <!-- <button class="mat-button" style="margin-right: 20px;" (click)="getSelectedRows()">Get Selected Rows</button> -->
+<!-- </div> -->
+
+<h1 class="stats">TABLEAU</h1>
+<br><br>
+<div align ="center" class="table_container">
+  <ag-grid-angular
+    id="agGrid"
+    class="ag-theme-balham"
+    [enableSorting]="false"
+    [enableFilter]="true"
+    [rowData]="rowData | async"
+    [columnDefs]="columnDefs"
+    rowSelection="multiple"
+  >
+  </ag-grid-angular>
+</div>
