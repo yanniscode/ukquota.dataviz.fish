@@ -41,7 +41,7 @@
     "chartjs-plugin-zoom": "^0.6.6",
     "core-js": "^2.6.5",
     "cors": "^2.8.5",
-    "csv-parse": "^2.5.0",
+    "csv-parse": "^4.4.6",
     "esri-loader": "^2.9.2",
     "express": "^4.16.4",
     "google-auth-library": "^0.12.0",
