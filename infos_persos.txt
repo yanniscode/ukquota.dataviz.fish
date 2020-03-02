@@ -1,3 +1,160 @@
+﻿-installation:
+
+-ajouter un login / mail (admin dans "login-checked-directive.ts") - variables 'loginChek' et 'mailCheck'
+
+-Kasparov29
+-quotauk@gmail.com
+
+
+travail en cours : 02/03/2020
+
+	github : 
+
+compte perso:
+
+login: gmail
+mot de passe: Yakeusz2305!
+
+créer sur Github :
+nom de projet : test_git_29/03/2018
+
+
+https://git-scm.com/docs/git
+
+
+
+Pour un premier Commit :
+
+git init
+git add .
+git add -A (track all untracked files)
+
+lier les données au git (nom = ya_test-git)
+
+git clone https://github.com/yanniscode/test_git_29-03-2018.git
+git remote add ya_test-git https://github.com/yanniscode/test_git_29-03-2018
+
+
+git commit -m "first commit" (ou titre ajouté avec Vim si seulement 'git commit')
+git push -f origin master ('push' en force)
+
+(ou)
+
+git push origin master
+git --force origin master
+
+
+Exemple :
+cf : git yanniscode projet_partage
+
+echo "# projet_partage" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/yanniscode/projet_partage.git
+git push -u origin master
+
+
+
+- Nouveau Commit : 
+
+git add README.md (commiter un seul fichier)
+
+(ou bien)
+
+git pull origin master (récupérer la version actualisée du projet) // to pull = tirer, retirer
+
+git add . (ajout de toutes les dernières modifications)
+
+> NodeExtract :
+
+(24/06(2019)
+git commit -m "Commit n° 13 : Version quickstart.3.1 (différents modules séparés)"
+
+> UkQuota :
+
+(23/06/2019)
+git commit -m "Commit n° 13 : Validation du formulaire d'interrogation des données sous Node.Js et Angular et affichage de résultats (extraits d'une BDD MySQL2), sous forme de tableau (Ag-Grid) et de graphiques (line et barcharts) - librairie 'Chart.js'"
+(dernier sur ukquota.dataviz.fish)
+
+git commit -m "Commit n°9 : Ajout de HTML, de CSS et possibilité d'affichage de tableaux et de graphiques (design en travail) sur des données extraites d'une BDD MySQL"
+
+git commit -m "Commit n°6 : Ajout d’un module ‘cron’ (quickstart_launcher-1,0.js) pour l’automatisation de la récupération des données et d’une table ‘cron_infos’ dans la Base de Données (MySQL2): 'datafishuk.sql'" (exemple sur Node_Extract_Sql_Insert)
+
+
+-ou bien, par Vim : 
+git commit
+
+-enfin :
+
+git push origin master
+
+
+
+- Comment renommer un commit déjà 'pushé' ?
+
+cf : https://stackoverflow.com/questions/179123/how-to-modify-existing-unpushed-commits
+https://gist.github.com/aquelito/8596717
+
+git pull origin master
+git commit --amend -m "commit à renommer"
+git push origin master
+
+(ou bien, par exemple)
+
+git push yc master -f (force obligé pour que ça passe)
+
+
+
+- Comment supprimer un commit ?
+
+git reset HEAD^^ (soft reset)
+
+(ou bien)
+
+git reset --hard HEAD~1 (hard reset - supprimer le dernier commit)
+
+(ou bien)
+
+git reset f50093 (numéro de commit jusqu'où l'on souhaite supprimer)
+
+git push yc master -f
+
+
+git push brendan_git master -f
+
+Pour chercher le nom de l'alias donné au dépôt git :
+git remote -v
+
+Pour voir la différence entre les deux derniers commits :
+
+git diff
+
+
+créer un fichier .gitignore (ex : node-modules, trop lours pour le git)
+
+touch .gitignore
+
+git ignore global : git config --global core.excludesfile ~/.gitignore_global
+
+
+à voir : 
+
+https://delicious-insights.com/fr/articles/bien-utiliser-git-merge-et-rebase/
+
+git rebase -i origin
+
+
+
+
+~~ ajout du module 'quickstart-2.1.js de récupérations de données sélectionnées d'une pièce-jointe de mail au format '.xlsx', de leur parsage en fichier '.csv' (qui seront enregistrés dans le dossier 'Tableaux') 
+et l'intégration de données selectionnées en Base de donnée MySQL (fichier : 'datafishuk-3.0.sql'). Ce module est intégré de https://github.com/DarKaweit/Node-Extract_SQL-Insert (à consulter pour plus de détails)
+
+
+---------------------------------------------------------
+
+
+
 travail en cours : 04/08/19
 
 - responsive (remplacer les média queries par bootstrap)

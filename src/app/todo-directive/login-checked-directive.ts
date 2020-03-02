@@ -17,8 +17,8 @@ export const loginUnCheckedValidator: ValidatorFn = (control: FormGroup): Valida
   // const loginValue = this.userForm.get('login').value;
   // console.log(loginValue);
 
-  const loginCheck = "Kasparov29";
-  const mailCheck = "quotauk@gmail.com";
+  const loginCheck = ""; // votre login (admin)
+  const mailCheck = ""; // votre mail (admin)
 
   return login.value !== loginCheck && mail.value !== mailCheck ? { 'loginUnchecked': true } : null;
 
