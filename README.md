@@ -8,11 +8,6 @@ Ceci est un fork de https://github.com/StevLG/ukquota.dataviz.fish.git (Licence 
 Il se justifie notamment par un choix de présentation différente de l'interface (des tabs material-angular pour l'un / modales (bootstrap) pour l'autre. Les deux projets version pourront ainsi se prolonger parallèlement, si nécessaire, avec possibilité de choisir l'UX la plus adaptée).
 
 
-	Dernières modifications :
-
-
-
-
 	Fait :
 
 - ergonomie de la partie formulaire / graphique modifiée : présentation de graphiques et carte sous forme de modale (bootstrap), refactorisation de code
