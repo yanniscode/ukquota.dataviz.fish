@@ -1,24 +1,15 @@
 # ukquota.dataviz.fish - fork (en test)
-
-02/03/2020
+	02/03/2020
 
 Ceci est un fork de https://github.com/StevLG/ukquota.dataviz.fish.git (Licence GNU -v3)
 
 Il se justifie notamment par un choix de présentation différente de l'interface (des tabs material-angular pour l'un / modales (bootstrap) pour l'autre. Les deux projets version pourront ainsi se prolonger parallèlement, si nécessaire, avec possibilité de choisir l'UX la plus adaptée).
 
 
-travail à faire :
-
-- responsive (remplacer les média queries par des classes bootstrap)
-
-- layout de la page à revoir (bordures, disposition du texte...)
-
-
-
-
-Dernières modifications :
+	Dernières modifications :
 
 -- Commit 1 (02/03/2020) :
+
 
 	Fait :
 
@@ -35,15 +26,20 @@ Dernières modifications :
 
 	A faire :
 
-- revoir la gestion des cycles de vie (ngOnDestroy…)
-- revoir la gestion des routes (avant mise en ligne)
 - tests unitaires ??
 
 - choix de librairie (Bootstrap ?? / Material ?? / Ag Grid pour le tableau ??)
-si Bootstrap : revoir l’utilisation de ng-bootstrap... (jquery...)
+-> si Bootstrap : revoir l’utilisation de ng-bootstrap... (jquery...)
+- layout de la page à revoir (bordures, disposition du texte...)
 - revoir le responsive (grid bootstrap ?)
 
-- ajouter des données compplémentaires  (graphiques et carte des super-zones, sous forme de Tab ? ou de checkboxes  (zone / superzone? Sur le même formulaire de recherche)) → revoir l’API en conséquence (requêtes SQL…)
+
+- ajouter des données complémentaires  (graphiques et carte des super-zones, sous forme de Tab ? ou de checkboxes  (zone / superzone? Sur le même formulaire de recherche)) → revoir l’API en conséquence (requêtes SQL…)
+
+	A revoir :
+
+- revoir la gestion des cycles de vie (ngOnDestroy…)
+- revoir la gestion des routes (avant mise en ligne)
 
 - clean général du code avant mise en ligne (on est en cours de construction, donc certains éléments sont laissé en commentaire pour inspiration ou utilisation possible ultérieure…)
 
@@ -53,14 +49,15 @@ si Bootstrap : revoir l’utilisation de ng-bootstrap... (jquery...)
 
 
 
-	by Code.bzh.
+by Code.bzh
 
-	With Angular, ChartJS, Express, Sequelize, MySQL, and Api Gmail
+With Angular, ChartJS, Express, Sequelize, MySQL, and Api Gmail
 
 
-Lancement de l'application (après installation et configuration):
 
--Note : Ajouter un login / mail (admin dans "login-checked-directive.ts") - variables 'loginChek' et 'mailCheck'
+## Lancement de l'application (après installation et configuration):
+
+- Note : Ajouter un login / mail (admin dans "login-checked-directive.ts") - variables 'loginChek' et 'mailCheck'
 
 
 Run `npm run build` to run the app
