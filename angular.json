@@ -18,11 +18,17 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/leaflet/dist/images",
+                "output": "leaflet/"
+              }
             ],
             "styles": [
               "node_modules/leaflet/dist/leaflet.css",
-              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/ol/ol.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/sass/styles.scss"
             ],
             "stylePreprocessorOptions": {
@@ -31,7 +37,13 @@
               ]
             },
             "scripts": [
-              "node_modules/chart.js/dist/Chart.bundle.min.js"
+              "src/sass/respond.min.js",
+              "node_modules/leaflet/dist/leaflet.js",
+              "node_modules/chart.js/dist/Chart.bundle.min.js",
+              "node_modules/chart.js/dist/Chart.min.js",
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/popper.js/dist/umd/popper.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           },
           "configurations": {

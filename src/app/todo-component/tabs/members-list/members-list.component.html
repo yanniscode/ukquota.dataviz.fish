@@ -1,0 +1,79 @@
+<div align ="center" class="table_container table-responsive-sm">
+
+  <h1>liste des membres (auto-complete form)</h1>
+  
+  <br /><br />
+
+  <form [formGroup]="modificationForm">
+      
+    <table class="table table-sm table-hover table-dark">
+    
+      <thead>
+        <tr>
+          <th>id_user</th>
+          <th>login</th>
+          <th>mail</th>
+          <th>Supprimer un membre</th>
+        </tr>
+      </thead>
+      
+      <tbody *ngFor="let user of user$; trackBy: trackByItems">
+
+        <tr>
+          <td>
+            <button class="badge" (click)="onEdit(user)">{{ user.id_user || -1 }}
+            </button>
+          </td>
+          <td (click)="onEdit(user)">
+            <span *ngIf="user!==editUser">{{user.login}}</span>
+            <input matInput *ngIf="user===editUser" [(ngModel)]="user.login" (blur)="onUpdate()" (keyup.enter)="onUpdate()" type="text" placeholder="Login" aria-label="Number" [formControl]="login" [matAutocomplete]="autoLogin" #userLogin required>
+            <mat-autocomplete #autoLogin="matAutocomplete">
+              <mat-option *ngFor="let login of loginFilteredOptions | async" [value]="login">{{ login }}</mat-option>
+            </mat-autocomplete>
+          </td>
+
+          <td (click)="onEdit(user)">
+            <span *ngIf="user!==editUser">{{user.mail}}</span>
+            <input matInput *ngIf="user===editUser" [(ngModel)]="user.mail" (blur)="onUpdate()" (keyup.enter)="onUpdate()" type="text" placeholder="Mail" aria-label="Number" [formControl]="mail" [matAutocomplete]="autoMail" #userMail required>
+            <mat-autocomplete #autoMail="matAutocomplete">
+              <mat-option *ngFor="let mail of mailFilteredOptions | async" [value]="mail">{{ mail }}</mat-option>
+            </mat-autocomplete>
+          </td>
+
+          <td>
+            <button class="delete" title="delete user" (click)="onDelete2(user)"><!-- x -->
+              <svg class="bi bi-x-circle" width="32" height="32" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10 17a7 7 0 100-14 7 7 0 000 14zm0 1a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"></path>
+                <path fill-rule="evenodd" d="M12.646 13.354l-6-6 .708-.708 6 6-.708.708z" clip-rule="evenodd"></path>
+                <path fill-rule="evenodd" d="M7.354 13.354l6-6-.708-.708-6 6 .708.708z" clip-rule="evenodd"></path>
+              </svg>
+            </button>
+          </td>
+
+          <!-- <input *ngIf="user===editUser" [(ngModel)]="user.login" (blur)="onUpdate()" (keyup.enter)="onUpdate()" -->
+          <!-- <td>
+            <button type="submit" (click)="onUpdate()" class="btn btn-default">Mettre à jour</button>
+          </td> -->
+
+        </tr>
+
+      </tbody>
+
+      <tbody>
+
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="text-align: center;">
+            <button type="submit" (click)="onUpdate()" class="btn btn-outline-success">Mettre à jour les données</button>
+          </td>
+        </tr>
+        
+      </tbody>
+
+    </table>
+
+  </form>
+
+</div>

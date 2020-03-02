@@ -69,7 +69,7 @@ const Op = Sequelize.Op;
 //     $col: Op.col
 // };
 
-const sequelize = new Sequelize("test_sakana", "root", "", {
+const sequelize = new Sequelize("test_sakana", "root", "test", {
 
     host: "localhost",
     dialect: "mysql", // mysql
@@ -198,11 +198,16 @@ router.get('/fishes/:name_specie', function (req, res, next) { // ANCIENNE ÉCRI
 // ***********
 // REQUÊTE GÉNÉRALE qui marche (pour 'test_sakana'): (prend toutes les données actuelles):
 
-router.get("/AllFishings", function(req, res, next) { // envoie la donnée sur http://localhost:3000/api/AllFishings
+router.get("/AllFishings", function(req, res, next) {
+
+    // envoie la donnée sur http://localhost:3000/api/AllFishings
     // requête générale qui marche (pour 'test_sakana'): (prend toutes les données actuelles):
 
-    // REQUÊTE BDD 5.3 :
-    sequelize.query("SELECT id_fishing, name_specie, zone, super_zone, date, value_landing, value_quota, z_coord FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN species ON fishzone_join.id_specie = species.id_specie INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone INNER JOIN super_zones ON fishzone_join.id_super_zone = super_zones.id_super_zone ORDER BY id_fishing;", { type : sequelize.QueryTypes.SELECT })
+    // REQUÊTE BDD 5.3 : infos sur la dernière date : test
+    // sequelize.query("SELECT id_fishing, name_specie, zone, super_zone, max(date) AS date, value_landing, value_quota FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN species ON fishzone_join.id_specie = species.id_specie INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone INNER JOIN super_zones ON fishzone_join.id_super_zone = super_zones.id_super_zone WHERE date IN (SELECT max(date) FROM fishing) GROUP BY id_fishing ORDER BY id_fishing;", { type : sequelize.QueryTypes.SELECT })
+
+    // REQUÊTE BDD 5.3 : infos sur toutes les dates :
+    sequelize.query("SELECT id_fishing, name_specie, zone, super_zone, date, value_landing, value_quota, z_coord FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN species ON fishzone_join.id_specie = species.id_specie INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone INNER JOIN super_zones ON fishzone_join.id_super_zone = super_zones.id_super_zone ORDER BY id_fishing DESC;", { type : sequelize.QueryTypes.SELECT })
 
     // ANCIENNE REQUÊTE (BDD 4.2) :
     // sequelize.query("SELECT id_fishing, name_specie, date, value_landing, value_quota, super_zone, zone FROM fishing INNER JOIN species ON fishing.id_specie = species.id_specie ORDER BY id_fishing ASC", { type : sequelize.QueryTypes.SELECT } )
@@ -215,6 +220,7 @@ router.get("/AllFishings", function(req, res, next) { // envoie la donnée sur h
     .catch(error => {
     res.status(500).send(error) // Internal Server Error = erreur générique
     });
+
 });
 
 
@@ -421,8 +427,8 @@ router.get('/species/:name_specie&:zone&:date', function (req, res, next) { // A
     console.log(' API sequelize request 2 : ' + requestedFishName + ' ' + requestedFishZone + ' ' + requestedFishDate);
 
     // ******
-    // TOUTES ESPÈCES, UNE ZONE :
-    if (requestedFishName === "vide" && requestedFishZone !== "vide") { // LA DATE EST TOUJOURS RENSEIGNÉE AUTOMATIQUEMENT
+    // TOUTES ESPÈCES, UNE ZONE, UNE DATE:
+    if (requestedFishName === "vide" && requestedFishZone !== "vide" && requestedFishDate !== "vide") { // LA DATE EST TOUJOURS RENSEIGNÉE AUTOMATIQUEMENT
         sequelize.query("SELECT name_specie, zone, date, SUM(value_landing) AS value_landing, SUM(value_quota) AS value_quota FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN species ON fishzone_join.id_specie = species.id_specie INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone WHERE zone = '"+ requestedFishZone +"' AND date = '"+ requestedFishDate +"' GROUP BY name_specie ORDER BY name_specie ASC;", { type : sequelize.QueryTypes.SELECT } )
         .then(fishing => {
             console.log(fishing);
@@ -430,17 +436,17 @@ router.get('/species/:name_specie&:zone&:date', function (req, res, next) { // A
         });
 
     // ******
-    // UNE ESPÈCE, UNE ZONE:
-    } else if (requestedFishName !== "vide" && requestedFishZone !== "vide") {
-        sequelize.query("SELECT name_specie, zone, date, SUM(value_landing) AS value_landing, SUM(value_quota) AS value_quota FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN species ON fishzone_join.id_specie = species.id_specie INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone WHERE name_specie = 'Cod' AND zone = 'North Sea' AND date = '2019-07-17' GROUP BY name_specie ORDER BY name_specie ASC;", { type : sequelize.QueryTypes.SELECT } )
+    // UNE ESPÈCE, UNE ZONE, UNE DATE:
+    } else if (requestedFishName !== "vide" && requestedFishZone !== "vide" && requestedFishDate !== "vide") {
+        sequelize.query("SELECT name_specie, zone, date, SUM(value_landing) AS value_landing, SUM(value_quota) AS value_quota FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN species ON fishzone_join.id_specie = species.id_specie INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone WHERE name_specie = '"+ requestedFishName +"' AND zone = '"+ requestedFishZone +"' AND date = '"+ requestedFishDate +"' GROUP BY name_specie ORDER BY name_specie ASC;", { type : sequelize.QueryTypes.SELECT } )
         .then(fishing => {
             console.log(fishing);
             res.json(fishing);
         });
 
     // ******
-    // UNE ESPÈCE, TOUTES ZONES:
-    } else if (requestedFishName !== "vide" && requestedFishZone === "vide") {
+    // UNE ESPÈCE, TOUTES ZONES, UNE DATE:
+    } else if (requestedFishName !== "vide" && requestedFishZone === "vide" && requestedFishDate !== "vide") {
         sequelize.query("SELECT name_specie, date, SUM(value_landing) AS value_landing, SUM(value_quota) AS value_quota FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN species ON fishzone_join.id_specie = species.id_specie WHERE name_specie = '"+ requestedFishName +"' AND date = '"+ requestedFishDate +"' GROUP BY name_specie ORDER BY name_specie ASC;", { type : sequelize.QueryTypes.SELECT } )
         .then(fishing => {
             console.log(fishing);
@@ -448,8 +454,9 @@ router.get('/species/:name_specie&:zone&:date', function (req, res, next) { // A
         });
 
     // ******
-    // TOUTES ESPÈCES, TOUTES ZONES: 
-    } else if (requestedFishName === "vide" && requestedFishZone === "vide") {
+    // TOUTES ESPÈCES, TOUTES ZONES, UNE DATE: 
+    } else if (requestedFishName === "vide" && requestedFishZone === "vide" && requestedFishDate !== "vide") {
+        // sequelize.query("SELECT name_specie, max(date) AS date, SUM(value_landing) AS value_landing, SUM(value_quota) AS value_quota FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN species ON fishzone_join.id_specie = species.id_specie WHERE date IN (SELECT max(date) FROM fishing) GROUP BY name_specie ORDER BY name_specie ASC;", { type : sequelize.QueryTypes.SELECT } )
         sequelize.query("SELECT name_specie, date, SUM(value_landing) AS value_landing, SUM(value_quota) AS value_quota FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN species ON fishzone_join.id_specie = species.id_specie WHERE date = '"+ requestedFishDate +"' GROUP BY name_specie ORDER BY name_specie ASC;", { type : sequelize.QueryTypes.SELECT } )
         .then(fishing => {
             console.log(fishing);
@@ -459,6 +466,7 @@ router.get('/species/:name_specie&:zone&:date', function (req, res, next) { // A
     };
 
 });
+
 
 
 // **************************************** BARRES DE ZONES - REQUETES : ******************************************** 
@@ -481,6 +489,7 @@ router.get('/zones/:name_specie&:zone&:date', function (req, res, next) { // ANC
     // ******
     // UNE ESPÈCE, TOUTES ZONES, UNE DATE :
     if (requestedFishName !== "vide" && requestedFishZone === "vide" && requestedFishDate !== "vide") { // LA DATE EST TOUJOURS RENSEIGNÉE AUTOMATIQUEMENT (jamais vide)
+    // if (requestedFishName !== "vide" && requestedFishZone === "vide" && requestedFishDate !== "vide") { // LA DATE EST TOUJOURS RENSEIGNÉE AUTOMATIQUEMENT (jamais vide)
         sequelize.query("SELECT zone, name_specie, date, SUM(value_landing) AS value_landing, SUM(value_quota) AS value_quota, z_coord FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone INNER JOIN species ON fishzone_join.id_specie = species.id_specie WHERE name_specie = '"+ requestedFishName +"' AND date = '"+ requestedFishDate +"' GROUP BY zones.id_zone ORDER BY zones.id_zone ASC;", { type : sequelize.QueryTypes.SELECT } )
         .then(fishing => {
             console.log(fishing);
@@ -488,8 +497,10 @@ router.get('/zones/:name_specie&:zone&:date', function (req, res, next) { // ANC
         });
     
     // ******
+
     // UNE ESPÈCE, UNE ZONE, UNE DATE :
     } else if (requestedFishName !== "vide" && requestedFishZone !== "vide" && requestedFishDate !== "vide") {
+    // } else if (requestedFishName !== "vide" && requestedFishZone !== "vide" && requestedFishDate !== "vide") {
         sequelize.query("SELECT zone, name_specie, date, SUM(value_landing) AS value_landing, SUM(value_quota) AS value_quota, z_coord FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone INNER JOIN species ON fishzone_join.id_specie = species.id_specie  WHERE name_specie = '"+ requestedFishName +"' AND zone = '"+ requestedFishZone +"' AND date = '"+ requestedFishDate +"' GROUP BY zones.id_zone ORDER BY zones.id_zone ASC;", { type : sequelize.QueryTypes.SELECT } )
         .then(fishing => {
             console.log(fishing);
@@ -499,6 +510,7 @@ router.get('/zones/:name_specie&:zone&:date', function (req, res, next) { // ANC
     // TOUTES ESPECES, UNE ZONE, UNE DATE :
     // ******
     } else if (requestedFishName === "vide" && requestedFishZone !== "vide" && requestedFishDate !== "vide") {
+    // } else if (requestedFishName === "vide" && requestedFishZone !== "vide" && requestedFishDate !== "vide") {
         sequelize.query("SELECT zone, date, SUM(value_landing) AS value_landing, SUM(value_quota) AS value_quota, z_coord FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone WHERE zone = '"+ requestedFishZone +"' AND date = '"+ requestedFishDate +"' GROUP BY zones.id_zone ORDER BY zones.id_zone ASC;", { type : sequelize.QueryTypes.SELECT } )
         .then(fishing => {
             console.log(fishing);
@@ -509,14 +521,17 @@ router.get('/zones/:name_specie&:zone&:date', function (req, res, next) { // ANC
     // TOUTE ESPECES, TOUTE ZONES, UNE DATE :
     // ******
     } else if (requestedFishName === "vide" && requestedFishZone === "vide" && requestedFishDate !== "vide") {
-        sequelize.query("SELECT zone, date, SUM(value_landing) AS value_landing, SUM(value_quota) AS value_quota, z_coord FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone WHERE date = '"+ requestedFishDate +"' GROUP BY zones.id_zone ORDER BY zones.id_zone ASC;", { type : sequelize.QueryTypes.SELECT } )
+    // } else if (requestedFishName === "vide" && requestedFishZone === "vide" && requestedFishDate !== "vide") {
+        sequelize.query("SELECT zone, max(date) AS date, SUM(value_landing) AS value_landing, SUM(value_quota) AS value_quota, z_coord FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone AND date = '"+ requestedFishDate +"' GROUP BY zones.id_zone ORDER BY zones.id_zone ASC;", { type : sequelize.QueryTypes.SELECT } )
+        // sequelize.query("SELECT zone, date, SUM(value_landing) AS value_landing, SUM(value_quota) AS value_quota, z_coord FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone WHERE date = '"+ requestedFishDate +"' GROUP BY zones.id_zone ORDER BY zones.id_zone ASC;", { type : sequelize.QueryTypes.SELECT } )
         .then(fishing => {
             console.log(fishing);
             res.json(fishing);
         });    
 
-    }; // fin de boucle 'ELSE IF'
 
+    }; // fin de boucle 'ELSE IF'
+    
 }); // FIN DE REQUETE
 
 

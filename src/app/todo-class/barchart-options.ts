@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import Chart from 'chart.js';
+// import Chart from 'chart.js';
 
 import * as _moment from 'moment';
 
@@ -21,21 +21,6 @@ export class BarchartOptionsService {
 
 // *****************************
 
-// const Chart = require('chart.js');
-
-// require(['../node_modules/chart.js/dist/Chart.js'], function(Chart) {
-
-// const canvas = <HTMLCanvasElement> document.getElementById('mycanvas');
-// const ctx = this.canvas.getContext('2d');
-// const ctx = document.getElementById('myChart');
-// const ctx = document.getElementById('myChart').getContext('2d');
-// const ctx = 'myChart';
-
-// Chart.defaults.global.defaultFontFamily = 'source-sans-pro'; // marche pas
-
-
-// const myChart = new Chart(this.ctx, { // marche pas
-
   type = 'bar';
 
   // data: data, // marche pas
@@ -46,13 +31,13 @@ export class BarchartOptionsService {
       {
         label: [],
         data: [],
-        backgroundColor: 'rgba(255, 68, 0, 0.49)', // couleur des boîtes à légende. // #FF6384 (rose de base)
+        backgroundColor: 'rgba(255, 68, 0, 0.49)', // couleur des boîtes à légende - orange : rgba(255, 68, 0, 0.49) // #FF6384 (rose de base)
         borderColor: '#ff4500' // backgroundColor: '#FF6384'
       },
       {
         label: [],
         data: [],
-        borderColor: '#2d9ab7' // #36A2EB (bleu de base)
+        borderColor: '#2d9ab7' // bleu clair: #2d9ab7 / #36A2EB (bleu de base)
       }
     ]
   };
@@ -71,18 +56,18 @@ export class BarchartOptionsService {
         },
         label: function(tooltipItem, data) {
 
-          const label = tooltipItem.yLabel; // paramètre pour accéder aux chiffres du graphique
+          const datas = tooltipItem.yLabel; // paramètre pour accéder aux données du graphique
 
-          const labelCaptures = 'Quantité (en tonnes) : ' + label || '';
-          const labelQuotas = 'Quota (en tonnes) : ' + label || '';
+          const capturesLabel = 'Quantité (en tonnes) : ' + datas || '';
+          const quotasLabel = 'Quota (en tonnes) : ' + datas || '';
 
-          if (labelCaptures != null && tooltipItem.datasetIndex === 0) {
+          if (capturesLabel != null && tooltipItem.datasetIndex === 0) {
             // labelCaptures += ' tonnes';
-            return labelCaptures;
+            return capturesLabel;
           }
-          if (labelQuotas != null && tooltipItem.datasetIndex === 1) {
-            // labelQuotas += ' tonnes';
-            return labelQuotas;
+          if (quotasLabel != null && tooltipItem.datasetIndex === 1) {
+            // quotasLabel += ' tonnes';
+            return quotasLabel;
           }
 
           // alert(tooltipItem.toSource()); // pour vérifier le type de l'objet reçu dans le tooltip = tableau d'objets : [{ }]

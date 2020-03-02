@@ -1,0 +1,174 @@
+<div class="form"><!-- class="form" -->
+
+    <div class="" align="left">
+        <h1 class="stats">DATAS</h1>
+    </div>
+
+    <!-- TEST export composant 'enfant' > 'parent' -->
+
+    <!-- <label>Add a specie (init): <input #newNameSp></label> -->
+    <!-- <button (click)="addNewNameSp(newNameSp.value)">Add to parent's</button> -->
+
+    <!-- <label>Add an item: <input #newItem></label>
+    <button (click)="addNewItem(newItem.value)">Add to parent's list</button> -->
+
+
+
+    <form [formGroup]="searchForm"> <!-- (ngSubmit)="onSubmit(searchForm)" -->
+
+        <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+
+            <div class="col align-self-center" style="margin-bottom:15px;"><!-- class="thumbnail" -->
+                <div class="col align-self-center" *ngFor="let date of date.controls; let i=index">
+                    <mat-form-field class="col align-self-center">
+                        
+                        <!-- <mat-select placeholder= {{date.value}} [formControl]="date">  -->          
+                        <mat-select class="col align-self-center" placeholder="Choisir une date" [formControl]="date">
+                            <!--                         
+                                <mat-select-trigger>
+                                    {{date.value ? date.value[0] : ''}}
+                                    <span *ngIf="date.value?.length > 1" class="example-additional-selection">
+                                        ({{date.value.length}} {{'dates'}})
+                                    </span>
+                                </mat-select-trigger>        
+                            -->
+                            <mat-option class="col align-self-center" *ngFor="let fish of date$" [value]="fish.date" (click)="onSelect()"><b>{{ fish.date | date: 'dd/MM/yyyy' }}</b>
+                            </mat-option>
+                            <!--  | date: 'dd/MM/yyyy' ATTENTION : PIPE EN CONFLIT POSSIBLE AVEC SATURN DATEPICKER -->
+                        </mat-select>
+
+                    </mat-form-field>
+                </div>
+            </div>
+    
+            <!-- AUTRE VERSION (AVEC SAT-DATE-PICKER) :
+                <div class="thumbnail">
+                    <div>
+                        <mat-form-field>
+                        <input matInput placeholder="Choose a date" [satDatepicker]="picker" [formControl]="date">
+                        <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+                        <sat-datepicker [rangeMode]="false" [closeAfterSelection]="true" startView="year" touchUi #picker>
+                        </sat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            -->
+    
+            <div class="col align-self-center" style="margin-bottom:15px;">
+                <div class="col align-self-center" *ngFor="let nameSp of nameSp.controls; let i=index">
+                    <mat-form-field class="col align-self-center">       
+                        <mat-select placeholder="Espèce" [formControl]="nameSp"> <!-- multiple -->
+                            <mat-option *ngFor="let fish of nameSp$; let i = index" [value]="fish.name_specie" (click)="onSelect()"><b>{{ fish.name_specie }}</b></mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+    
+            <!-- SUPER-ZONES :
+                <div class="thumbnail">
+                    <div *ngFor="let superZ of superZ.controls; let i=index">
+                        <mat-form-field>
+                        <mat-select placeholder="Super-Zone" [formControl]="superZ" multiple>
+                            <mat-select-trigger>
+                                {{superZ.value ? superZ.value[0] : ''}}
+                                <span *ngIf="superZ.value?.length > 1" class="example-additional-selection">
+                                ({{superZ.value.length}} {{'super-zones'}})
+                                </span>
+                            </mat-select-trigger>
+                            <mat-option *ngFor="let fish of superZone$" [value]="fish.super_zone">
+                            {{ fish.super_zone }}
+                            </mat-option>
+                        </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            -->
+  
+            <div class="col align-self-center" style="margin-bottom:15px;">
+                <div class="col align-self-center" *ngFor="let zone of zone.controls; let i=index">
+                    <mat-form-field class="col align-self-center">
+                    <mat-select placeholder="Zone" [formControl]="zone"><!--  multiple -->
+                    <!--
+                        <mat-select-trigger>
+                            {{zone.value ? zone.value[0] : ''}}
+                            <span *ngIf="zone.value?.length > 1" class="example-additional-selection">
+                                ({{zone.value.length}} {{'zones'}})
+                            </span>
+                        </mat-select-trigger>
+                    -->
+                        <mat-option *ngFor="let fish of zone$" [value]="fish.zone" (click)="onSelect()"><b>{{ fish.zone }}</b>
+                        </mat-option>
+                    </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+    
+            <div class="col align-self-center" style="margin-bottom:15px;">
+                <div class="col align-self-center">
+                    <mat-form-field class="col align-self-center" id="datepicker">
+                        <input matInput class="matselectclass" [formControl]="date2" placeholder="Choisir une plage de dates" [satDatepicker]="picker"> 
+                        <!-- style="padding-right: 12px;" -->
+                        <sat-datepicker #picker [rangeMode]="true" orderPeriodLabel="month" [closeAfterSelection]="true" startView="year" touchUi (click)="onSelect()">
+                        </sat-datepicker>
+                        <sat-datepicker-toggle matSuffix [for]="picker">
+                        </sat-datepicker-toggle>
+                    </mat-form-field>
+                </div>
+            </div>
+
+        </div>
+  
+    </form>
+
+</div>
+
+
+<div class="submit">
+
+    <div class="row">
+        <!-- currentnameSp (et autres) = ref aux exports de 'search-form.component.ts'-->
+        <!-- [nameSpecieSelect] = ref aux imports dans 'date-chart.component.ts'-->
+
+        <!-- <div class="mx-auto col-12 col-lg-6 col-xl-4"> -->
+            <app-dates-chart 
+                [nameSpecieSelect]="currentnameSp" 
+                [zoneSelect]="currentZone"
+                [dateSelect]="currentDate"
+                [date2BeginSelect]="currentDate2Begin"
+                [date2EndSelect]="currentDate2End"
+            >
+            </app-dates-chart><!-- 'currentnameSp' = ancien 'currentItem' -->
+        <!-- </div> -->
+
+        <!-- <div class="mx-auto col-12 col-lg-6 col-xl-4"> -->
+            <app-species-chart 
+                [nameSpecieSelect]="currentnameSp" 
+                [zoneSelect]="currentZone"
+                [dateSelect]="currentDate"
+                [date2BeginSelect]="currentDate2Begin"
+                [date2EndSelect]="currentDate2End"
+            >
+            </app-species-chart><!-- 'currentnameSp' = ancien 'currentItem' -->
+        <!-- </div> -->
+
+        <!-- <div class="mx-auto col-12 col-lg-6 col-xl-4"> -->
+            <app-zones-map 
+                [nameSpecieSelect]="currentnameSp" 
+                [zoneSelect]="currentZone"
+                [dateSelect]="currentDate"
+                [date2BeginSelect]="currentDate2Begin"
+                [date2EndSelect]="currentDate2End"
+            >
+            </app-zones-map><!-- 'currentnameSp' = ancien 'currentItem' -->
+        <!-- </div> -->
+        
+    </div>
+
+    <br />
+    
+    <div class="" align="center">
+        <!-- <button mat-button class="button" (click)="addNameSp($event)">Réinitialiser</button> -->
+        <button mat-button class="button" (click)="onReset()">Réinitialiser</button>
+    </div>
+
+</div>

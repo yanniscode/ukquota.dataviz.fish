@@ -1,0 +1,19 @@
+travail en cours : 04/08/19
+
+- responsive (remplacer les média queries par bootstrap)
+
+- layout de la page à revoir (bordures, disposition du texte...)
+
+- ergonomie de la partie formulaire / graphique à revoir (ajout d'une modale ?)
+
+fait :
+
+- modifications :
+
+-- Commit 17 :  Ajout d'une carte interactive avec la librairie Leaflet.js (04/08/2019)
+
+- révisions du CSS
+- validation du formulaire : cf : https://openclassrooms.com/fr/courses/4668271-developpez-des-applications-web-avec-angular/5089516-ecoutez-lutilisateur-avec-les-forms-methode-template
+- les autres champs à ajouter (+ calendrier pour date, si possible, avec le module 'material' également)
+-intégration d'un champs sélect 'name_specie' avec liste des noms qui marche / module 'material' pour angular(données réelles)
+ajout d'un système d'onglets (marche avec 'ng serve --o', mais pas avec 'npm run build')

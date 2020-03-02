@@ -1,161 +1,43 @@
-<div class="form">
+<!-- pour TEST : import composant parent > enfant -->
 
-    <h1 class="stats">PÉRIODES</h1>
-
-    <form [formGroup]="searchForm"> <!-- (ngSubmit)="onSubmit(searchForm)" -->
-
-        <!--
-            <div class="thumbnail">
-                <div *ngFor="let date of date.controls; let i=index">
-                    <mat-form-field>
-                        <mat-select placeholder="Date" [formControl]="date" multiple>
-                
-                            <mat-select-trigger>
-                                {{date.value ? date.value[0] : ''}}
-                                <span *ngIf="date.value?.length > 1" class="example-additional-selection">
-                                    ({{date.value.length}} {{'dates'}})
-                                </span>
-                            </mat-select-trigger>
-                                
-                            <mat-option *ngFor="let fish of date$" [value]="fish.date">
-                                {{fish.date }} | date: 'dd/MM/yyyy' : ATTENTION : PIPE EN CONFLIT AVEC SATURN DATEPICKER !!!
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>    
-        -->
-
-        <div class="thumbnail">
-            <mat-form-field id="datepicker">
-                <input matInput class="matselectclass" [formControl]="date2" placeholder="Choisir une date" [satDatepicker]="picker"> 
-                <!-- style="padding-right: 12px;" -->
-                <sat-datepicker #picker [rangeMode]="true" orderPeriodLabel="month" [closeAfterSelection]="true" startView="year" touchUi (click)="onSelect()">
-                </sat-datepicker>
-                <sat-datepicker-toggle matSuffix [for]="picker">
-                </sat-datepicker-toggle>
-            </mat-form-field>
-        </div>
-
-        <div class="thumbnail">
-            <div *ngFor="let nameSp of nameSp.controls; let i=index">
-                <mat-form-field>        
-                    <mat-select class="matselectclass" placeholder="Espèce" [formControl]="nameSp"> <!-- multiple -->
-                        <mat-option *ngFor="let fish of nameSp$; let i = index" [value]="fish.name_specie" (click)="onSelect()">{{fish.name_specie}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-
-    <!--
-        <div class="thumbnail">
-            <div *ngFor="let superZ of superZ.controls; let i=index">
-                <mat-form-field>
-                <mat-select placeholder="Super-Zone" [formControl]="superZ" multiple>
-                    <mat-select-trigger>
-                        {{superZ.value ? superZ.value[0] : ''}}
-                        <span *ngIf="superZ.value?.length > 1" class="example-additional-selection">
-                        ({{superZ.value.length}} {{'super-zones'}})
-                        </span>
-                    </mat-select-trigger>
-                    <mat-option *ngFor="let fish of superZone$" [value]="fish.super_zone">
-                    {{fish.super_zone}}
-                    </mat-option>
-                </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-    -->
-
-        <div class="thumbnail">
-            <div *ngFor="let zone of zone.controls; let i=index">
-            <mat-form-field>
-                <mat-select class="matselectclass" placeholder="Zone" [formControl]="zone"><!--  multiple -->
-            <!--
-                <mat-select-trigger>
-                    {{zone.value ? zone.value[0] : ''}}
-                    <span *ngIf="zone.value?.length > 1" class="example-additional-selection">
-                    ({{zone.value.length}} {{'zones'}})
-                    </span>
-                </mat-select-trigger>
-            -->
-                    <mat-option *ngFor="let fish of zone$" [value]="fish.zone" (click)="onSelect()">
-                        {{fish.zone}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            </div>
-        </div>
-
-
-
-
-    <!-- NOTES :-->
-    <!-- sat-date-picker : TouchUi = pour une interface en plein écran -->
-    <!-- input : disabled : pour désactiver l'inscription manuelle de la date = alternative à la gestion du problème de champs 'date$ = null' NON, CAR conflit avec [formControl]="date2" -->
-
-
-    <!-- MAT-DATEPICKER : EN TEST (PAS CONCLUANT) -->
-
-    <!-- 
-        <div class="thumbnail">
-            <mat-form-field id="datepicker">
-                <input matInput [formControl]="date2" style="padding-right: 15px;" placeholder="Choose a date" [matRangeDatepicker]="resultPicker" disabled="true">
-                <mat-range-datepicker #resultPicker [rangeMode]="true" orderPeriodLabel="month" startView="year" [closeAfterSelection]="true" touchUi (click)="onSelect()" disabled="false">
-                </mat-range-datepicker>
-                <mat-datepicker-toggle matSuffix [for]="resultPicker">
-                </mat-datepicker-toggle>
-            </mat-form-field>
-        </div>  
-    -->
-
-
-
-    <!--          
-        <p>
-            <mat-form-field>
-                <input matInput [matDatepicker]="dp" placeholder="Moment.js datepicker" [formControl]="date3">
-                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                <mat-datepicker #dp></mat-datepicker>
-            </mat-form-field>
-        </p>
-    -->
-
-
-    </form>
-
-</div>
-
-<!-- <br> -->
-
-<div class="submit">
-
-    <br>
-    
-    <!-- 
-        <button mat-button type="submit" [disabled]="searchForm.invalid">Rechercher</button>
-    -->
-    <button mat-button [disabled]="searchForm.invalid" class="button" (click)="onDatesLabels()">Résultats</button>
-    <button mat-button class="button" (click)="onReset()">Données générales</button>
-
-</div>
-
-<br>
-
-<!--
-    <div>
-        <p style="text-align:center">Form Values: {{ searchForm.value | json }}<p>
-        <p style="text-align:center">Form Values: {{ searchForm.value.date2 | json }}</p>
-    </div> 
+<!-- 
+    <p>
+        Today's Chart NameSpecie : {{nameSpecieSelect}}
+        <br />
+        Today's Chart Zone : {{zoneSelect}}
+        <br />
+        Today's Chart Date 1 : {{dateSelect}}
+        <br />
+        Today's Chart Date 2 Begin : {{date2BeginSelect}}
+        <br />
+        Today's Chart Date 2 End : {{date2EndSelect}}
+    </p>
 -->
 
-<div class="container">
-    <app-chart-update [type]="type" [data]="data" [options]="options">
-    <!-- <canvas class="chart-container" id="chart"></canvas> -->
-    </app-chart-update>
-    <!-- 'app-chart' provient de chart.component (permettant la mise à jour du graphique) -->
+<div class="mx-auto col-12 col-lg-6 col-xl-4">
+    <a href="" data-toggle="modal" data-target="#lineChartModale" (click)="onDatesLabels()"><img id="formsubmit" src ="../../../../assets/img/Chart-JS.png" width="400" height="200" title="Fishing LineChart" alt="Fishing LineChart"></a>  
+</div>
+ 
+<div class="modal fade" id="lineChartModale" tabindex="-1" role="dialog" aria-labelledby="lineChartModaleTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h5 class="modal-title" id="lineChartModaleLongTitle">Courbe de périodes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-    <!-- Légende détachée : pb : listes à puces ! -->
-    <!-- <div id="legend" class="legend"></div>
-    <app-chart id="linefishes" [type]="type" [data]="data" [options]="options"></app-chart>    -->
+            <div class="container">
+                <app-chart-update [type]="type" [data]="data" [options]="options">
+                </app-chart-update>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            </div>
+
+        </div>
+    </div>
 </div>

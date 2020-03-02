@@ -1,0 +1,69 @@
+<!-- lorsque l'on est connecté, le formulaire disparait, et la <div> souhaitée s'affiche -->
+<div [hidden]="formDir.submitted && showDatas" class="container">
+
+    <form [formGroup]="userForm" #formDir="ngForm">
+
+        <h1>Connexion</h1>
+
+        <!-- <div class="cross-validation" [class.cross-validation-error]="(userForm.touched || userForm.dirty)"> -->
+        <div class="form-group">
+
+            <mat-form-field class="col align-self-center">
+                <mat-label for="login">Login</mat-label>     
+                <input matInput id="login" class="form-control" formControlName="login" required>
+            </mat-form-field>
+            
+            <div *ngIf="login.invalid && (login.dirty || login.touched)" class="alert alert-danger">
+                <div *ngIf="login.errors.required">
+                    Le login est requis.
+                </div>     
+                <div *ngIf="login.errors.minlength">
+                    le login doit être d'au moins 4 caractères.
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <mat-form-field class="col align-self-center">
+                <mat-label for="mail">Mail</mat-label>
+                <input matInput id="mail" class="form-control" formControlName="mail" required>
+            </mat-form-field>
+
+            <div *ngIf="mail.invalid && (mail.dirty || mail.touched)" class="alert-danger">
+                
+                <div *ngIf="mail.errors.required">
+                    Le mail est requis.
+                </div>   
+                <div *ngIf="mail.errors.email">
+                    le mail doit être au bon format.
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="submit">
+            <button type="submit" (click)="onSubmit()" class="btn btn-default" [disabled]="userForm.invalid">Afficher les données</button>
+        </div>
+
+    </form>
+
+</div>
+
+<div class="submitted-message" *ngIf="formDir.submitted && showDatas" id="form-submitted"><!-- AJOUT : id="form-submitted" -->
+
+    <!-- <p>You've submitted your user (login), {{ userForm.value.login }}!</p> -->
+
+    <app-search-form></app-search-form>
+
+</div>
+
+<div *ngIf="formDir.submitted && showDatas" class="container">
+
+    <div class="submit">
+        <button type="submit" (click)="onUserDeconnect()" class="btn btn-outline-danger" [disabled]="userForm.invalid">Se déconnecter</button>
+    </div>
+    
+</div>

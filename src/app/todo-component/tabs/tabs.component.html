@@ -1,54 +1,23 @@
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-
 <div class="gallery">
-
-  <!-- <app-messages></app-messages> -->
 
   <mat-tab-group>
 
-    <mat-tab label="Leaflet Map Clean">
-      <br>
-      <app-leaflet-map-clean></app-leaflet-map-clean>
+    <mat-tab label="Graphiques et Carte">
+      
+      <!-- formulaire de connexion (membre) et accès aux données (tableau, graphiques, carte...) -->
+      <app-form-connexion></app-form-connexion>
+
     </mat-tab>
 
-    <!-- <mat-tab label ="shapefile leaflet test"> -- marche pas
-      <br>
-      <app-shapefile-leaflet></app-shapefile-leaflet>
-    </mat-tab> -->
+    <mat-tab label="Administrateur">
 
-    <!-- <mat-tab label="Leaflet Map">
-      <br>
-      <app-leaflet-map></app-leaflet-map>
-    </mat-tab> -->
+      <!-- formulaire d'accès à la partie administrateur : gestion des membres -->
+      <app-form-admin-connexion></app-form-admin-connexion>
 
-    <!-- <mat-tab label="Barres de zones">
-      <br>
-      <app-zones-chart></app-zones-chart>
-    </mat-tab> -->
-
-    <mat-tab label="Courbe de Périodes">
-      <br>
-      <app-dates-chart></app-dates-chart>
     </mat-tab>
 
-    <mat-tab label="Barres d'espèces">
-      <br>
-      <app-species-chart></app-species-chart>
-    </mat-tab>
-
-    <!-- <mat-tab label="Leaflet Map">
-      <br>
-      <app-leaflet-map></app-leaflet-map>
-    </mat-tab> -->
-    
-    <mat-tab label="Tableau">
-      <br>
-      <app-data-table></app-data-table>
-    </mat-tab>
-
-  </mat-tab-group>
-
-  <!-- router-outlet : voir 'app-routing-module' pour l'utiliser (nécessaire ici ???) -->
-  <!-- <router-outlet></router-outlet> -->
+  </mat-tab-group>  
+  
+  <app-data-table></app-data-table>
 
 </div>

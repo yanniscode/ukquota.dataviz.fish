@@ -19,6 +19,7 @@ export interface Fish {
 })
 
 export class FishService {
+  
   layer: any;
 
   constructor(private http: HttpClient) {}

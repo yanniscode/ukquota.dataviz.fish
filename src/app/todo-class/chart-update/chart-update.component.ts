@@ -1,6 +1,6 @@
 import { Component, Input, ElementRef, OnInit, OnChanges, SimpleChanges, Output, EventEmitter, NgZone } from '@angular/core';
 
-declare const Chart; // ou : let
+declare const Chart;
 
 @Component({
   selector: 'app-chart-update',

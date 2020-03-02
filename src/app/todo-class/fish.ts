@@ -1,8 +1,9 @@
-// modèle pour les données réelles :
+// modèle pour les données :
 
 export class Fish {
 
     public static fromJson(json: Object): Fish {
+        
         return new Fish(
             json['id_fishing'],
             json['value_landing'],
@@ -14,13 +15,14 @@ export class Fish {
             json['z_coord'],
             json['sz_coord']
         );
+
     }
 
     constructor(
         public id_fishing: number,
         public value_landing: number,
         public value_quota: number,
-        public date: string, // Date ??
+        public date: string, // Date dans la BDD
         public name_specie: string,
         public super_zone: string,
         public zone: string,

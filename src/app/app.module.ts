@@ -6,11 +6,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 
-import { RouterModule } from '@angular/router';
+// import { RouterModule } from '@angular/router';
 
-// ** AJOUTS :
+// ** AJOUTS DE MODULES :
 
 import { AppComponent } from './app.component';
+
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ReactiveFormsModule } from '@angular/forms'; /* reactive forms */
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here !
@@ -18,27 +20,12 @@ import { ChartsModule } from 'ng2-charts';
 import { TabsComponent } from './todo-component/tabs/tabs.component'; /* essai d'onglets 1 */
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; /* 'material design' import */
-import { MatInputModule, MatTabsModule, MatAutocompleteModule,  MatProgressSpinnerModule,
+import { MatFormFieldModule, MatInputModule, MatTabsModule, MatAutocompleteModule,  MatProgressSpinnerModule,
         MatSelectModule, MatButtonModule, NativeDateModule } from '@angular/material';
 import { SatDatepickerModule, SatNativeDateModule } from '../../node_modules/saturn-datepicker/esm5/saturn-datepicker.js';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { AgGridModule } from 'ag-grid-angular/main';
-
-import { ChartUpdateComponent } from './todo-class/chart-update/chart-update.component';
-
-// composant carte :
-import { LeafletMapCleanComponent } from './todo-component/tabs/leaflet-map-clean/leaflet-map-clean.component';
-// #### test - marche pas ici (pb de version d'angular ??):
-// import { ShapefileLeafletComponent } from './todo-component/tabs/shapefile-leaflet/shapefile-leaflet.component';
-import { LeafletMapComponent } from './todo-component/tabs/leaflet-map/leaflet-map.component';
-import { DatesChartComponent } from './todo-component/tabs/dates-chart/dates-chart.component';
-import { SpeciesChartComponent } from './todo-component/tabs/species-chart/species-chart.component';
-import { ZonesChartComponent } from './todo-component/tabs/zones-chart/zones-chart.component';
-import { DataTableComponent } from './todo-component/tabs/data-table/data-table.component';
-
-// ***********
-
-import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 
 import { MatDatepickerModule, MAT_DATE_FORMATS } from '@angular/material';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
@@ -46,10 +33,38 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { MatRangeDatepickerModule, MatRangeNativeDateModule } from '../../node_modules/mat-range-datepicker';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { MessagesComponent } from './todo-component/tabs/messages/messages.component';
+
+
+import { ChartUpdateComponent } from './todo-class/chart-update/chart-update.component';
+
+// #### test - marche pas ici (pb de version d'angular ??):
+// import { ShapefileLeafletComponent } from './todo-component/tabs/shapefile-leaflet/shapefile-leaflet.component';
+// import { LeafletMapComponent } from './todo-component/tabs/leaflet-map/leaflet-map.component';
+
+import { DatesChartComponent } from './todo-component/tabs/dates-chart/dates-chart.component';
+import { SpeciesChartComponent } from './todo-component/tabs/species-chart/species-chart.component';
+import { ZonesMapComponent } from './todo-component/tabs/zones-map/zones-map.component';
+import { DataTableComponent } from './todo-component/tabs/data-table/data-table.component';
+
+// ***********
+
+import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 
 // *** IMPORT DE SERVICES :
 import { FishService } from './todo-data-service/fish.service';
+import { SearchFormComponent } from './todo-component/tabs/search-form/search-form.component';
+
+/* FORMULAIRES DE CONNEXION (USAGER) - EN TEST */
+// import { ReactiveFormConnexionComponent } from './todo-component/reactive-form-connexion/reactive-form-connexion.component';
+import { FormConnexionComponent } from './todo-component/tabs/form-connexion/form-connexion.component';
+import { ConfigComponent } from './todo-component/config/config.component';
+
+import { HttpErrorHandler }     from './todo-data-service/http-error-handler.service';
+import { AutocompleteFormInscriptionCleanComponent } from './todo-component/tabs/autocomplete-form-inscription-clean/autocomplete-form-inscription-clean.component';
+import { FormAdminConnexionComponent } from './todo-component/tabs/form-admin-connexion/form-admin-connexion.component';
+import { MembersListComponent } from './todo-component/tabs/members-list/members-list.component';
+
+// import { UnlessDirective } from './todo-directive/unless.directive';
 
 // const ROUTES = [
 //   {
@@ -86,6 +101,7 @@ import { FishService } from './todo-data-service/fish.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTabsModule,
+    MatFormFieldModule,
     MatInputModule,        // import pour les onglets
     MatAutocompleteModule, // import pour les champs de recherche
     MatProgressSpinnerModule,  // import pour les champs de recherche
@@ -95,12 +111,13 @@ import { FishService } from './todo-data-service/fish.service';
     AgGridModule.withComponents([]),
     MatRangeDatepickerModule,
     MatRangeNativeDateModule,
-
     MatDatepickerModule,
     NativeDateModule,
     // MatNativeDateModule,
     SatDatepickerModule,
     MatMomentDateModule,
+    // NgbModule,
+    LeafletModule.forRoot()
 
     // ********************** POUR TEST :
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
@@ -120,12 +137,18 @@ import { FishService } from './todo-data-service/fish.service';
     DataTableComponent,
     ChartUpdateComponent,
     SpeciesChartComponent,
-    ZonesChartComponent,
-    LeafletMapCleanComponent,
+    ZonesMapComponent,
     // ShapefileLeafletComponent // marche pas ici
-    LeafletMapComponent,
-    MessagesComponent,
-    DatesChartComponent,
+    // LeafletMapComponent,
+    DatesChartComponent, 
+    SearchFormComponent, 
+    // ReactiveFormConnexionComponent, 
+    FormConnexionComponent,
+    ConfigComponent,
+    AutocompleteFormInscriptionCleanComponent,
+    FormAdminConnexionComponent, 
+    MembersListComponent, 
+    // UnlessDirective,
   ],
   exports: [
     MatTabsModule,
@@ -144,9 +167,11 @@ import { FishService } from './todo-data-service/fish.service';
     AppComponent
   ],
   providers: [
-    FishService
+    FishService,
+    HttpErrorHandler
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
+
 export class AppModule { }

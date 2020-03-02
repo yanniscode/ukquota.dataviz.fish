@@ -78,28 +78,28 @@ export class LinechartOptionsService {
           // const parsedTitle = moment(title, 'YYYY-MM-DD').format('DD-MM-YYYY');
           const parsedTitle = moment(title, 'YYYY-MM-DD').locale('fr').format('LL');
           // console.log(parsedTitle);
-
-          // const quantity = 'Quantité : ' + tooltipItem[0].yLabel + ' tonnes' || '';
-          // console.log(title);
-
-          // let title = data.datasets[tooltipItem.datasetIndex].title || ''; // marche pas ici
-          // if (title) {
-          //   title += ': ';
-          // }
-          // alert(tooltipItem.toSource()); // pour vérifier le type de l'objet reçu dans le tooltip = tableau d'objets : [{ }]
           return parsedTitle;
         },
-        label: function(tooltipItem, data) {
-          // const label = data.datasets[tooltipItem.datasetIndex].yLabel || '';
-          let label = 'Quantité : ' + tooltipItem.yLabel || '';
+        label: function(tooltipItem, data) {          
 
-          if (label) {
-            label += ' tonnes';
+          const datas = tooltipItem.yLabel; // paramètre pour accéder aux données du graphique
+
+          const capturesLabel = 'Quantité (en tonnes) : ' + datas || '';
+          const quotasLabel = 'Quota (en tonnes) : ' + datas || '';
+
+          if (capturesLabel != null && tooltipItem.datasetIndex === 0) {
+            // labelCaptures += ' tonnes';
+            return capturesLabel;
           }
-          // alert(tooltipItem.toSource()); // pour vérifier le type de l'objet reçu dans le tooltip = tableau d'objets : [{ }]
-          // alert(data.toSource()); // pour vérifier le type de l'objet reçu dans le tooltip = tableau d'objets : [{ }]
+          if (quotasLabel != null && tooltipItem.datasetIndex === 1) {
+            // quotasLabel += ' tonnes';
+            return quotasLabel;
+          }
 
-          return label;
+
+          // alert(tooltipItem.toSource()); // pour vérifier le type de l'objet reçu dans le tooltip = tableau d'objets : [{ }]
+
+          // return dataLabel;
         }
       }
     },
@@ -118,7 +118,7 @@ export class LinechartOptionsService {
     scales: {
       xAxes: [{
         type: 'time', // AJOUT
-        distribution: 'linear', // AJOUT :data are spread according to their time (distances can vary)
+        distribution: 'linear', // AJOUT : data are spread according to their time (distances can vary)
         scaleLabel: {
           display: true,
           fontFamily: 'sans-serif', // source-sans-pro

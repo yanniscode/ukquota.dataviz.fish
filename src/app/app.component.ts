@@ -10,12 +10,23 @@ import { Chart } from 'chart.js';
   selector: 'app-root',
   templateUrl: './app.component.html',
   providers: [],
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 
 export class AppComponent {
+  
   title = 'Dataviz Fish App';
 
-  constructor() {
-  }
+  // AVANT: DANS 'TABS.COMPONENT':
+  
+  // /* liste des membres inscription (users) */
+  // showUsers = true;
+  // /* pour app-config (gestion d'erreurs...) */
+  // showConfig = true;
+  // showSearch = true;
+
+  // toggleUsers() { this.showUsers = !this.showUsers; }
+  // toggleConfig() { this.showConfig = !this.showConfig; }
+  // toggleSearch() { this.showSearch = !this.showSearch; }
+
 }
