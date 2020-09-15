@@ -1,19 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ChartUpdateComponent } from '../../../todo-class/chart-update/chart-update.component';
-import { Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
-import { Validators } from '@angular/forms';
-import { FormArray } from '@angular/forms';
-import { FormControl } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-
-import { Output, EventEmitter } from '@angular/core'; // pour export du composant 'enfant' > 'parent'
+import { Component, OnChanges, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { FishService } from '../../../todo-data-service/fish.service';
-import { Fish } from '../../../todo-class/fish';
-
-import { LinechartOptionsService } from '../../../todo-class/linechart-options';
+import { Fish } from '../../../shared/todo-class/fish';
 
 
 @Component({
@@ -22,145 +12,73 @@ import { LinechartOptionsService } from '../../../todo-class/linechart-options';
   styleUrls: ['./search-form.component.scss']
 })
 
-export class SearchFormComponent<D> implements OnInit {
 
+export class SearchFormComponent implements OnChanges, OnInit, OnDestroy {
 
-  // *******
+  
+  private fishing$: Fish[];
 
-  // pour export du composant 'enfant' > 'parent':
+  private nameSp$: Fish[]; // *** Note: ou bien, type = Object;
+  private zone$: Fish[];
+  private date$: Fish[];
+  private date2$: Fish[];
 
-  // @Output() newItemEvent = new EventEmitter<string>(); 
-  // @Output() initSpecieEvent = new EventEmitter<String>();
-
-  // addNewItem(value: string) { // test export enfant > parent
-  //   this.newItemEvent.emit(value);
-  // }
-
-  // *******
-
-
-  public fishing$: Fish[]; // on pourrait remplacer les suivants par celui-ci ???
-  public nameSp$: Fish[]; // ou Object;
-  public superZone$: Fish[];
-  public zone$: Fish[];
-  public date$: Fish[];
-  public date2$: Fish[];
-  begin: D | null;
-  end: D | null;
-
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private fishService: FishService,
-    private linechartOptionsService: LinechartOptionsService
-  ) {}
-
-
-
-  // ************ METHODE 1 : ******************
-
-  //  On définit ici la valeur des champs (avant l'INIT):
-
-  searchForm = this.fb.group({ // pour ajouter des champs de recherche
+  private searchForm: FormGroup 
+  = this.fb.group({ // *** Note: pour créer des champs de recherche (reactive-form)
     nameSp: this.fb.array([
-      this.fb.control('Toutes Espèces')
-      //  this.fb.control('', Validators.required),
+      this.fb.control('')
     ]),
     superZ: this.fb.array([
       this.fb.control('')
     ]),
     zone: this.fb.array([
-      this.fb.control('Toutes Zones')
-    ]),
-    date: this.fb.array([  // POUR UN FORMULAIRE DE DATE SIMPLE
       this.fb.control('')
     ]),
-    date2: [{ begin: new Date(2018, 1, 7), end: new Date() }], // pour un 'Satdatepicker' 
+    date: this.fb.array([  // *** Note: pour un formulaire de date 'simple'
+      this.fb.control('')
+    ]),
+    date2: { }, // *** Note: pour un 'Satdatepicker' (permettant de surligner la plage de date sélectionnée, à la différence du 'MatDatePicker' -> à revoir si évolution de la librairie... ??)
   });
 
 
-  // écoute du contenu des champs (et de leur évolution):
+  // *** Ecoute du contenu des champs (et de leur évolution):
 
-  // pour export de composant 'parent' > 'enfant' (lien avec 'search-form.component.html') :
+  // *** Variables pour export de composant 'parent' > 'enfant' (lien avec 'dates-chart-component', etc...) :
+  private currentnameSp: string = '';
+  private currentZone: string = '';
+  private currentDate: string = '';
+  private currentDate2Begin: Date = null;
+  private currentDate2End: Date = null;
 
-  currentnameSp; // ancien 'currentItem' : (property)
-  currentZone;
-  currentDate;
-  currentDate2Begin;
-  currentDate2End;
+  public constructor(
+    private fb: FormBuilder,
+    private fishService: FishService,
+  ) {  
 
-  // ************
-
-
-  get nameSp() {
-    this.currentnameSp = this.searchForm.get('nameSp').value[0];
-    // console.log(this.searchForm.value.nameSp[0]); // autre écriture possible
-
-    // TEST : export du composant enfant > parent
-    // let nameSpEmit = this.searchForm.value.nameSp; 
-    // this.initSpecieEvent.emit(nameSpEmit[0]);
-
-    return this.searchForm.get('nameSp') as FormArray;
-  }
-  get zone() {
-    this.currentZone = this.searchForm.get('zone').value[0];
-    return this.searchForm.get('zone') as FormArray;
-  }
-  get date() {
-    this.currentDate = this.searchForm.get('date').value;
-    return this.searchForm.get('date') as FormArray;
-  }
-  get date2() {
-    this.currentDate2Begin = this.searchForm.get('date2').value.begin;
-    this.currentDate2End = this.searchForm.get('date2').value.end;
-    return this.searchForm.get('date2') as FormArray;
-  }
-
-
-  ngOnInit() {
-
-  
-    //  On définit ici la valeur des champs (à l'INIT):
-    this.fishService.getDate()
-    .subscribe(fishing$ => { // indiquer ici la route vers l'api choisie : getSomeFishes()...
+    const fishFormFieldsSubscription: Subscription = this.fishService.getDate()
+      .subscribe(fishing$ => { 
+        // *** Note: indiquer ici la route vers l'api choisie : getSomeFishes()...
 
       this.fishing$ = fishing$;
-      console.log(fishing$[0].date);
-      const lastDate = fishing$[0].date;
+      
+      const lastDate: string = fishing$[0].date;  
+    
+      this.currentDate = lastDate;  // *** Note: appel de la dernière date des listes 'select'
 
-      this.searchForm = this.fb.group({ // pour ajouter des champs de recherche
-        nameSp: this.fb.array([
-          this.fb.control('Toutes Espèces')
-          //  this.fb.control('', Validators.required),
-        ]),
-        superZ: this.fb.array([
-          this.fb.control('')
-        ]),
-        zone: this.fb.array([
-          this.fb.control('Toutes Zones')
-        ]),
-        date: this.fb.array([  // POUR UN FORMULAIRE DE DATE SIMPLE
-          this.fb.control(lastDate)
-        ]),
-        date2: [{ begin: new Date(2018, 1, 7), end: new Date() }], // pour un 'Satdatepicker' 
-      });
+      this.currentnameSp = this.searchForm.get('nameSp').value[0];
+      this.currentZone = this.searchForm.get('zone').value[0];
+      this.currentDate2Begin = this.searchForm.get('date2').value.begin;
+      this.currentDate2End = this.searchForm.get('date2').value.end;
 
-    });
+      }
+    );
 
 
-    // console.log(this.currentnameSp);
-    // console.log(this.currentZone);
-    // console.log(this.currentDate);
-    // console.log(this.currentDate2Begin);
-    // console.log(this.currentDate2End);
-
-    // indiquer ici la route vers l'api choisie : getSomeFishes()...
-    this.fishService.getFishes()
-      .subscribe(nameSp$ => { // indiquer ici la route vers l'api choisie : getSomeFishes()...
-        this.nameSp$ = nameSp$;
-        // console.log(this.nameSp$[0].name_specie);
+    const fishNameDataSubscription: Subscription = this.fishService.getFishes() // indiquer ici la route vers l'api choisie : méthodes = getSomeFishes()...
+      .subscribe(nameSp$ => { 
+        this.nameSp$ = nameSp$; // *** Note: appel de la liste des éléments du champs 'select'
         
-        this.nameSp$.unshift({ // AJOUT d'un choix "toutes zones" au début de la liste 'select'
+        this.nameSp$.unshift({ // *** Note: ajout d'un choix "toutes espèces" au début de la liste 'select'
           id_fishing: 0,
           value_landing: 0,
           value_quota: 0,
@@ -168,16 +86,17 @@ export class SearchFormComponent<D> implements OnInit {
           name_specie: 'Toutes Espèces',
           super_zone: 'string',
           zone: 'string',
-          z_coord: null, // avant : format = JSON
+          z_coord: null,
           sz_coord: null
         });
-      });
-  
-    this.fishService.getZone()
-      .subscribe(zone$ => { 
-        this.zone$ = zone$; // LISTE DES ÉLEMENTS DU CHAMPS 'SELECT'
+      }
+    );
 
-        this.zone$.unshift({ // AJOUT d'un choix "toutes zones" au début de la liste 'select'
+    const fishZoneDataSubscription: Subscription = this.fishService.getZone()
+      .subscribe(zone$ => { 
+        this.zone$ = zone$;
+
+        this.zone$.unshift({
           id_fishing: 0,
           value_landing: 0,
           value_quota: 0,
@@ -188,119 +107,189 @@ export class SearchFormComponent<D> implements OnInit {
           z_coord: null,
           sz_coord: null
         });
-      });
+      }
+    );
 
 
-    this.fishService.getDate()
-    .subscribe(date$ => {
-      this.date$ = date$;
-    });
+    const fishDateDataSubscription: Subscription = this.fishService.getDate()
+      .subscribe(date$ => {
+        this.date$ = date$;
+      }
+    );
 
-    this.fishService.getDate2()
+
+    const fishDate2DataSubscription: Subscription = this.fishService.getDate2()
       .subscribe(date2$ => {
         this.date2$ = date2$;
-    });
+      }
+    );
+
+
+    setTimeout(() => {
+      fishFormFieldsSubscription.unsubscribe();
+      fishNameDataSubscription.unsubscribe();
+      fishZoneDataSubscription.unsubscribe();
+      fishDateDataSubscription.unsubscribe();
+      fishDate2DataSubscription.unsubscribe();
+
+    }, 10000);
+
+    clearTimeout(); // utile ??
+  }
+
+
+
+
+  public get nameSp(): FormArray {
+    return this.searchForm.get('nameSp') as FormArray;
+  }
+
+  public get zone(): FormArray {
+    return this.searchForm.get('zone') as FormArray;
+  }
+
+  public get date(): FormArray {
+    return this.searchForm.get('date') as FormArray;
+  }
+
+  public get date2(): FormArray {
+
+    this.currentDate2Begin = this.searchForm.get('date2').value.begin;
+    this.currentDate2End = this.searchForm.get('date2').value.end;
   
-
-  } // FIN DE MÉTHODE 'ONINIT()'
-
-
+    return this.searchForm.get('date2') as FormArray;
+  }
 
 
 
-  onSelect(): any {
 
-    // console.log(this.currentnameSp);
-    // console.log(this.currentZone);
-    // console.log(this.currentDate);
-    // console.log(this.currentDate2Begin);
-    // console.log(this.currentDate2End);
+  public ngOnInit(): void {
+
+    // *** Note: On définit ici la valeur des champs (à l'INIT):
+   
+    const fishFormFieldsSubscription: Subscription = this.fishService.getDate()
+      .subscribe(fishing$ => { 
+
+      this.fishing$ = fishing$;
+
+      const lastDate: string = fishing$[0].date;
+
+      this.searchForm = this.fb.group({
+        nameSp: this.fb.array([
+          this.fb.control('Toutes Espèces')
+        ]),
+        superZ: this.fb.array([
+          this.fb.control('')
+        ]),
+        zone: this.fb.array([
+          this.fb.control('Toutes Zones')
+        ]),
+        date: this.fb.array([
+          this.fb.control(lastDate)
+        ]),
+        date2: { begin: new Date(2018, 1, 7), end: new Date() },
+      });
+
+      }
+    );
+
+    setTimeout(() => {
+      fishFormFieldsSubscription.unsubscribe();
+    }, 10000);
+
+    clearTimeout();
+
+  } // *** Note: fin de méthode 'ngOnInit()'
 
 
-    // LORSQU'ON CHOISIT UN NOM D'ESPÈCE, ON A LA ZONE ET LA PLAGE DE DATES (BEGIN & END) QUI S'ADAPTENT :
-    const nameSpSelect$ = this.searchForm.get('nameSp').value;
-    let nameSpdatas = nameSpSelect$[0];  // value: name_specie (du template)
+
+  public ngOnChanges(): void {
+    // console.log('search-form: ngOnChange !');
+
+
+    // *** Note: LORSQU'ON CHOISIT UN NOM D'ESPÈCE, ON A LA ZONE ET LA PLAGE DE DATES (BEGIN & END) QUI S'ADAPTENT :    
+    this.currentnameSp = this.searchForm.get('nameSp').value[0];  // valeur du champs nameSp
+
+    let nameSpdatas: string = this.currentnameSp;
 
     if (nameSpdatas === '' || nameSpdatas === 'Toutes Espèces') {
       nameSpdatas = 'vide';
     }
 
 
-    // LORSQU'ON CHOISIT UNE ZONE, ON A LE NOM D'ESPÈCE ET LA PLAGE DE DATES (BEGIN & END) QUI S'ADAPTENT :
-    const zoneSelect$ = this.searchForm.get('zone').value;
-    let  zonedatas = zoneSelect$[0];  // values: name_specie (du template)
+    // *** Note: LORSQU'ON CHOISIT UNE ZONE, ON A LE NOM D'ESPÈCE ET LA PLAGE DE DATES (BEGIN & END) QUI S'ADAPTENT :
+
+    this.currentZone = this.searchForm.get('zone').value[0];
+
+    let zonedatas: string = this.currentZone;
 
     if (zonedatas === '' || zonedatas === 'Toutes Zones') {
       zonedatas = 'vide';
     }
 
 
-    // LORSQU'ON CHOISIT UNE DATES SIMPLE, ON A LE NOM D'ESPÈCE ET LA ZONE QUI S'ADAPTENT : (A FINIR)
-    const dateSelect$ = this.searchForm.get('date').value; // date = valeur donnée par le formulaire (html > searchForm)
+    // *** Note: LORSQU'ON CHOISIT UNE DATES SIMPLE, ON A LE NOM D'ESPÈCE ET LA ZONE QUI S'ADAPTENT : (A FINIR)
+    this.currentDate = this.searchForm.get('date').value[0]; 
 
-    // ATTENTION : pour un champs 'select', date = string >> PAS DE TRANSFORMATION
-    let dateSelectToString = dateSelect$;
+    let dateDatas: string = this.currentDate;
 
-    // ATTENTION : pour un 'Datepicker', date = format 'UTC' >> TRANSFORMATION EN STRING : 'YYYY-MM-DD'
-    // let dateSelectToString = dateSelect$.getFullYear() + '-' + Number(dateSelect$.getMonth() + 1) + '-' + dateSelect$.getDate();
-    // console.log(dateSelectToString); // MODE D'AFFICHAGE À REVOIR
-
-    // GESTION D'ERREUR POUR UN CHAMPS DE DATES INVALIDE (VIDE OU PARTIELLEMENT VIDE) :
-    if (dateSelectToString[0] === null || dateSelectToString === 'Dernière Dates') {
-      // console.log(dateSelectToString);
-      dateSelectToString = 'vide';
+    // *** gestion d'erreur (mais normalement, aucun champs vide...):
+    if (this.currentDate === null) {
       alert('Veuillez choisir une date simple...');
       return;
     }
 
 
 
-    // **********************************************
-
     // LORSQU'ON CHOISIT UNE PLAGE DE DATES (BEGIN & END), ON A LE NOM D'ESPÈCE ET LA ZONE QUI S'ADAPTENT : (A FINIR)
 
-    const date2Select$ = this.searchForm.get('date2').value; // date2 = valeur donnée par le formulaire (html > searchForm)
+    this.currentDate2Begin = this.searchForm.get('date2').value.begin;  
+    this.currentDate2End = this.searchForm.get('date2').value.end;
 
-    // GESTION D'ERREUR POUR UN CHAMPS DE DATES INVALIDE (VIDE OU PARTIELLEMENT VIDE) :
-    if (date2Select$ === null) {
-      alert('Veuillez choisir une plage de dates...');
-      return;
-    }
+    let date2BeginDatas: string = this.currentDate2Begin.getFullYear() + '-' + Number(this.currentDate2Begin.getMonth() + 1) +'-'+ this.currentDate2Begin.getDate();
 
+    let date2EndDatas: string = this.currentDate2End.getFullYear() +'-'+ Number(this.currentDate2End.getMonth() + 1) +'-'+ this.currentDate2End.getDate();
 
-    let date2BeginDatas = date2Select$.begin.getFullYear() + '-' + Number(date2Select$.begin.getMonth() + 1) + '-'
-    + date2Select$.begin.getDate();
 
     if (date2BeginDatas === '' || date2BeginDatas === null || date2BeginDatas === 'Date de Début') {
       date2BeginDatas = 'vide';
     }
-
-    let date2EndDatas = date2Select$.end.getFullYear() + '-' + Number(date2Select$.end.getMonth() + 1) + '-'
-    + date2Select$.end.getDate();
 
     if (date2EndDatas === '' || date2EndDatas === null || date2EndDatas === 'Date de Fin') {
       date2EndDatas = 'vide';
     }
     
 
-    this.fishService.getNewDate2(date2BeginDatas, date2EndDatas)
-    .subscribe(date2$ => { // indiquer ici la route vers l'api choisie : getSomeFishes()...
+    // *** Note: gestion d'erreur (plage de dates) :
+    if (this.currentDate2Begin === null || this.currentDate2End === null) {
+      alert('Veuillez choisir une plage de dates...');
 
-      this.date2$ = date2$; // LISTE DES ÉLEMENTS DU CHAMPS 'SELECT'
-
-    });
-
-
+      return;
+    }
 
 
-    // METHODES CORRESPONDANTES :
+    // *** Notes: METHODES CORRESPONDANTES :
 
-    // au nom d'espèce sélectionné, les zones et dates correspondantes sont filtrées : (en test)
-    this.fishService.getNewZoneForSingleDate(nameSpdatas, dateSelectToString)
-    .subscribe(zone$ => {
-      this.zone$ = zone$; // LISTE DES ÉLEMENTS DU CHAMPS 'SELECT'
+    const fishNewDate2DataSubscription: Subscription = this.fishService.getNewDate2(date2BeginDatas, date2EndDatas)
+      .subscribe(date2$ => { 
+        this.date2$ = date2$;
+      }
+    );
 
-      this.zone$.unshift({ // AJOUT d'un choix "toutes zones" au début de la liste 'select'
+    setTimeout(() => {
+      fishNewDate2DataSubscription.unsubscribe();
+    }, 10000);
+    
+    clearTimeout();
+
+
+    // *** Note: Au nom d'espèce sélectionné, les zones et dates correspondantes sont filtrées :
+    const fishNewZoneDataSubscription: Subscription = this.fishService.getNewZoneForSingleDate(nameSpdatas, dateDatas)
+      .subscribe(zone$ => {
+
+      this.zone$ = zone$;
+
+      this.zone$.unshift({ // *** Note: AJOUT d'un choix "toutes zones" au début de la liste 'select'
         id_fishing: 0,
         value_landing: 0,
         value_quota: 0,
@@ -312,62 +301,19 @@ export class SearchFormComponent<D> implements OnInit {
         sz_coord: null
       });
 
-    });
+      }
+    );
+    setTimeout(() => {
+      fishNewZoneDataSubscription.unsubscribe();
+    }, 10000);
 
-    // à la zone sélectionnée, les noms d'espèces et dates correspondantes sont filtrées : (en test)
-    this.fishService.getNewNamespForSingleDate(zonedatas, dateSelectToString)
-    .subscribe(nameSp$ => {
-
-      this.nameSp$ = nameSp$; // LISTE DES ÉLEMENTS DU CHAMPS 'SELECT'
-
-      this.nameSp$.unshift({ // AJOUT d'un choix "toutes zones" au début de la liste 'select'
-        id_fishing: 0,
-        value_landing: 0,
-        value_quota: 0,
-        date: null,
-        name_specie: 'Toutes Espèces',
-        super_zone: 'string',
-        zone: 'string',
-        z_coord: null,
-        sz_coord: null
-      });
-    });
-
-    // à la date sélectionnée, les noms d'espèces et dates correspondantes sont filtrées : (en test)
-    this.fishService.getNewDateForSingleDate(nameSpdatas, zonedatas)
-    .subscribe(date$ => {
-      this.date$ = date$; // LISTE DES ÉLEMENTS DU CHAMPS 'SELECT'
-    });
-
-  } // FIN DE ONSELECT()
-
-
-
-
-  
-
-  onReset(): any {
-
-    // console.log(this.currentnameSp);
-    // console.log(this.currentZone);
-    // console.log(this.currentDate);
-    // console.log(this.currentDate2Begin);
-    // console.log(this.currentDate2End);
-
-
-
-    // *********************************************************************************** //
-
-    //  ACTUALISATION DES REQUETES POUR LES OPTIONS 'SELECT' DU FORMULAIRE DE RECHERCHE     //
-
-    // *********************************************************************************** //
-
-    // indiquer ici la route vers l'api choisie : getFishes()...
-    this.fishService.getFishes()
+    // *** Note: à la zone sélectionnée, les noms d'espèces et dates correspondantes sont filtrées :
+    const fishNewNameDataSubscription: Subscription = this.fishService.getNewNamespForSingleDate(zonedatas, dateDatas)
       .subscribe(nameSp$ => {
+
         this.nameSp$ = nameSp$;
 
-        this.nameSp$.unshift({ // AJOUT d'un choix "toutes zones" au début de la liste 'select'
+        this.nameSp$.unshift({
           id_fishing: 0,
           value_landing: 0,
           value_quota: 0,
@@ -377,73 +323,161 @@ export class SearchFormComponent<D> implements OnInit {
           zone: 'string',
           z_coord: null,
           sz_coord: null
-        });  
-      });    
-
-      this.fishService.getSuperZone()
-        .subscribe(superZone$ => {
-        this.superZone$ = superZone$;
-        });
-      
-      this.fishService.getZone()
-        .subscribe(zone$ => {
-          this.zone$ = zone$; // LISTE DES ÉLEMENTS DU CHAMPS 'SELECT'
-      
-          this.zone$.unshift({ // AJOUT d'un choix "toutes zones" au début de la liste 'select'
-            id_fishing: 0,
-            value_landing: 0,
-            value_quota: 0,
-            date: null,
-            name_specie: 'string',
-            super_zone: 'string',
-            zone: 'Toutes Zones',
-            z_coord: null,
-            sz_coord: null
-          });
         });
 
+      }
+    );
+    setTimeout(() => {
+      fishNewNameDataSubscription.unsubscribe();
+    }, 10000);
 
-      this.fishService.getDate()
+    clearTimeout();
+
+
+    // *** A la date sélectionnée, les noms d'espèces et dates correspondantes sont filtrées :
+    const fishNewDateDataSubscription: Subscription = this.fishService.getNewDateForSingleDate(nameSpdatas, zonedatas)
+      .subscribe(date$ => {
+        this.date$ = date$; // *** liste des éléments du champs 'select'
+      }
+    );
+
+    setTimeout(() => {
+      fishNewDateDataSubscription.unsubscribe();
+    }, 10000);
+
+    clearTimeout();
+
+
+  } // *** FIN DE ngOnChanges()
+
+
+
+
+  public ngOnDestroy(): void {
+
+    // *** Note: ACTUALISATION DES REQUETES POUR LES OPTIONS 'SELECT' DU FORMULAIRE DE RECHERCHE :
+    const fishSelectNamesDataSubscription: Subscription = this.fishService.getFishes()
+      .subscribe(nameSp$ => {
+        this.nameSp$ = nameSp$;
+
+        this.nameSp$.unshift({
+          id_fishing: 0,
+          value_landing: 0,
+          value_quota: 0,
+          date: null,
+          name_specie: 'Toutes Espèces',
+          super_zone: 'string',
+          zone: 'string',
+          z_coord: null,
+          sz_coord: null
+        }
+      );
+
+      }
+    );
+    
+    setTimeout(() => {
+      fishSelectNamesDataSubscription.unsubscribe();
+    }, 10000); 
+
+    clearTimeout();
+
+
+    const fishSelectZonesDataSubscription: Subscription = this.fishService.getZone()
+      .subscribe(zone$ => {
+
+        this.zone$ = zone$; // *** LISTE DES ÉLEMENTS DU CHAMPS 'SELECT'
+    
+        this.zone$.unshift({ // *** AJOUT d'un choix "toutes zones" au début de la liste 'select'
+          id_fishing: 0,
+          value_landing: 0,
+          value_quota: 0,
+          date: null,
+          name_specie: 'string',
+          super_zone: 'string',
+          zone: 'Toutes Zones',
+          z_coord: null,
+          sz_coord: null
+        });
+
+      }
+    );
+
+    setTimeout(() => {
+      fishSelectZonesDataSubscription.unsubscribe();
+    }, 10000);
+
+    clearTimeout();
+
+
+    const fishSelectDatesDataSubscription: Subscription = this.fishService.getDate()
       .subscribe(date$ => {
         this.date$ = date$;
-      });
+      }
+    );
 
-      this.fishService.getDate2()
-        .subscribe(date2$ => {
-          this.date2$ = date2$;
-        });
-    
+    setTimeout(() => {
+      fishSelectDatesDataSubscription.unsubscribe();
+    }, 10000);
 
-      // ACTUALISATION DU FORMULAIRE DE BASE :
+    clearTimeout();
+
+
+    const fishSelectDates2DataSubscription: Subscription = this.fishService.getDate2()
+      .subscribe(date2$ => {
+        this.date2$ = date2$;
+      }
+    );
+
+    setTimeout(() => {
+      fishSelectDates2DataSubscription.unsubscribe();
+    }, 10000);
+
+    clearTimeout();
+
+
+    // *** ACTUALISATION DU FORMULAIRE DE BASE :
       
-    //  On redéfinit ici la valeur des champs (au RESET):
-    this.fishService.getDate()
+    // *** On redéfinit ici la valeur des champs (au 'reset'):
+    const fishSelectResetDataSubscription: Subscription = this.fishService.getDate()
       .subscribe(fishing$ => {
 
-      this.fishing$ = fishing$;
+        this.fishing$ = fishing$;
+        const lastDate: string = fishing$[0].date;
 
-      const lastDate = fishing$[0].date;
+        this.searchForm = this.fb.group({
+          nameSp: this.fb.array([
+            this.fb.control('Toutes Espèces')
+          ]),
+          superZ: this.fb.array([
+            this.fb.control('')
+          ]),
+          zone: this.fb.array([
+            this.fb.control('Toutes Zones')
+          ]),
+          date: this.fb.array([
+            this.fb.control(lastDate)
+          ]),
+          date2: { begin: new Date(2018, 1, 7), end: new Date() },
+        });    
 
-      this.searchForm = this.fb.group({ // pour ajouter des champs de recherche
-        nameSp: this.fb.array([
-          this.fb.control('Toutes Espèces')
-          //  this.fb.control('', Validators.required),
-        ]),
-        superZ: this.fb.array([
-          this.fb.control('')
-        ]),
-        zone: this.fb.array([
-          this.fb.control('Toutes Zones')
-        ]),
-        date: this.fb.array([  // POUR UN FORMULAIRE DE DATE SIMPLE
-          this.fb.control(lastDate)
-        ]),
-        date2: [{ begin: new Date(2018, 1, 7), end: new Date() }], // 2018, 1, 7 / 2018, 9, 31 ou new date() // pour un 'Satdatepicker' 
-      });
+        this.currentDate = this.searchForm.get('date').value;
+        this.currentnameSp = this.searchForm.get('nameSp').value[0];
+        this.currentZone = this.searchForm.get('zone').value[0];
+        this.currentDate2Begin = this.searchForm.get('date2').value.begin;
+        this.currentDate2End = this.searchForm.get('date2').value.end;
 
-    });
+      }
+    );
+
+    setTimeout(() => {
+      fishSelectResetDataSubscription.unsubscribe();
+    }, 10000);
+
+    clearTimeout(); // utile ??
+
     
-  } // FIN DE MÉTHODE 'ONRESET()'
+  } // *** FIN DE MÉTHODE 'ngOnDestroy()'
 
 
 

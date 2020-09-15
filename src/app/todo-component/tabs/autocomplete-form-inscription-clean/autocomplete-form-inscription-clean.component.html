@@ -1,199 +1,101 @@
-<div class="container">
+<div class="inscription-container">
+
 
   <form [formGroup]="inscriptionForm">
 
+    <h1>Inscription</h1>
 
-    <h1>Inscription (auto-complete form-test)</h1>
+    <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-2">
 
-    <div>
-    <!-- <div class="cross-validation" [class.cross-validation-error]="(inscriptionForm.touched || inscriptionForm.dirty)"> -->
-    <!-- <div class="form-group"> -->
-
-      <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-2">
-
-
-        <div class="col align-self-center">
-          
-          <!-- TEST VERSION AVEC onUpdate() - MARCHE GLOBALEMENT -->
-          <mat-form-field (click)="onEdit(user);">
-
-            <mat-label for="login">Login</mat-label>
-            
-            <!-- DIV *ngFor en TEST : MARCHE PAS bien car repère pas l'id_user > appel à l'api nécessaire ??-->
-            <!-- <div *ngFor="let id_user of idUserFilteredOptions | async">
-              <span class="badge">{{ id_user || -1 }}</span>
-            </div> -->
-            <!-- span *ngIf="user!==editUser">{{ user.login }} </span --> <!--PLUS UTILE ?? : MARCHE SANS ET SI EST PRÉSENT : PB = LOGIN APPARAIT 2 FOIS -->
-            
-            <input matInput type="text" placeholder="Login" [formControl]="login" [(ngModel)]="user.login" aria-label="Number" [matAutocomplete]="autoLogin" #userLogin required>
-            <!-- (blur)="onPreUpdate(user);": pas nécessaire ici / (keyup.enter)="onPreUpdate(user);": semble pas marcher, submit d'un nouveau membre à la place... -->
-            <!-- (keyup.enter)="onUpdate()" / ngIf="user!==editUser" = ENLEVÉ sinon erreur de mat-form-field-control (Material Angular) : mais plus d'alternative avec *ngIf, donc nouveau problème : 'login' apparait 2 fois... -->
-
-            <mat-autocomplete #autoLogin="matAutocomplete">
-              <mat-option *ngFor="let login of loginFilteredOptions | async" [value]="login" (click)="onLoginSelect(login)">
-                <button class="delete" title="delete user by login" (click)="onDelete(login)"><!-- x -->
-                  <svg class="bi bi-x-circle" width="32" height="32" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M10 17a7 7 0 100-14 7 7 0 000 14zm0 1a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"></path>
-                    <path fill-rule="evenodd" d="M12.646 13.354l-6-6 .708-.708 6 6-.708.708z" clip-rule="evenodd"></path>
-                    <path fill-rule="evenodd" d="M7.354 13.354l6-6-.708-.708-6 6 .708.708z" clip-rule="evenodd"></path>
-                  </svg>
-                </button><span> </span><span>{{ login }}</span>
-              </mat-option>
-            </mat-autocomplete>
-            
-            <mat-error *ngIf="login.invalid">Saisir un Login</mat-error>
-
-          </mat-form-field>
-
-          <!-- </div> -->
-
-          <!-- <mat-form-field class="col align-self-center">
-
-            <mat-label for="login">Login</mat-label>
-            <input matInput type="text" placeholder="Login" aria-label="Number" [formControl]="login" [matAutocomplete]="autoLogin" #userLogin required>
-            <mat-autocomplete #autoLogin="matAutocomplete">
-              <mat-option *ngFor="let login of loginFilteredOptions | async" [value]="login">
-                <button class="delete" title="delete user by login" (click)="delete(login)">x</button>{{ login }}
-              </mat-option>
-            </mat-autocomplete>
-
-          </mat-form-field> -->
-
-          <hr />
-          
-          <div *ngIf="login.invalid && (login.dirty || login.touched)" class="alert alert-danger">
-
-            <div *ngIf="login.errors.required">
-                Le login est requis.
-            </div>           
-            <div *ngIf="login.errors.minlength">
-                le login doit être d'au moins 4 caractères.
-            </div>
-
-          </div>
-
-        </div><!-- fin de div 'col' -->
+      <div class="col align-self-center">
         
+        <mat-form-field (click)="ngOnChanges();" id="formInscription">
 
-        <!-- <div class="form-group"> -->
+          <mat-label for="login">Login</mat-label>
+                      
+          <input matInput type="text" placeholder="Login" [formControl]="login" formControlName="login" aria-label="Number" (keyup.enter)="onPreUpdate();" [matAutocomplete]="autoLogin" #userLogin required>
 
-        <div class="col align-self-center">
+          <mat-autocomplete #autoLogin="matAutocomplete">
+
+            <mat-option *ngFor="let login of loginFilteredOptions | async" [value]="login" (click)="onLoginSelect(login)">
+              <span><button class="delete" title="delete user by login" (click)="onPreDelete(login)">
+                <svg class="bi bi-x-circle" width="32" height="32" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M10 17a7 7 0 100-14 7 7 0 000 14zm0 1a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"></path>
+                  <path fill-rule="evenodd" d="M12.646 13.354l-6-6 .708-.708 6 6-.708.708z" clip-rule="evenodd"></path>
+                  <path fill-rule="evenodd" d="M7.354 13.354l6-6-.708-.708-6 6 .708.708z" clip-rule="evenodd"></path>
+                </svg>
+              </button></span><span>{{ login }}</span>
+            </mat-option>
+
+          </mat-autocomplete>
           
-          <!-- TEST VERSION AVEC onUpdate() : EN TEST -->
-          <mat-form-field>
+          <mat-error *ngIf="login.invalid">Saisir un Login</mat-error>
 
-            <mat-label for="mail">Mail</mat-label>
-            
-            <!-- DIV *ngFor en TEST : MARCHE PAS bien car repère pas l'id_user > appel à l'api nécessaire ??-->
-            <!-- <div *ngFor="let id_user of idUserFilteredOptions | async">
-              <span class="badge">{{ id_user || -1 }}</span>
-            </div> -->
-            <!-- span *ngIf="user!==editUser">{{ user.login }} </span --> <!--PLUS UTILE ?? : MARCHE SANS ET SI EST PRÉSENT : PB = LOGIN APPARAIT 2 FOIS -->
-            
-            <input matInput type="text" placeholder="Mail" [formControl]="mail" [(ngModel)]="user.mail" aria-label="Number" [matAutocomplete]="autoMail" #userMail required (click)="onEdit(user)">
-            <!-- (blur)="onPreUpdate(user);": pas nécessaire ici / (keyup.enter)="onPreUpdate(user);": semble pas marcher, submit d'un nouveau membre à la place...  -->
-            <!-- (keyup.enter)="onUpdate()" / ngIf="user!==editUser" = ENLEVÉ sinon erreur de mat-form-field-control (Material Angular) : mais plus d'alternative avec *ngIf, donc nouveau problème : 'login' apparait 2 fois... -->
+        </mat-form-field>
 
-            <mat-autocomplete #autoMail="matAutocomplete">
-              <mat-option *ngFor="let mail of mailFilteredOptions | async" [value]="mail" (click)="onMailSelect(mail)">{{ mail }}</mat-option>
-                <!-- <button class="delete" title="delete user by login" (click)="onDelete(login)">x</button> -->
-                <!-- {{ mail }} -->
-              <!-- </mat-option> -->
-            </mat-autocomplete>
-            
-            <mat-error *ngIf="mail.invalid">Saisir un Mail</mat-error>
-
-          </mat-form-field>
-
-          <hr />
-
-        <!-- </div> -->
-
-
-          <!-- <mat-form-field class="col align-self-center">
-          
-            <mat-label for="mail">Mail</mat-label>
-            <br/>
-            <input matInput type="text" placeholder="Mail" aria-label="Number"  [formControl]="mail" [matAutocomplete]="autoMail" #userMail required>
-            <mat-autocomplete #autoMail="matAutocomplete">
-              <mat-option *ngFor="let mail of mailFilteredOptions | async" [value]="mail">{{ mail }}
-              </mat-option>
-            </mat-autocomplete>
-
-          </mat-form-field> -->
-
-          <!-- <br /> --><!-- déplace le champs mail vers le bas -->
-          
-          <div *ngIf="mail.invalid && (mail.dirty || mail.touched)" class="alert alert-danger">
-
-            <div *ngIf="mail.errors.required">
-                Le mail est requis.
-            </div>           
-            <div *ngIf="mail.errors.minlength">
-                le mail doit être d'au moins 4 caractères.
-            </div>
-
+        <hr />
+        
+        <div *ngIf="login.invalid && (login.dirty || login.touched)" class="alert alert-danger">
+          <div *ngIf="login.errors.required">
+              Le login est requis.
           </div>
+          <div *ngIf="login.errors.minlength">
+              le login doit être d'au moins 4 caractères.
+          </div>
+        </div>
 
-        </div><!-- fin de div 'col' -->
+      </div>
 
+      
+      <div class="col align-self-center">
+        
+        <mat-form-field (click)="ngOnChanges();"  id="formInscription">
 
-      </div><!-- fin de div 'row' -->
+          <mat-label for="mail">Mail</mat-label>
+                    
+          <input matInput type="text" placeholder="Mail" [formControl]="mail" formControlName="mail" aria-label="Number" [matAutocomplete]="autoMail" #userMail required>
+
+          <mat-autocomplete #autoMail="matAutocomplete">
+            <mat-option *ngFor="let mail of mailFilteredOptions | async" [value]="mail" (click)="onMailSelect(mail)">{{ mail }}</mat-option>
+          </mat-autocomplete>
+          
+          <mat-error *ngIf="mail.invalid">Saisir un Mail</mat-error>
+
+        </mat-form-field>
+
+        <hr />
+        
+        <div *ngIf="mail.invalid && (mail.dirty || mail.touched)" class="alert alert-danger">
+          <div *ngIf="mail.errors.required">
+              Le mail est requis.
+          </div>
+          <div *ngIf="mail.errors.email">
+            le mail doit être au bon format.
+          </div>
+        </div>
+
+      </div>
 
 
     </div>
-  
+
     <br /><br />
 
+
     <div class="submit">
+      
+      <span><button *ngIf="showPreUpdateUserButton" type="submit" (click)="onPreUpdate();" class="btn btn-warning" [disabled]="inscriptionForm.invalid">Mettre à jour le membre</button></span>
+
+      <span><button *ngIf="showUpdateUserButton" type="submit" (click)="onUpdate();" class="btn btn-success" [disabled]="inscriptionForm.invalid">Confirmer la modification</button></span>
 
       <span><button *ngIf="showUserInscriptionButton" type="submit" (click)="onInscriptionSubmit(userLogin.value, userMail.value); userLogin.value=''; userMail.value='';" class="btn btn-primary" [disabled]="inscriptionForm.invalid">Inscrire un nouveau membre</button></span>
       
-      <!-- BOUTON D'UPDATE (SI L'ON VEUT UNE PRÉVALIDATION): MÉTHODE UNIQUE APPELÉE : onEdit(user) : (ON DOIT PASSER 2 FOIS DANS LA MÉTHODE AVANT DE VALIDER L'UPDATE AVEC LE BOUTON DE VALIDATION) -->
-      <span><button *ngIf="showPreUpdateUserButton" type="submit" (click)="onPreUpdate(user);" class="btn btn-warning" [disabled]="inscriptionForm.invalid">Mettre à jour le membre</button></span>
-      
-      <!-- VERSION 2 DU BOUTON DE VALIDATION (SI L'ON NE VEUT PAS DE PRÉVALIDATION): les deux méthodes sur le même bouton de validation : onEdit(user) et onUpdate() : -->
-      <!-- (PROBLÈME: ON DOIT PASSER 2 FOIS DANS LA MÉTHODE (le champs 'login', ou 'mail' par exemple) AVANT DE VALIDER L'UPDATE) -->
-      <!-- <span><button *ngIf="showUpdateUserButton" type="submit" (click)="onEdit(user); onUpdate();" class="btn btn-success" [disabled]="inscriptionForm.invalid">Modifier le profil</button></span> -->
-
-      <!-- VERSION 1 DU BOUTON DE VALIDATION (SI L'ON VEUT UNE PRÉVALIDATION): MÉTHODE UNIQUE APPELÉE : onEdit(user) : -->
-      <span><button *ngIf="showUpdateUserButton" type="submit" (click)="onUpdate();" class="btn btn-success" [disabled]="inscriptionForm.invalid">Confirmer la modification</button></span>
-
-      <span><button *ngIf="showCancelButton" type="submit" (click)="onResetAction();" class="btn btn-dark">Annuler</button></span>
-      <!-- <span><button  type="submit" (click)="onDelete(login)" class="btn btn-danger">Supprimer le membre</button></span> -->
+      <span><button *ngIf="showCancelButton" type="submit" (click)="ngOnDestroy();" class="btn btn-dark">Annuler</button></span>
 
     </div>
 
-  
   </form>
 
-  <!-- TABLEAU DES MEMBRES (UPDATE ET SUPPRESSION POSSIBLE) - A OPTIMISER -->
   <app-members-list></app-members-list>
 
 </div>
-
-<!-- <hr> -->
-      
-  <!-- DIVS DE TEST DES DONNÉES DU FORMULAIRE -->
-
-  <!-- <div class="submit-form" align="center"> -->
-
-    <!-- <p>
-      Form Values: {{ login.value | json }}
-    </p>
-      
-    <p>
-      Form Status: {{ login.status }}
-    </p> -->
-    
-    <!-- <p>
-      Form Values: {{ inscriptionForm.value | json }}
-    </p>
-      
-    <p>
-      Form Status: {{ inscriptionForm.status }}
-    </p>
-    
-  </div>
-
-</div> -->

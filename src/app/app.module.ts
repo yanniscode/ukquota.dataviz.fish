@@ -1,154 +1,99 @@
-import { NgModule } from '@angular/core';
+// *** IMPORTS DES MODULES ANGULAR:
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms'; // 'reactive forms' utilisés ici
+import { FormsModule } from '@angular/forms'; // <-- NgModel lives here !
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDatepickerModule, MatFormFieldModule, MatInputModule, MatTabsModule, MatAutocompleteModule, MatProgressSpinnerModule, MatSelectModule, MatButtonModule, NativeDateModule } from '@angular/material';  // pour la librairie 'material design'
+import { MatRangeDatepickerModule, MatRangeNativeDateModule } from '../../node_modules/mat-range-datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { HttpModule, JsonpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
+// ** MODULES  EXTERNES (librairies) :
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; // librairie Bootstrap
+import { ChartsModule } from 'ng2-charts';  // graphiques 'chart.js' import !
+import { AgGridModule } from 'ag-grid-angular/main';  // tableau (données)
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';  // *** carte Leaflet
 
-// import { RouterModule } from '@angular/router';
-
-// ** AJOUTS DE MODULES :
-
-import { AppComponent } from './app.component';
-
-// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { ReactiveFormsModule } from '@angular/forms'; /* reactive forms */
-import { FormsModule } from '@angular/forms'; // <-- NgModel lives here !
-import { ChartsModule } from 'ng2-charts';
-import { TabsComponent } from './todo-component/tabs/tabs.component'; /* essai d'onglets 1 */
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; /* 'material design' import */
-import { MatFormFieldModule, MatInputModule, MatTabsModule, MatAutocompleteModule,  MatProgressSpinnerModule,
-        MatSelectModule, MatButtonModule, NativeDateModule } from '@angular/material';
+// *** Note: complément pour material Angular (formulaire: plage de dates):
 import { SatDatepickerModule, SatNativeDateModule } from '../../node_modules/saturn-datepicker/esm5/saturn-datepicker.js';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
-import { AgGridModule } from 'ag-grid-angular/main';
-
-import { MatDatepickerModule, MAT_DATE_FORMATS } from '@angular/material';
-import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-
-import { MatRangeDatepickerModule, MatRangeNativeDateModule } from '../../node_modules/mat-range-datepicker';
-import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-
-
-import { ChartUpdateComponent } from './todo-class/chart-update/chart-update.component';
-
-// #### test - marche pas ici (pb de version d'angular ??):
-// import { ShapefileLeafletComponent } from './todo-component/tabs/shapefile-leaflet/shapefile-leaflet.component';
-// import { LeafletMapComponent } from './todo-component/tabs/leaflet-map/leaflet-map.component';
-
-import { DatesChartComponent } from './todo-component/tabs/dates-chart/dates-chart.component';
-import { SpeciesChartComponent } from './todo-component/tabs/species-chart/species-chart.component';
-import { ZonesMapComponent } from './todo-component/tabs/zones-map/zones-map.component';
-import { DataTableComponent } from './todo-component/tabs/data-table/data-table.component';
-
-// ***********
-
-import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 
 // *** IMPORT DE SERVICES :
 import { FishService } from './todo-data-service/fish.service';
-import { SearchFormComponent } from './todo-component/tabs/search-form/search-form.component';
-
-/* FORMULAIRES DE CONNEXION (USAGER) - EN TEST */
-// import { ReactiveFormConnexionComponent } from './todo-component/reactive-form-connexion/reactive-form-connexion.component';
-import { FormConnexionComponent } from './todo-component/tabs/form-connexion/form-connexion.component';
-import { ConfigComponent } from './todo-component/config/config.component';
-
 import { HttpErrorHandler }     from './todo-data-service/http-error-handler.service';
+
+// *** IMPORT DES COMPOSANTS :
+
+// *** GENERALISTES:
+import { AppComponent } from './app.component';
+import { TabsComponent } from './todo-component/tabs/tabs.component'; // essai d'onglets 1
+
+import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+
+
+// *** FORMULAIRES:
 import { AutocompleteFormInscriptionCleanComponent } from './todo-component/tabs/autocomplete-form-inscription-clean/autocomplete-form-inscription-clean.component';
 import { FormAdminConnexionComponent } from './todo-component/tabs/form-admin-connexion/form-admin-connexion.component';
 import { MembersListComponent } from './todo-component/tabs/members-list/members-list.component';
+import { FormConnexionComponent } from './todo-component/tabs/form-connexion/form-connexion.component';
+import { SearchFormComponent } from './todo-component/tabs/search-form/search-form.component';
 
-// import { UnlessDirective } from './todo-directive/unless.directive';
+// *** TABLEAUX ET GRAPHIQUES:
+import { DataTableComponent } from './todo-component/tabs/data-table/data-table.component';
+import { DatesChartComponent } from './todo-component/tabs/dates-chart/dates-chart.component';
+import { SpeciesChartComponent } from './todo-component/tabs/species-chart/species-chart.component';
+import { ZonesMapComponent } from './todo-component/tabs/zones-map/zones-map.component';
+import { ChartUpdateComponent } from './shared/chart-update/chart-update.component';
 
-// const ROUTES = [
-//   {
-//     path: '', // prise en compte du chemin vide
-//     redirectTo: 'graph', // affiche par défaut un tableau sur la page web
-//     pathMatch: 'full'
-//   },
-//   {
-//     path: '**', redirectTo: 'graph' // // prise en compte du chemin 'wildcard' (pour une page d'erreur 404, par exemple)
-//   },
-//   {
-//     path: 'graph',
-//     component: LinechartComponent
-//   },
-//   {
-//     path: 'table',
-//     component: PostsComponent
-//   },
-//   {
-//     path: 'table/view/:id',
-//     component: PostsComponent
-//   }
-// ];
+// *** HTML:
+import { MainComponent } from './html/main/main.component';
+
+import { HeaderComponent } from './html/header/header.component';
+import { FooterComponent } from './html/footer/footer.component';
+import { InfosComponent } from './html/infos/infos.component';
+
+import { MediumHeaderComponent } from './html/medium-header/medium-header.component';
+import { MediumFooterComponent } from './html/medium-footer/medium-footer.component';
+import { MediumInfosComponent } from './html/medium-infos/medium-infos.component';
+
+import { XsHeaderComponent } from './html/xs-header/xs-header.component';
+import { XsInfosComponent } from './html/xs-infos/xs-infos.component';
+import { XsFooterComponent } from './html/xs-footer/xs-footer.component';
 
 
 @NgModule({
   imports: [
     BrowserModule,
-    ReactiveFormsModule,
-    HttpModule,
-    ChartsModule,
-    HttpClientModule,
-    FormsModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    HttpModule,
+    FormsModule,
     MatTabsModule,
     MatFormFieldModule,
-    MatInputModule,        // import pour les onglets
-    MatAutocompleteModule, // import pour les champs de recherche
-    MatProgressSpinnerModule,  // import pour les champs de recherche
+    MatInputModule,
+    MatAutocompleteModule, // *** Note: import pour les champs de recherche
+    MatProgressSpinnerModule,
     MatSelectModule,
     MatButtonModule,
-    SatNativeDateModule,
-    AgGridModule.withComponents([]),
+    NgbModule,
     MatRangeDatepickerModule,
     MatRangeNativeDateModule,
     MatDatepickerModule,
     NativeDateModule,
-    // MatNativeDateModule,
+    ReactiveFormsModule,
     SatDatepickerModule,
+    SatNativeDateModule,
     MatMomentDateModule,
-    // NgbModule,
-    LeafletModule.forRoot()
-
-    // ********************** POUR TEST :
-    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-    // and returns simulated server responses.
-    // Remove it when a real server is ready to receive requests.
-    // RouterModule.forRoot(ROUTES), // Add routes to the app
-
-    // *******************
-    // HttpClientInMemoryWebApiModule.forRoot(
-    //   InMemoryDataService, { dataEncapsulation: false, delay: 1000 }
-    // )
-    // ********************
-  ],
-  declarations: [
-    AppComponent,
-    TabsComponent,
-    DataTableComponent,
-    ChartUpdateComponent,
-    SpeciesChartComponent,
-    ZonesMapComponent,
-    // ShapefileLeafletComponent // marche pas ici
-    // LeafletMapComponent,
-    DatesChartComponent, 
-    SearchFormComponent, 
-    // ReactiveFormConnexionComponent, 
-    FormConnexionComponent,
-    ConfigComponent,
-    AutocompleteFormInscriptionCleanComponent,
-    FormAdminConnexionComponent, 
-    MembersListComponent, 
-    // UnlessDirective,
+    AgGridModule.withComponents([]),
+    ChartsModule,
+    LeafletModule.forRoot(),
+    AppRoutingModule, // *** Note: Routing: import de 'app-routing-module.ts': le dernier déclaré les 'imports'
   ],
   exports: [
     MatTabsModule,
@@ -159,16 +104,44 @@ import { MembersListComponent } from './todo-component/tabs/members-list/members
     MatButtonModule,
     MatDatepickerModule,
     SatDatepickerModule,
-    SatNativeDateModule
+    SatNativeDateModule,
+  ],
+  declarations: [
+    AppComponent,
+    TabsComponent,
+    DataTableComponent,
+    FormConnexionComponent,
+    SearchFormComponent, 
+    ChartUpdateComponent,
+    DatesChartComponent,
+    SpeciesChartComponent,
+    ZonesMapComponent,
+    FormAdminConnexionComponent, 
+    AutocompleteFormInscriptionCleanComponent,
+    MembersListComponent,
+    PageNotFoundComponent,
+    HeaderComponent,
+    XsHeaderComponent,
+    FooterComponent,
+    XsFooterComponent,
+    InfosComponent,
+    XsInfosComponent,
+    MainComponent,
+    MediumHeaderComponent,
+    MediumFooterComponent,
+    MediumInfosComponent,
   ],
   entryComponents: [
+    DatesChartComponent,
+    SpeciesChartComponent,
+    ZonesMapComponent,
   ],
   bootstrap: [
-    AppComponent
+    AppComponent,
   ],
-  providers: [
-    FishService,
-    HttpErrorHandler
+  providers: [  // *** Note: référencer ici les services utilisés (injection de dépendances):
+    FishService, 
+    HttpErrorHandler,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

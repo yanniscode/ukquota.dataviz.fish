@@ -1,44 +1,45 @@
-<!-- pour TEST : import composant parent > enfant -->
-
-<!-- 
-    <p>
-        Today's Chart NameSpecie : {{nameSpecieSelect}}
-        <br />
-        Today's Chart Zone : {{zoneSelect}}
-        <br />
-        Today's Chart Date 1 : {{dateSelect}}
-        <br />
-        Today's Chart Date 2 Begin : {{date2BeginSelect}}
-        <br />
-        Today's Chart Date 2 End : {{date2EndSelect}}
-    </p>
--->
-
-
-<div class="mx-auto col-12 col-lg-6 col-xl-4">
-    <a href="" data-toggle="modal" data-target="#barChartModale" (click)="onSpeciesLabels()"><img id="formsubmit" src ="../../../../assets/img/serveimage.png" width="400" height="200" title="Fishing Map" alt="Fishing Map"></a>
+<!-- VERSION 1 (Bouton): -->
+<div class="d-none d-lg-block d-lg-block col-lg-12">
+    <a href="" data-toggle="modal" (click)="onSpeciesLabels(content)"><img id="formsubmit" src ="../../../../assets/img/serveimage.png" width="350" height="175" title="Fishing BarChart" alt="Fishing BarChart"></a>  
 </div>
 
-<div class="modal fade" id="barChartModale" tabindex="-1" role="dialog" aria-labelledby="barChartModaleTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
+<!-- VERSION 2 (Bouton): -->
+<div class="d-none d-md-block col-md-12 d-lg-none">
+    <a href="" data-toggle="modal" (click)="onSpeciesLabels(content)"><img id="formsubmit" src ="../../../../assets/img/serveimage.png" width="350" height="175" title="Fishing BarChart" alt="Fishing BarChart"></a>  
+</div>
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="barChartModaleLongTitle">Barres d'espèces</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+<!-- VERSION 3 (Bouton): -->
+<div class="d-none d-sm-block col-sm-12 d-md-none">
+    <a href="" data-toggle="modal" (click)="onSpeciesLabels(content)"><img id="formsubmit" src ="../../../../assets/img/serveimage.png" width="250" height="125" title="Fishing BarChart" alt="Fishing BarChart"></a>  
+</div>
 
-            <div class="container">
-                <app-chart-update [type]="type" [data]="data" [options]="options">
-                </app-chart-update>
-            </div>
+<!-- VERSION 4 (Bouton): -->
+<div class="col-12 d-sm-none">
+    <a href="" data-toggle="modal" (click)="onSpeciesLabels(content)"><img id="formsubmit" src ="../../../../assets/img/serveimage.png" width="150" height="80" title="Fishing BarChart" alt="Fishing BarChart"></a>  
+</div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-            </div>
+ 
+<!-- MODALE: -->
+<ng-template #content let-modal tabindex="-1" role="dialog" aria-labelledby="barChartModale" aria-hidden="true" class="modal fade" role="document">
+    
+    <div class="graphic-modal-content">
 
+        <div class="modal-header">
+            <h5 class="modal-title" id="barChartModaleLongTitle">Barres d'espèces</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click');">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
+
+        <div class="graphic-modal-body">
+            <app-chart-update class="animatedChart chartFadeIn" [type]="type" [data]="data" [options]="options">
+            </app-chart-update>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.dismiss('Close click');">Fermer</button>
+        </div>
+
     </div>
-</div>
+
+</ng-template>

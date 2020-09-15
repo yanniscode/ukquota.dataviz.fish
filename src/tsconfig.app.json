@@ -6,7 +6,8 @@
     "module": "es2015",
     "types": [
       "leaflet",
-      "arcgis-js-api"
+      "arcgis-js-api",
+      "jquery"
     ],
   },
   "exclude": [

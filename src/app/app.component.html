@@ -1,35 +1,17 @@
-<div>
-  <h2 class="subtitle_logo">Statistiques de Pêche</h2>
-</div>
+<div class="general">
 
-<div class="gallery">
+  <app-header></app-header>
+  <app-medium-header></app-medium-header> 
+  <app-xs-header></app-xs-header>
 
-  <mat-tab-group>
+  <app-main></app-main>
 
-    <mat-tab label="Graphiques et Carte">
+  <app-infos></app-infos>
+  <app-medium-infos></app-medium-infos>
+  <app-xs-infos></app-xs-infos>
 
-      <!-- formulaire de connexion (membre) pour accès aux graphiques, carte... -->
-      <app-form-connexion></app-form-connexion>
+  <app-footer></app-footer>
+  <app-medium-footer></app-medium-footer>
+  <app-xs-footer></app-xs-footer>
 
-      <!-- tableau de données -->
-      <app-data-table></app-data-table>
-
-    </mat-tab>
-    <mat-tab label="Administrateur">
-
-      <!-- partie administrateur : gestion des membres (ajout, suppression, modification) -->
-      <app-form-admin-connexion></app-form-admin-connexion>
-    </mat-tab>
-
-  </mat-tab-group>
-
-  <!-- <app-tabs></app-tabs> -->
-  <!-- ************************* -->
-
-  <!-- <app-form-connexion></app-form-connexion> -->
-  <!-- <app-reactive-form-connexion></app-reactive-form-connexion> -->
-  <!-- <app-hero-form-reactive></app-hero-form-reactive> -->
-
-  <!-- <app-modales></app-modales> -->
-  
 </div>

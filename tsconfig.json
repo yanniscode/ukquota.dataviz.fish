@@ -1,5 +1,5 @@
 {
-  "compileOnSave": false,
+  "compileOnSave": true,
   "compilerOptions": {
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
@@ -9,14 +9,16 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    "types": ["jquery"],
+    "watch": true,
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
     ],
     "lib": [
       "es2017",
-      "dom"
+      "dom",
     ],
     "module": "es2015",
-    "baseUrl": "./"
+    "baseUrl": "./",
   }
 }

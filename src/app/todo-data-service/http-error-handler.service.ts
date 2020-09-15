@@ -12,20 +12,23 @@ export type HandleError =
 /** Handles HttpClient errors */
 @Injectable()
 export class HttpErrorHandler {
-  constructor(private messageService: MessageService) { }
+  
+  public constructor(private messageService: MessageService) { }
 
   /** Create curried handleError function that already knows the service name */
-  createHandleError = (serviceName = '') => <T>
-    (operation = 'operation', result = {} as T) => this.handleError(serviceName, operation, result);
+  createHandleError = (serviceName: string = '') => <T>
+    (operation = 'operation', result: T = {} as T) => this.handleError(serviceName, operation, result);
 
   /**
    * Returns a function that handles Http operation failures.
    * This error handler lets the app continue to run as if no error occurred.
-   * @param serviceName = name of the data service that attempted the operation
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
+   * @param serviceName: string = name of the data service that attempted the operation
+   * @param operation: string - name of the operation that failed
+   * @param result: T - optional value to return as the observable result
    */
-  handleError<T> (serviceName = '', operation = 'operation', result = {} as T) {
+
+  
+  handleError<T> (serviceName: string = '', operation: string = 'operation', result: T = {} as T) {
 
     return (error: HttpErrorResponse): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
@@ -39,7 +42,7 @@ export class HttpErrorHandler {
       this.messageService.add(`${serviceName}: ${operation} failed: ${message}`);
 
       // Let the app keep running by returning a safe result.
-      return of( result );
+      return of(result);
     };
 
   }

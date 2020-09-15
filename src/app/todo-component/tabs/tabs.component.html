@@ -1,23 +1,20 @@
 <div class="gallery">
 
-  <mat-tab-group>
+  <mat-tab-group id="fishing-data" class="custom-tab-group">
 
     <mat-tab label="Graphiques et Carte">
-      
-      <!-- formulaire de connexion (membre) et accès aux données (tableau, graphiques, carte...) -->
+        
       <app-form-connexion></app-form-connexion>
+      <app-data-table></app-data-table>
 
     </mat-tab>
 
     <mat-tab label="Administrateur">
 
-      <!-- formulaire d'accès à la partie administrateur : gestion des membres -->
       <app-form-admin-connexion></app-form-admin-connexion>
 
     </mat-tab>
 
-  </mat-tab-group>  
-  
-  <app-data-table></app-data-table>
+  </mat-tab-group>
 
 </div>

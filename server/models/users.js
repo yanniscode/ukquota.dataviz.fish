@@ -27,6 +27,10 @@ module.exports = function(sequelize, DataTypes) {
     mail: {
       type: DataTypes.STRING(100),
       allowNull: true
+    },
+    role: {
+      type: DataTypes.ENUM('admin', 'user'),
+      allowNull: false
     }
   }, {
     tableName: 'users'

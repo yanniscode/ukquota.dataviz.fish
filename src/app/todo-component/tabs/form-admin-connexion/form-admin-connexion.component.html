@@ -1,87 +1,76 @@
-<div [hidden]="formDir2.submitted && showAdminDatas" class="container">
-
+<div id="adminform-connexion" [hidden]="formDir2.submitted && showAdminDatas" class="form-connection-container">
 
     <form [formGroup]="adminForm" #formDir2="ngForm">
 
-        <!-- lorsque l'on est connecté, le formulaire disparait, et la <div> souhaitée s'affiche -->
-        <!-- <div [hidden]="formDir2.submitted && showAdminDatas" class="container"> -->
+        <h1 class="connexion_title">Connexion (Administrateur)</h1>
+        
+        <div class="cross-validation" [class.cross-validation-error]="adminForm.errors?.adminUnChecked && (adminForm.touched || adminForm.dirty)">
 
-        <h1>Connexion (Administrateur)</h1>
+            <div class="form-group">
+    
+                <mat-form-field class="col align-self-center">
+                    <mat-label for="adminLogin">Login</mat-label>
+                    <input matInput id="adminLogin" class="form-control" formControlName="login" required>
+                </mat-form-field>
 
-        <!-- <div class="cross-validation" [class.cross-validation-error]="adminForm.errors?.loginUnchecked && (adminForm.touched || adminForm.dirty)"> -->
-        <!-- <div class="cross-validation" [class.cross-validation-error]="(userForm.touched || userForm.dirty)"> -->
+                <div *ngIf="adminLogin.invalid && (adminLogin.dirty || adminLogin.touched)" class="alert alert-danger">
+    
+                    <div *ngIf="adminLogin.errors.required">
+                        Le login est requis.
+                    </div>
+                    
+                    <div *ngIf="adminLogin.errors.minlength">
+                        le login doit être d'au moins 4 caractères.
+                    </div>
 
-        <div class="form-group">
-
-            <mat-form-field class="col align-self-center">
-                <mat-label for="adminLogin">Login</mat-label>
-                <input matInput id="adminLogin" class="form-control" formControlName="login" required>
-            </mat-form-field>
-
-            <div *ngIf="adminLogin.invalid && (adminLogin.dirty || adminLogin.touched)" class="alert alert-danger">
-
-                <div *ngIf="adminLogin.errors.required">
-                    Le login est requis.
                 </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <mat-form-field class="col align-self-center">
+                    <mat-label for="adminMail">Mail</mat-label>      
+                    <input matInput id="adminMail" class="form-control" formControlName="mail" required>
+                </mat-form-field>
                 
-                <!-- <div *ngIf="adminLogin.errors.minlength">
-                    le login doit être d'au moins 4 caractères.
-                </div> -->
+                <div *ngIf="adminMail.invalid && (adminMail.dirty || adminMail.touched)" class="alert alert-danger">
+    
+                    <div *ngIf="adminMail.errors.required">
+                        Le mail est requis.
+                    </div>
+                    
+                    <div *ngIf="adminMail.errors.email">
+                        le mail doit être au bon format.
+                    </div>
+
+                </div>
 
             </div>
 
         </div>
 
-        <div class="form-group">
-
-            <mat-form-field class="col align-self-center">
-                <mat-label for="adminMail">Mail</mat-label>      
-                <input matInput id="adminMail" class="form-control" formControlName="mail" required>
-            </mat-form-field>
-            
-            <div *ngIf="adminMail.invalid && (adminMail.dirty || adminMail.touched)" class="alert alert-danger">
-
-                <div *ngIf="adminMail.errors.required">
-                    Le mail est requis.
-                </div>
-                
-                <div *ngIf="adminMail.errors.email">
-                    le mail doit être au bon format.
-                </div>
-
-            </div>
-
+        <div class="submit animated fadeIn">
+            <button type="submit" (click)="onAdminSubmit()" class="btn btn-secondary" [disabled]="adminForm.invalid">Se connecter</button>
         </div>
-
-        <!-- </div> -->
-
-        <div class="submit">
-            <button type="submit" (click)="onAdminSubmit()" class="btn btn-secondary" [disabled]="adminForm.invalid">Se connecter</button> 
-        </div><!-- [disabled]="adminForm.invalid" : si appliqué, le bouton est invalide sauf pour le login, mail de l'admin -> trop visible ?? -->
-
 
     </form>
 
 </div>
 
 
-<div class="submitted-message" *ngIf="formDir2.submitted && showAdminDatas" id="form-submitted2">
-    <!-- AJOUT : id="form-submitted" -->
-
-    <!-- <p>You've submitted your admin (login), {{ adminForm.value.login }}!</p> -->
-    
-    <app-autocomplete-form-inscription-clean></app-autocomplete-form-inscription-clean>
-
-    <!-- <app-form-inscription-test></app-form-inscription-test --><!-- bon -->
-    
+<div id="adminform-submitted" *ngIf="formDir2.submitted && showAdminDatas" class="submitted-message animated fadeIn">
+   
     <div class="submit" style="text-align: center">
-        <button type="submit" (click)="onAdminDeconnect()" class="btn btn-outline-danger" [disabled]="adminForm.invalid">Se déconnecter</button> 
+        <button type="submit" (click)="onAdminDeconnect()" class="btn btn-outline-danger">Se déconnecter</button> 
     </div>
 
+    <app-autocomplete-form-inscription-clean></app-autocomplete-form-inscription-clean>
+
+    <div class="submit" style="text-align: center">
+        <button type="submit" (click)="onAdminDeconnect()" class="btn btn-outline-danger">Se déconnecter</button> 
+    </div>
+    
 </div>
 
-<!-- <div *ngIf="adminForm.errors?.loginUnchecked && (adminForm.touched || adminForm.dirty)" class="cross-validation-error-message alert alert-danger">
-
-    <p>Membre non-autorisé à l'espace d'administration, ou erreur de connexion...</p>
-
-</div> -->

@@ -1,22 +1,26 @@
-<!-- <div class="submit"> -->
-  <!-- <button mat-button class="button" (click)="getSelectedRows()">Lignes sélectionnées</button> -->
-  <!-- <button class="mat-button" style="margin-right: 20px;" (click)="getSelectedRows()">Get Selected Rows</button> -->
-<!-- </div> -->
+<div id="data_table" class="animated fadeIn">
 
-<h1 class="stats">TABLEAU</h1>
-<br><br>
-<h2>Dernières données</h2>
-<br>
+  <h2 class="table-subtitle">Dernières données</h2>
 
-<div align ="center" class="table_container">
-  <ag-grid-angular
-    id="agGrid"
-    class="ag-theme-balham"
-    [enableSorting]="false"
-    [enableFilter]="true"
-    [rowData]="rowData | async"
-    [columnDefs]="columnDefs"
-    rowSelection="multiple"
-  >
-  </ag-grid-angular>
+  <div class="submit">
+    <button mat-button class="button" (click)="getSelectedRows()">Lignes sélectionnées</button>
+  </div>
+
+  <div align ="center" class="table_container">
+    <ag-grid-angular
+      id="agGrid"
+      class="ag-theme-balham"
+      [enableSorting]="true"
+      [enableFilter]="true"
+      [animateRows]="true"
+      [pagination]="true"
+      [rowHeight]="rowHeight"
+      [columnDefs]="columnDefs"
+      [sortingOrder]="sortingOrder"
+      rowSelection="multiple"
+      headerHeight="60"
+      (gridReady)="onGridReady($event)"
+    ></ag-grid-angular>
+  </div>
+
 </div>

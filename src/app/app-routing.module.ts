@@ -1,31 +1,46 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Routes, ExtraOptions } from '@angular/router';
 
-// import des composants ... :
-// import { LeafletMapComponent } from './todo-component/tabs/leaflet-map/leaflet-map.component';
-import { DatesChartComponent } from './todo-component/tabs/dates-chart/dates-chart.component';
-import { SpeciesChartComponent } from './todo-component/tabs/species-chart/species-chart.component';
-import { ZonesMapComponent } from './todo-component/tabs/zones-map/zones-map.component';
-import { DataTableComponent } from './todo-component/tabs/data-table/data-table.component';
+import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import { TabsComponent } from './todo-component/tabs/tabs.component';
+
 
 const routes: Routes = [
-  { path: '**', redirectTo: '/' },  // avant : '/map'
-                                    // #### A TESTER > pas besoin si tabs ?? (One page), mais peut être si liens - modales ?? (images, icônes...)
-                                    // Permet l'ajout d'un composant '/map' dans la page (endroit = décidé selon
-                                    // où l'on place le 'router-outlet', dans le html : ici, testé en bas de 'tabs.component.ts')
-  // { path: 'map', component: LeafletMapComponent },
-  { path: 'speciechart', component: SpeciesChartComponent },
-  { path: 'datechart', component: DatesChartComponent },
-  { path: 'zonemap', component: ZonesMapComponent },
-  { path: 'tablechart', component: DataTableComponent }
-  // exemples de redirection automatique au chargement de l'application (ne marche plus ici, pour l'instant...)
-  //  { path: '', redirectTo: '/fishes-linechartdata', /* pathMatch: 'full',*/ component: LinechartComponent },
-  // { path: '', redirectTo: '/fishes-postsdata', /* pathMatch: 'full',*/ component: PostsComponent }
-  //  { path: '', redirectTo: '/fish-dashboard', pathMatch: 'full' },
+  {
+    path: 'main',
+    component: TabsComponent,
+  },
+  {
+    path: 'error-404',
+    component: PageNotFoundComponent,
+  },
+  {
+    path: '',   // *** Note: prise en compte du chemin vide (pas des sous-chemins mal indiqués...)
+    redirectTo: '/main',
+    pathMatch: 'full',   // *** Note: IMPORTANT: pour éviter une boucle infinie si chemin indiqué = vide
+  },
+  {
+    path: '**',   // *** Note: prise en compte du chemin 'wildcard' :selectionne la page d'erreur 404 (erreur d'url)
+    redirectTo: '/error-404',
+  },
 ];
 
+
+export const appRouting = RouterModule.forRoot(routes);
+
+const routerOptions: ExtraOptions = {
+  anchorScrolling: 'enabled',   // *** Note: permet l'utilisation des ancres de page (avec le routing)
+  enableTracing: true,
+};
+
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [
+    RouterModule.forRoot(routes, routerOptions),
+    CommonModule
+  ],
+  exports: [ RouterModule ],
+  declarations: []
 })
+
 export class AppRoutingModule { }

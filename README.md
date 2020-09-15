@@ -1,60 +1,13 @@
-# ukquota.dataviz.fish - fork (en test)
-	02/03/2020
+# Ukquota.data.viz.fish (fork)
+by yanniscode (Code.bzh).
 
--- Commit 23 (02/03/2020) :
-
-Ceci est un fork de https://github.com/StevLG/ukquota.dataviz.fish.git (Licence GNU -v3)
-
-Il se justifie notamment par un choix de présentation différente de l'interface (des tabs material-angular pour l'un / modales (bootstrap) pour l'autre. Les deux projets version pourront ainsi se prolonger parallèlement, si nécessaire, avec possibilité de choisir l'UX la plus adaptée).
+With NodeJs, Angular, ChartJS, Leaflet Map, Express, Sequelize, MySQL, and Api Gmail
 
 
-	Fait :
+- Note:
+	Ce fork se justifie notamment par un choix de présentation différente de l'interface : 'tabs' de material-angular pour l'un / modales (bootstrap) pour l'autre. 
+	Les deux versions pourront ainsi se prolonger parallèlement, si nécessaire, avec possibilité de choisir l'UX la plus adaptée).
 
-- ergonomie de la partie formulaire / graphique modifiée : présentation de graphiques et carte sous forme de modale (bootstrap), refactorisation de code
-
--2 tabs (material angular pour l'instant) pour séparer:
-	-formulaire de connexion (utilisateur)
-	-tab (onglets) de formulaire de connexion (administrateur)
--formulaire d’inscription (utilisateur ou administrateur) et de modification de profil (login, mail), 
--tableau des membres inscrits modifiable (à optimiser : l’update ‘login’ et ‘mail’ dans le tableau)
-
--update des modules (node.js)
-
-
-	A faire :
-
-- tests unitaires ??
-
-- choix de librairie (Bootstrap ?? / Material ?? / Ag Grid pour le tableau ??)
--> si Bootstrap : revoir l’utilisation de ng-bootstrap... (jquery...)
-- layout de la page à revoir (bordures, disposition du texte...)
-- revoir le responsive (grid bootstrap ?)
-
-
-- ajouter des données complémentaires  (graphiques et carte des super-zones, sous forme de Tab ? ou de checkboxes  (zone / superzone? Sur le même formulaire de recherche)) → revoir l’API en conséquence (requêtes SQL…)
-
-	A revoir :
-
-- revoir la gestion des cycles de vie (ngOnDestroy…)
-- revoir la gestion des routes (avant mise en ligne)
-
-- clean général du code avant mise en ligne (on est en cours de construction, donc certains éléments sont laissé en commentaire pour inspiration ou utilisation possible ultérieure…)
-
-- champs 'super-zone' à ajouter
-
-    problème avec l'affichage dans le champs date d'une plage de date (format = anglais) > à revoir, si possible...
-
-
-
-by Code.bzh
-
-With Angular, ChartJS, Express, Sequelize, MySQL, and Api Gmail
-
-
-
-## Lancement de l'application (après installation et configuration):
-
-- Note : Ajouter un login / mail (admin dans "login-checked-directive.ts") - variables 'loginChek' et 'mailCheck'
 
 
 Run `npm run build` to run the app

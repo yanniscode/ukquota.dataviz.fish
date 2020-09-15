@@ -1,43 +1,22 @@
-<!-- pour TEST : import composant parent > enfant -->
-<!-- 
-    <p>
-        Today's Chart NameSpecie : {{nameSpecieSelect}}
-        <br />
-        Today's Chart Zone : {{zoneSelect}}
-        <br />
-        Today's Chart Date 1 : {{dateSelect}}
-        <br />
-        Today's Chart Date 2 Begin : {{date2BeginSelect}}
-        <br />
-        Today's Chart Date 2 End : {{date2EndSelect}}
-    </p>
--->
-
-<div class="mx-auto col-12 col-lg-6 col-xl-4">
-    <a href="" data-toggle="modal" data-target="#mapZonesModale" (click)="onZonesLabels()"><img id="formsubmit" src ="../../../../assets/img/serveimage-map3.jpeg" width="400" height="200" title="Fishing BarChart" alt="Fishing BarChart"></a>
+<!-- VERSION 1: lg -> xl (Bouton): -->
+<div class="d-none d-lg-block d-lg-block col-lg-12">
+    <a href="" data-toggle="modal" data-target="#mapZonesModale" (click)="onZonesLabels()"><img id="formsubmit" src ="../../../../assets/img/serveimage-map3.jpeg" width="350" height="175" title="Fishing Map" alt="Fishing Map"></a>
 </div>
 
-<div class="modal fade" id="mapZonesModale" tabindex="-1" role="dialog" aria-labelledby="mapZonesModaleTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content" style="width: auto;">
-
-            <div class="modal-header">
-                <h5 class="modal-title" id="mapZonesModaleLongTitle">Carte des zones</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <div leaflet id="myfrugalmap"
-                    (leafletMapReady)="onMapReady($event)"
-                    [leafletOptions]="options">
-                </div> 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-            </div>
-
-        </div>
-    </div>
+<!-- VERSION 2: md (Bouton): -->
+<div class="d-none d-md-block col-md-12 d-lg-none">
+    <a href="" data-toggle="modal" data-target="#mapZonesModale" (click)="onZonesLabels()"><img id="formsubmit" src ="../../../../assets/img/serveimage-map3.jpeg" width="350" height="175" title="Fishing Map" alt="Fishing Map"></a>
 </div>
+
+<!-- VERSION 3: sm (Bouton): -->
+<div class="d-none d-sm-block col-sm-12 d-md-none">
+    <a href="" data-toggle="modal" data-target="#mapZonesModale" (click)="onZonesLabels()"><img id="formsubmit" src ="../../../../assets/img/serveimage-map3.jpeg" width="250" height="125" title="Fishing Map" alt="Fishing Map"></a>
+</div>
+
+<!-- VERSION 4: xs (Bouton): -->
+<div class="col-12 d-sm-none">
+    <a href="" data-toggle="modal" data-target="#mapZonesModale" (click)="onZonesLabels()"><img id="formsubmit" src ="../../../../assets/img/serveimage-map3.jpeg" width="150" height="80" title="Fishing Map" alt="Fishing Map"></a>
+</div>
+
+
+<!-- *** NOTE: MODALE DIRECTEMENT DANS 'INDEX.HTML', SINON PROBLÈME D'AFFICHAGE -->

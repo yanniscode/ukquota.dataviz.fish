@@ -1,269 +1,334 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs';
 
-import { debounceTime, distinctUntilChanged, switchMap, map, startWith } from 'rxjs/operators';
+import { debounceTime, map, startWith } from 'rxjs/operators';
 
-import { FormBuilder } from '@angular/forms';
-import { Validators } from '@angular/forms';
-import { FormArray } from '@angular/forms';
-import { FormControl } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
+import { Validators, FormGroup, FormControl } from '@angular/forms';
 
-import { User } from '../../../todo-class/user';
 import { UsersService} from '../../../todo-data-service/users.service';
+import { User } from '../../../shared/todo-class/user';
 
 @Component({
   selector: 'app-members-list',
   templateUrl: './members-list.component.html',
-  styleUrls: ['./members-list.component.scss']
+  styleUrls: ['./members-list.component.scss'],
+  providers: [
+    UsersService,  // *** Note: accès restreint au composant = plus sûr ?
+  ]
 })
 
 export class MembersListComponent implements OnInit {
 
-  // CHAMPS AUTO-COMPLETE (MÉTHODE AVEC OBSERVABLE QUI MARCHE AVEC DES DONNÉES RÉELLES = objets en input)
+  private showDataUpdate: boolean = true;           // *** Note: bouton de mise à jour générale du tableau (utile après inscription)
+  private showPreUpdateUserButton: boolean = false; // *** Note: pour le bouton de prévalidation
+  private showUpdateUserButton: boolean = false; 
+  private showCancelButton: boolean = false;
+
+  // *** Note: CHAMPS AUTO-COMPLETE (MÉTHODE AVEC OBSERVABLE QUI MARCHE AVEC DES DONNÉES RÉELLES = objets en input)
   
-  user = { 
-    id_user: '', 
-    user_firstname: '',
-    user_lastname: '', 
-    login: '',
-    password: '', 
-    mail: ''
-  };
+  private editUser: User;
+  private users: User[];
 
-  editUser: User;
+  // *** Note: variables à $ = pour observables :
+  private data$: User[] = [];
+  private user$: User[] = []; 
 
-  // pour observables (variables avec $):
-  public user$: User[];
-  public data$: any = []; // nécessaire sous ce type (any - les autres ne semblent pas marcher...) (tableau vide) car utilisé pour filtrer les données saisies (_loginFilter, _mailFilter)
+  private loginFilteredOptions: Observable<string[]> = null;
+  private mailFilteredOptions: Observable<string[]> = null;
 
-  loginFilteredOptions: Observable<User[]>;
-  // loginFilteredOptions: Observable<any>;
-  mailFilteredOptions: Observable<User[]>;
+  private usersList: Observable<User[]>;
 
-  /* MÉTHODE POUR AVOIR UN FORMULAIRE  :*/
+  // *** Note: formulaire (reactive-form):
+  private modificationForm: FormGroup;
 
-  // modificationForm: FormGroup;
-
-  modificationForm = new FormGroup (
-  {
-    id_user: new FormControl(this.user.id_user, [
-      Validators.required
-    ]),
-    login: new FormControl(this.user.login, [
-      Validators.required
-    ]),
-    mail: new FormControl(this.user.mail, [
-      Validators.required,
-      Validators.email
-    ])
-  });
-
-  // AUTRE FORME POSSIBLE (A VOIR)
-  // modificationForm = this.fb.group({ // groupe de champs de recherches pour la validation d'un formulaire 'réactif'
-  //   //  firstName: ['', Validators.required], // exemple de champs simple, à la différence des tableaux de données utilisés ici :
-  //   login: ['', Validators.required]
-  // });
-
-  // get login() {
-  //   return this.inscriptionForm.get('login') as FormControl;
-  // }
+  private userFilterLogin: string[] = [];
+  private userFilterMail: string[] = [];
 
 
-
-  constructor(
-    private fb: FormBuilder,
+  public constructor(
     private usersService: UsersService,
   ) {
-    // this.usersService.getUsers()
-    //   .subscribe(data$ => {  // indiquer ici la route vers l'api choisie
-    //   this.data$ = data$;
-    // });
+
+    this.modificationForm = new FormGroup (
+    {
+      id_user: new FormControl(this.user$, []),
+      login: new FormControl(this.user$, [
+        Validators.required
+      ]),
+      mail: new FormControl(this.user$, [
+        Validators.required,
+        Validators.email
+      ])
+    });
+
+    this.usersService = usersService;
+
+    this.usersList = usersService.getUsers(); // *** Note: route de l'API (membres inscrits)
+
+    this.loginFilteredOptions = this.login.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._loginFilter(value)),
+      debounceTime(100),
+    );
+
+    this.mailFilteredOptions = this.mail.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._mailFilter(value)),
+      debounceTime(100)
+    );
+
   }
 
-  // ECOUTE DES VALEURS DU CHAMPS LOGIN
-  get login() {
+  // *** Note: écoute des valeurs du champs 'id_user':
+  public get id_user(): FormControl {
+    return this.modificationForm.get('id_user') as FormControl;
+  }
+
+  // *** Note: écoute des valeurs du champs 'login':
+  public get login(): FormControl {
     return this.modificationForm.get('login') as FormControl;
   }
 
-  // ECOUTE DES VALEURS DU CHAMPS MAIL
-  get mail() {
+  // *** Note: écoute des valeurs du champs 'mail':
+  public get mail(): FormControl {
     return this.modificationForm.get('mail') as FormControl;
   }
 
-  // https://angular.io/guide/template-syntax : rendre la liste plus efficace... UTILE (A RETESTER) ??
-  trackByItems(user: User): number { return user.id_user; }
-
-
-
-  // RECHERCHE LES CHAMPS CORRESPONDANTS AU MOYEN DES MÉTHODES DU FICHIER 'users.service.ts' (= TABLEAU DE STRINGS)
-  private _loginFilter(value: string): any {
-
-    console.log(value);
-
-    // méthode appelée pour l'update de la liste des logins du champs auto-complete : (ÉVITE APPELS DES DONNÉES DANS LE CONSTRUCTEUR...)
-    this.usersService.getUsers()
-    .subscribe(data$ => {
-      this.data$ = data$
-      console.log(this.data$);
-      return this.data$
-    });
     
-    console.log(this.data$);
+  // *** Note: RECHERCHE LES CHAMPS CORRESPONDANTS AU MOYEN DES MÉTHODES DU FICHIER 'users.service.ts' (= TABLEAU DE STRINGS)
+  private _loginFilter(value: string): string[] {
 
-    // const logins = this.users;
-    const datas = this.data$;
-    console.log(datas);
-    const userData = [];
+    const loginDatas: User[] = this.data$;
+    const userData: Array<string> = [];
 
-    for (let i = 0; i < datas.length; i++) {
-      userData.push(datas[i].login);
+    for (let i: number = 0; i < loginDatas.length; i++) {
+      userData.push(loginDatas[i].login);
     }
 
-    console.log(userData);
-    const filterValue = value.toLowerCase();
+    const filterValue: string = value.toLowerCase();
     
-    return userData.filter(user => user
+    return this.userFilterLogin = userData.filter(user => user
       .toLowerCase()
       .includes(filterValue));
-
   }
 
 
-  private _mailFilter(value: string): User[] {
+  private _mailFilter(value: string): string[] {
 
-    // méthode appelée pour l'update de la liste des logins du champs auto-complete :
-    this.usersService.getUsers()
-    .subscribe(data$ => {
-      this.data$ = data$
-      console.log(this.data$);
-      return this.data$
-    });
-    
-    console.log(this.data$);
-    
-    const datas = this.data$;
-    console.log(datas);
+    const mailDatas: User[] = this.data$;
 
-    const mailData = [];
+    const userData: Array<string> = [];
 
-    for (let i = 0; i < datas.length; i++) {
-      mailData.push(datas[i].mail);
+    for (let i: number = 0; i < mailDatas.length; i++) {
+      userData.push(mailDatas[i].mail);
     }
 
-    console.log(mailData);
-    const filterValue = value.toLowerCase();
+    const filterValue: string = value.toLowerCase();
     
-    return mailData.filter(user => user
+    return this.userFilterMail = userData.filter(user => user
       .toLowerCase()
       .includes(filterValue));
-
   }
 
-  // onSubmit() {
-  //   // TODO: Use EventEmitter with form value
-  //   console.log('VALUE NAME_SPECIE \'ON SUBMIT _\' DANS UN CHAMPS DE FORMULAIRE : ' + this.inscriptionForm.value.login);
-  // }
 
+  // *** Note: APPEL DES DONNÉES GÉNÉRALES SUR LES UTILISATEURS:
+  private getUsers(): User[] {
+  
+    const usersDataSubscription: Subscription = this.usersList
+      .subscribe(users => { 
+        this.users = users
+    });
+    
+    setTimeout(() => {
+      usersDataSubscription.unsubscribe();
+    }, 10000);
 
-  // APPEL DES DONNÉES GÉNÉRALES SUR LES UTILISATEURS:
-  // private getUsers(): any {
-  //   this.usersService.getUsers()
-  //     .subscribe(datas => (this.datas = datas));
-  // }
-
-  // APPEL DES DONNÉES GÉNÉRALES SUR LES UTILISATEURS:
-  private getUsers(): any {
-  this.usersService.getUsers()
-    .subscribe(user$ => (this.user$ = user$));
+    return this.users;
   }
-
 
 
   
-  ngOnInit() {
-
-    this.getUsers();
-    
-      // ÉCOUTER LES CHANGEMENTS DANS LES DONNÉES TAPÉES DANS LE CHAMPS (= STRING):
-      this.loginFilteredOptions = this.login.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._loginFilter(value)),
-        debounceTime(300) // --> (en test) applique un "timeout" qui permet la mise à jour de la liste des champs si l'on passe de l'un à l'autre
-      );
-
-      this.mailFilteredOptions = this.mail.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._mailFilter(value)),
-        debounceTime(300)
-      );
-
-  }
-
-
-
-  // DELETE (AVEC LISTE D'ÉLÉMENTS) - tests
-//   delete(login: string): void {
-//     console.log(login);
-//     // this.users = this.users.filter(u => u !== login); // marche pas
-//     // console.log(this.users);
-    
-//     this.usersService
-//       .deleteUser3(login)
-//       .subscribe();
-//   }
-
-
-// // DELETE (AVEC BOUTON) :
-  onDelete2(user: User): void {
-    this.user$ = this.user$.filter(u => u !== user);
-    this.usersService
-    .deleteUser2(user)
-    .subscribe();
-  }
-
-
-  // NECESSAIRE POUR L'UPDATE:
-  onEdit(user: User) {
-
-    // si getUsers() = utilisé -> timeout semble nécessaire :
-    // setTimeout(() => {
-    //   this.getUsers();
-    //   console.log('timeout !');
-    //   // this.editUser = user;
-    // }, 15000);  // 2000 = 2 secondes de délai avant le chargement
-
-    this.editUser = user;
-  }
-
-
-  onUpdate() {
+  public ngOnInit(): void {
+    // console.log("member list:  ngOnInit() !");
 
     this.getUsers();
 
-    if (this.editUser) {
-       
-        this.usersService
-          .updateUser(this.editUser) // editUser: User (type)
-          .subscribe(user => {
-            
-            const ix = user ? this.user$.findIndex(u => u.id_user === user.id_user) : -1;
-            
-            if(ix > -1) {
-              this.user$[ix] = user;
-            }
-          });
-          
-        // réinitialisation du membre édité:
-        this.editUser = undefined;
+    return;
+  }
+
+
+private onPreDelete(user: User): void {
+
+  if (confirm('Souhaitez-vous vraiment supprimer ce membre ?')) {
+
+    // *** Note: effacement du membre par appel de la méthode 'onDelete(login)':
+    this.onDeleteUserByUser(user);
+
+  } else {
+
+    this.showDataUpdate = true;
+    this.showPreUpdateUserButton = false;
+    this.showUpdateUserButton = false;
+    this.showCancelButton = false;
+  }
+
+  return;
+}
+
+
+  onDeleteUserByUser(user: User): void {
+
+    this.users = this.users.filter(u => u !== user);
+    const usersDataSubscription: Subscription = this.usersService
+      .deleteUser2(user)
+      .subscribe();
+
+    setTimeout(() => {
+      usersDataSubscription.unsubscribe();
+    }, 10000);
+
+    this.editUser == undefined;
+
+    this.showDataUpdate = true;
+    this.showPreUpdateUserButton = false;
+    this.showUpdateUserButton = false;
+    this.showCancelButton = false;
+
+    return;
+  }
+
+
+
+  // *** Note: Nécessaire pour l'update:
+  onEdit(user: User): void {
+    
+    if(this.editUser == undefined) { // *** Note: this.editUser == undefined = important pour éviter des problèmes de confusion dans les tuples à éditer
+
+      this.editUser = user;
+
+      this.login.patchValue(this.editUser.login);
+      this.mail.patchValue(this.editUser.mail);
+
+      this.showDataUpdate = false;
+      this.showPreUpdateUserButton = true;
+      this.showUpdateUserButton = false;
+      this.showCancelButton = true;
 
     }
 
+    return;
   }
 
+
+  public onPreUpdate(): void {
+
+    if(this.editUser === undefined ) {
+
+      this.showDataUpdate = false;
+      this.showPreUpdateUserButton = false;
+      this.showUpdateUserButton = false; // *** Note: le bouton update (User) ne disparait pas.
+      this.showCancelButton = true;
+
+    } else if(this.editUser.login === null || this.editUser.login === undefined || this.editUser.mail === null || this.editUser.mail === undefined) {
+
+      this.showDataUpdate = false;
+
+      this.showPreUpdateUserButton = false;
+      this.showUpdateUserButton = false; // *** Note: le bouton 'update' (User) disparait.
+      this.showCancelButton = true;
+
+    } else if(this.editUser.login !== null && this.editUser.login !== undefined && this.editUser.mail !== null && this.editUser.mail !== undefined) {
+
+      this.editUser.login = this.modificationForm.value.login;
+      this.editUser.mail = this.modificationForm.value.mail;
+      
+      // *** Note: le bouton Pre-update disparait (si utilisé...), puis le bouton Update apparait :
+      this.showDataUpdate = false;
+
+      this.showPreUpdateUserButton = false;
+      this.showUpdateUserButton = true;
+      this.showCancelButton = true;
+    }
+
+    return;
+  }
+
+  onUpdateMember(): void {
+ 
+    if (this.editUser) {
+
+      setTimeout(() => {
+        this.getUsers();
+      }, 2000);  // *** Note: 2000 = 2 secondes de délai avant le chargement
+
+      const usersDataSubscription: Subscription = this.usersService
+        .updateUser(this.editUser) // editUser: User (type)
+        .subscribe(user => {
+
+          const ix: number = user ? this.users.findIndex(u => u.id_user === user.id_user) : -1;
+          
+          if(ix > -1) {
+            this.users[ix] = user;
+          }
+
+        }
+      );
+
+      setTimeout(() => {
+        usersDataSubscription.unsubscribe();
+      }, 10000);
+
+      // *** Note: réinitialisation du membre édité:
+      this.editUser = undefined;
+      this.modificationForm.reset({ login: '', mail: '' }); // *** Note: le contenu des champs est effacé
+
+    }
+
+    this.showDataUpdate = true;
+
+    this.showPreUpdateUserButton = false;
+    this.showUpdateUserButton = false;
+    this.showCancelButton = false;
+
+    return;
+  }
+
+  onUpdateList(): void {
+
+    // console.log("update list ok!");
+
+    this.editUser = undefined;
+
+    this.getUsers();
+
+    this.showDataUpdate = true;
+
+    this.showPreUpdateUserButton = false;
+    this.showUpdateUserButton = false;
+    this.showCancelButton = false;
+
+    return;
+  }
+
+  public onResetAction(): void {
+
+    // *** Note: Cette fois, le bouton Update disparait, le bouton Pre-Update apparait :
+
+    this.editUser = undefined; // *** Note: réinitialisation de la variable
+
+    this.modificationForm.reset({ login: '', mail: '' }); // *** Note: le contenu des champs est effacé
+
+    this.showDataUpdate = true;
+
+    this.showPreUpdateUserButton = false;
+    this.showUpdateUserButton = false;
+    this.showCancelButton = false;
+
+    return;
+  }
 
 
 }

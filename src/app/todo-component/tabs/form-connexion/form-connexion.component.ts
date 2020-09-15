@@ -1,148 +1,149 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup,  NG_VALIDATORS, ValidationErrors, Validators, FormBuilder, Validator, ValidatorFn } from '@angular/forms';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { UsersService } from '../../../todo-data-service/users.service';
-import { User } from '../../../todo-class/user';
+import { User } from '../../../shared/todo-class/user';
 
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-form-connexion',
   templateUrl: './form-connexion.component.html',
-  styleUrls: ['./form-connexion.component.scss']
+  styleUrls: ['./form-connexion.component.scss'],
+  providers: [
+    UsersService,  // *** Note: accès restreint au composant = plus sûr ?
+  ]
 })
 
 
-export class FormConnexionComponent {
-// export class ReactiveFormConnexionComponent implements OnInit { /* ANCIENNE VERSION */
+export class FormConnexionComponent implements OnInit, AfterViewInit {
 
-  // showConnexionForm = true;
-  showDatas = false; // Affichage div avec *ngIf (privilégié à la méthode du DOM)
-  
-  public user$: User[];
+  private showDatas: boolean; // *** Note: Affichage div avec *ngIf (privilégié à la méthode du DOM)  = false à l'init
+  private user$: User[];
 
-    // user = { id_user: 1, user_firstname: 'John', user_lastname: 'The Fisherman', login: 'Primus', password: '1234', mail: 'johnthefish@gmail.com'};
-
-  user = { 
-    id_user: '', 
+  private user: User = { 
+    id_user: 0, 
     user_firstname: '', 
     user_lastname: '', 
     login: '', 
     password: '', 
-    mail: ''
+    mail: '',
+    role: '',
   };
 
+  private userForm: FormGroup;
 
-  // userForm: FormGroup;
+  public get login(): FormControl { return this.userForm.get('login') as FormControl; }
+  public get mail(): FormControl { return this.userForm.get('mail') as FormControl; }
 
-  userForm = new FormGroup (
-  {
-    login: new FormControl(this.user.login, [
-      Validators.required,
-      Validators.minLength(4),
-    ]),
-    mail: new FormControl(this.user.mail, [
-      Validators.required,
-      Validators.email
-    ])
-  });
-
-
-
-  // pas utilisé (pour l'instant ??):
-
-  // ngOnInit(): void {
-
-  // }
-
-
-
-
-  get login() { return this.userForm.get('login'); }
-  get mail() { return this.userForm.get('mail'); }
-
-
-  constructor(
-    private fb: FormBuilder,
+  public constructor(
     private usersService: UsersService,
-  ) {}
-  
-  
-  onSubmit() {
+  ) {
 
-    const loginValue = this.userForm.get('login').value;
-    console.log(loginValue);
-    const mailValue = this.userForm.get('mail').value;
-    console.log(mailValue);
+    this.userForm = new FormGroup
+    (
+    {
+      login: new FormControl(this.user.login, [
+        Validators.required,
+      ]),
+      mail: new FormControl(this.user.mail, [
+        Validators.required,
+        Validators.email
+      ])
+    });
 
-    this.usersService.getLogin(loginValue, mailValue)
-    .subscribe(user$ => {
+  }
+
+
+  public ngOnInit(): void {
+    console.log('form-connexion : OnInit');
+    this.showDatas = false;
+  }
+
+
+  public ngAfterViewInit(): void {
+
+    document.getElementById("dataform-connexion").className ="form-connection-container animated fadeIn"; // transforme la classe de l'élément -> sans fade in
+
+    setTimeout(() => {
+      document.getElementById("dataform-connexion").className ="form-connection-container"; // transforme la classe de l'élément -> sans fade in
+    }, 1500);
+
+    console.log('form-connexion : AfterViewInit');
+  }
+   
+
+
+  private onSubmit(): void {  
+
+    const loginValue: string = this.userForm.get('login').value;
+    const mailValue: string = this.userForm.get('mail').value;
+
+    const userDataSubscription = this.usersService.getLogin(loginValue, mailValue)
+      .subscribe(user$ => {
 
       this.user$ = user$;
 
       if(user$[0] !== undefined) {
 
-        const loginCheck = user$[0].login.toString();
-        console.log(loginCheck);
+        const loginCheck = user$[0].login;
 
-        const mailCheck = user$[0].mail.toString();
-        console.log(mailCheck);
+        const mailCheck = user$[0].mail;
 
         if(loginCheck === loginValue && mailCheck === mailValue) {
-          console.log("login répertorié dans la BDD : connexion possible !");
           
-          this.showDatas = true;
-          // this.showConnexionForm = false;
+          setTimeout(() => {
+            document.getElementById("dataform-connexion").className ="form-connection-container animated fadeOut";
+            document.getElementById("data_table").className ="animated fadeOut"; // *** Note: si tableau et form-connexion sur la même page
+          }, 100);
 
-          // si le login existe, la <div> des données "masquées" est révélée :
-          // document.getElementById("form-submitted").hidden = false;
+          setTimeout(() => {
+            this.showDatas = true;
+            document.getElementById("data_table").className ="animated fadeIn"; // *** Note: si tableau et form-connexion sur la même page
+          }, 1600);
 
           return;
           
         } else {
-
           this.showDatas = false;
-
           alert("Votre login ou votre mail semble incorrect. Veuillez nous contacter par mail pour vous inscrire ou obtenir vos informations de connexion...");
-
-          this.userForm.reset({ login: '', mail: '' }); // le contenu des champs est bien effacé
-
           return;
-
         }
 
-      } else {  // utile ?? (à retester si nécessaire)
-        
-        // this.showConnexionForm = true;
+      } else { 
         this.showDatas = false;
-
-        this.userForm.reset({ login: '', mail: '' }); // le contenu des champs est bien effacé
-
-
-        
-        // Autre méthode (DOM) pour enlever le composant (plus que le masquer):
-
-        // let formsubmitted = document.getElementById("form-submitted");
-        // formsubmitted.parentNode.removeChild(formsubmitted);
-
-        // si le login n'est pas reconnu dans la BDD, la <div> reste masquée :
-        // document.getElementById("form-submitted").hidden = true;
-
         alert("Login ou mail non répertorié...");
-
         return;
 
       }
 
     });
+
+    setTimeout(() => {
+      userDataSubscription.unsubscribe();
+    }, 10000);
       
   }
 
   
-  onUserDeconnect() {
+  onUserDeconnect(): void {
 
-    this.showDatas = false;
-    this.userForm.reset({ login: '', mail: '' }); // le contenu des champs est bien effacé
+    this.userForm.reset({ login: '', mail: '' }); // *** Note: le contenu des champs est  effacé
+
+    console.log("fade button inside function ok !");
+
+    document.getElementById("data_table").className ="animated fadeOut"; // *** Note: si tableau et form-connexion sur la même page
+    document.getElementById("form-submitted").className ="animated fadeOut";
+
+    setTimeout(() => {
+      this.showDatas = false;
+      document.getElementById("dataform-connexion").className ="form-connection-container animated fadeIn";
+      document.getElementById("data_table").className ="animated fadeIn";  // *** Note: si tableau et form-connexion sur la même page
+    }, 1500);
+
+    setTimeout(() => {
+      document.getElementById("dataform-connexion").className ="form-connection-container"; // *** Note: transforme la classe de l'élément >> sans fade in
+    }, 3000);
 
   }
 

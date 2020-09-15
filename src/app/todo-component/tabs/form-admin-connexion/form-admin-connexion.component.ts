@@ -1,109 +1,104 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup,  NG_VALIDATORS, ValidationErrors, Validators, FormBuilder, Validator, ValidatorFn } from '@angular/forms';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { FormControl, FormGroup,  Validators, FormBuilder } from '@angular/forms';
 
 import { UsersService } from '../../../todo-data-service/users.service';
-import { User } from '../../../todo-class/user';
+import { User } from '../../../shared/todo-class/user';
 
-import { loginUnCheckedValidator } from '../../../todo-directive/login-checked-directive'; // directive qui check le login, mail de l'admin
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-form-admin-connexion',
   templateUrl: './form-admin-connexion.component.html',
-  styleUrls: ['./form-admin-connexion.component.scss']
+  styleUrls: ['./form-admin-connexion.component.scss'],
+  providers: [
+    UsersService  // *** Note: accès restreint au composant = plus sûr ?
+  ]
 })
 
 
-export class FormAdminConnexionComponent implements OnInit {
+export class FormAdminConnexionComponent implements OnInit, AfterViewInit {
 
-  showAdminDatas = false; // Affichage div avec *ngIf (privilégié à la méthode du DOM)
+  // *** Note: Affichage de la 'div' avec *ngIf (privilégié à la méthode du DOM)  = false à l'init:
+  private showAdminDatas: boolean; 
 
-  public admin$: User[];
+  private admin$: User[];
 
-  user = { 
-    id_user: '', 
+  private user: User = { 
+    id_user: 0, 
     user_firstname: '', 
     user_lastname: '', 
     login: '', 
     password: '', 
-    mail: ''
+    mail: '',
+    role: '',
   };
 
-  // user = { id_user: 1, user_firstname: 'John', user_lastname: 'The Fisherman', login: 'Primus', password: '1234', mail: 'johnthefish@gmail.com'};
+  private adminForm: FormGroup;
 
-  // adminForm: FormGroup;
-  adminForm = new FormGroup ({
-    login: new FormControl(this.user.login, [
-      Validators.required,
-      // Validators.minLength(4),
-    ]),
-    mail: new FormControl(this.user.mail, [
-      Validators.required,
-      Validators.email
-    ]),
-  }, 
-  {
-    validators: loginUnCheckedValidator 
-  }); // vérifier si l'administrateur (login, mail) est celui déclaré dans le formulaire
+  public get adminLogin(): FormControl { return this.adminForm.get('login') as FormControl; }
+  public get adminMail(): FormControl { return this.adminForm.get('mail') as FormControl; }
 
+  public constructor(
+    private usersService: UsersService,
+  ) {
 
-  ngOnInit(): void {
-
-    // test mail :
-    // const control = new FormControl('bad*@* — ', Validators.email);
-    // console.log(control.errors); // {email: true}
-
-    // this.adminForm = new FormGroup (
-    // {
-    //   login: new FormControl(this.user.login, [
-    //     Validators.required,
-    //     // Validators.minLength(4),
-    //   ]),
-    //   mail: new FormControl(this.user.mail, [
-    //     Validators.required,
-    //     Validators.email
-    //   ]),
-    // }, { validators: loginUnCheckedValidator }); // vérifier si l'administrateur (login, mail) est celui déclaré dans le formulaire
-
+    this.adminForm = new FormGroup
+    (
+      {
+        login: new FormControl(this.user.login, [
+          Validators.required,
+        ]),
+        mail: new FormControl(this.user.mail, [
+          Validators.required,
+          Validators.email
+        ]),
+      }, {}
+    );
+ 
   }
 
-  get adminLogin() { return this.adminForm.get('login'); }
-  get adminMail() { return this.adminForm.get('mail'); }
 
-  constructor(
-    private fb: FormBuilder,
-    private usersService: UsersService,
-  ) {}
+  
+  public ngOnInit(): void {
 
-  onAdminSubmit() {
+    // console.log('admin form: OnInit');
+    this.showAdminDatas = false;
+  }
 
-    const loginValue = this.adminForm.get('login').value;
-    console.log(loginValue);
-    const mailValue = this.adminForm.get('mail').value;
-    console.log(mailValue);
 
-    this.usersService.getLogin(loginValue, mailValue)
-    .subscribe(admin$ => {
+  public ngAfterViewInit(): void {
+    // console.log('admin form: AfterViewInit');
+  }
+
+
+  private onAdminSubmit(): void {
+
+    // *** Note: check sur le login et le mail, mais aussi le rôle (dans l'API):
+    const loginValue: string = this.adminForm.get('login').value;
+    const mailValue: string = this.adminForm.get('mail').value;
+
+    const adminDataSubscription: Subscription = this.usersService.getAdminLogin(loginValue, mailValue)
+      .subscribe(admin$ => {
 
       this.admin$ = admin$;
 
       if(admin$[0] !== undefined) {
 
-        const loginCheck = admin$[0].login.toString();
-        console.log(loginCheck);
+        const loginCheck: string = admin$[0].login.toString();
+        const mailCheck: string = admin$[0].mail.toString();
+        const roleCheck: string = admin$[0].role.toString();
 
-        const mailCheck = admin$[0].mail.toString();
-        console.log(mailCheck);
 
-        // VERSION 1: directive "loginUnCheckedValidator" utilisée (pour test)
-        if(loginCheck === loginValue && mailCheck === mailValue) {
-
-        // VERSION 2: si la directive "loginUnCheckedValidator" n'est pas utilisée (plus sécu ?? le bouton n'apparait pas valide dès que les infos admin sont bonnes, et non seulement après validation...)
-        // if(loginValue === "Kasparov29" && loginCheck === loginValue && mailValue === "quotauk@gmail.com" && mailCheck === mailValue) {
-          console.log("login répertorié dans la BDD : connexion possible !");
+        if(loginCheck === loginValue && mailCheck === mailValue && roleCheck === 'admin') {
           
-          this.showAdminDatas = true;
-          // si le login existe, la <div> des données "masquées" est révélée :
-          // document.getElementById("form-submitted2").hidden = false;
+          setTimeout(() => {
+            document.getElementById("adminform-connexion").className ="form-connection-container animated fadeOut";
+          }, 100);
+
+          setTimeout(() => {
+            // *** Note: affichage de l'onglet d'administration :
+            this.showAdminDatas = true;
+          }, 1600);
 
           return;
 
@@ -117,33 +112,38 @@ export class FormAdminConnexionComponent implements OnInit {
 
         }
 
-      } else {  // utile ?? (à retester si nécessaire)
+      } else {
         
-        console.log("Aucun login répertorié : connexion impossible !");
-
         this.showAdminDatas = false;
-
-        // méthode (DOM) pour enlever le composant (plus que le masquer):
-        // let formsubmitted2 = document.getElementById("form-submitted2");
-        // formsubmitted2.parentNode.removeChild(formsubmitted2);
-
-        // si le login n'est pas reconnu dans la BDD, la <div> reste masquée :
-        // document.getElementById("form-submitted2").hidden = true;
-
         alert("Admin non répertorié...");
 
         return;
       }
 
     });
+
+    setTimeout(() => {
+      adminDataSubscription.unsubscribe();
+    }, 10000);
       
   }
 
-  onAdminDeconnect(){
-
-    this.showAdminDatas = false;
-    this.adminForm.reset({ login: '', mail: '' }); // le contenu des champs est bien effacé
+  onAdminDeconnect(): void {
     
+    this.adminForm.reset({ login: '', mail: '' }); // *** Note: le contenu des champs est effacé
+
+    document.getElementById("adminform-submitted").className ="animated fadeOut";
+
+    setTimeout(() => {
+      this.showAdminDatas = false;
+      document.getElementById("adminform-connexion").className ="form-connection-container animated fadeIn";
+    }, 1500);
+
+    setTimeout(() => {
+      // *** Note: transforme la classe de l'élément >> sans fade in:
+      document.getElementById("adminform-connexion").className ="form-connection-container"; 
+    }, 3000);
+
   }
 
 
