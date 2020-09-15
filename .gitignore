@@ -3,7 +3,7 @@
 #fichiers persos :
 infos_persos.txt
 client_secret.json
-/test-files
+/test_files
 
 # compiled output
 /dist
