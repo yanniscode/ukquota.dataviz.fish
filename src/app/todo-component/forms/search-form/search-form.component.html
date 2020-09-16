@@ -1,0 +1,101 @@
+<div class="submit">
+
+    <div class="data_table" class="animated fadeIn">
+        <h1 class="title">VIZ</h1>
+    </div>
+
+
+    <div class="row graphic-buttons" style="margin-top: 4vh;">
+
+        <!-- *** Note: currentnameSp (et autres) = ref aux exports de 'search-form.component.ts' 
+            et [nameSpecieSelect] = ref aux imports dans 'date-chart.component.ts' -->
+
+        <app-dates-chart class="mx-auto col-12 col-lg-10 col-xl-4" 
+            [nameSpecieSelect]="currentnameSp" 
+            [zoneSelect]="currentZone"
+            [dateSelect]="currentDate"
+            [date2BeginSelect]="currentDate2Begin"
+            [date2EndSelect]="currentDate2End"
+        >
+        </app-dates-chart>
+
+        <app-species-chart  class="mx-auto col-12 col-lg-10 col-xl-4" 
+            [nameSpecieSelect]="currentnameSp" 
+            [zoneSelect]="currentZone"
+            [dateSelect]="currentDate"
+            [date2BeginSelect]="currentDate2Begin"
+            [date2EndSelect]="currentDate2End"
+        >
+        </app-species-chart>
+
+        <app-zones-map class="mx-auto col-12 col-lg-10 col-xl-4"
+            [nameSpecieSelect]="currentnameSp" 
+            [zoneSelect]="currentZone"
+            [dateSelect]="currentDate"
+            [date2BeginSelect]="currentDate2Begin"
+            [date2EndSelect]="currentDate2End"
+        >
+        </app-zones-map>
+
+    </div>
+        
+
+    <div class="form">
+        <form [formGroup]="searchForm">
+
+            <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+
+                <div class="col align-self-center" style="margin-bottom:15px;">
+                    <div class="col align-self-center">
+                        <mat-form-field class="col align-self-center" id="datepicker">
+                            <input matInput class="matselectclass" [formControl]="date2" placeholder="Choisir une plage de dates" [satDatepicker]="picker"> 
+                                <sat-datepicker #picker [rangeMode]="true" orderPeriodLabel="month" [closeAfterSelection]="true" startView="year" touchUi (click)="ngOnChanges()">
+                                </sat-datepicker>
+                                <sat-datepicker-toggle matSuffix [for]="picker">
+                                </sat-datepicker-toggle>
+                        </mat-form-field>
+                    </div>
+                </div>
+        
+                <div class="col align-self-center" style="margin-bottom:15px;">
+                    <div class="col align-self-center" *ngFor="let nameSp of nameSp.controls; let i=index">
+                        <mat-form-field class="col align-self-center">       
+                            <mat-select placeholder="Toutes Espèces" [formControl]="nameSp">
+                                <mat-option *ngFor="let fish of nameSp$; let i = index" [value]="fish.name_specie" (click)="ngOnChanges()"><b>{{ fish.name_specie }}</b></mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="col align-self-center" style="margin-bottom:15px;">
+                    <div class="col align-self-center" *ngFor="let zone of zone.controls; let i=index">
+                        <mat-form-field class="col align-self-center">
+                            <mat-select placeholder="Toutes Zones" [formControl]="zone">
+                                <mat-option *ngFor="let fish of zone$" [value]="fish.zone" (click)="ngOnChanges()"><b>{{ fish.zone }}</b>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="col align-self-center" style="margin-bottom:15px;">
+                    <div class="col align-self-center" *ngFor="let date of date.controls; let i=index">
+                        <mat-form-field class="col align-self-center">
+                            <mat-select class="col align-self-center" placeholder="Choisir une date" [formControl]="date">
+                                <mat-option class="col align-self-center" *ngFor="let fish of date$" [value]="fish.date" (click)="ngOnChanges()"><b>{{ fish.date | date: 'dd/MM/yyyy' }}</b>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </div>
+    
+        </form>
+    </div>
+    
+    <div>
+        <button mat-button class="button" (click)="ngOnDestroy()">Réinitialiser</button>
+    </div>
+
+</div>

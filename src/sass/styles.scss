@@ -58,12 +58,12 @@ $eltex-theme: mat-dark-theme($eltex-primary, $eltex-accent);
 // *** CSS GENERAL:
 
 html, body, header {
-	padding: 2px; /* marge de la page */
+	padding: 2px; 	// *** marge de la page
 	background-color: #EEE;
 	font-family: source-sans-pro;
 	font-style: normal;
 	font-weight: 200;
-	width: 99%;	// *** Note: évite ascenseur horizontal (bas de l'image)
+	width: 99%;		// *** Note: évite ascenseur horizontal (bas de l'image)
 	margin: auto;
 }
 
@@ -100,7 +100,7 @@ h1 {
 }
 
 .subtitle_logo {
-	font-size: 1.5em;
+	font-size: 1.5rem;
 	text-align: right;
 	width: 100%;
 	margin-top: 25px;
@@ -117,12 +117,12 @@ h1 {
 }
 
 .connexion_title {
-	font-size: 1.5em;
+	font-size: 1.5rem;
 }
 
 
-// ***Ancre de page:
-#fishing_data {		// ***ajout pour résoudre les problèmes de marge à droite 
+// *** Ancre de page:
+#fishing_data {		// *** ajout pour résoudre les problèmes de marge à droite 
 	margin-top: -10vh;
 	position: relative;
 }
@@ -222,7 +222,7 @@ h1 {
 	display: block;
 	position: relative;
 	text-align: left;
-	font-size: 1.4em;
+	font-size: 1.4rem;
 }
 
 #datepicker {
@@ -230,15 +230,15 @@ h1 {
 	color: #FFF;
 }
 
-// *** champs 'select':
+// *** champs 'select' pour un 'input' de type plage de date, par exemple
 .matselectclass {
-	font-size: 16px;
+	font-size: 1.4rem;
 }
 
 .mat-option { 	// *** override css
 	font-size: 1.4em;
 	line-height: 1em;
-	width: 25 vw;
+	width: 25vw;
 }
 
 
@@ -249,7 +249,7 @@ h1 {
 
 #data_table {
 	position: relative;
-	z-index: 0;	// *** z-index 0 ou positif semble obligé, sinon perd son interactivité...
+	z-index: 0;		// *** z-index 0 ou positif semble obligé, sinon perd son interactivité...
 }
 
 .table_container {
@@ -276,11 +276,11 @@ th {
 }
 
 .ag-theme-balham {	// *** override css 
-	font-size: 1.3em;
+	font-size: 1.3rem;
 }
 
 .ag-theme-balham .ag-header {	// *** override css 
-	font-size: 1em;
+	font-size: 1rem;
 }
 
 #agGrid {	// tableau de données (Ag Grid)
@@ -421,7 +421,7 @@ th {
 
 .medium-logo2 {
 	color: #fff;
-	font-size:1.1em;
+	font-size:1.1rem;
 	font-weight: bold;
 	text-align: center;
 	margin-bottom: 4vh;
@@ -430,7 +430,7 @@ th {
 
 .xsmall-logo2 {
 	color: #fff;
-	font-size:1.1em;
+	font-size:1.1rem;
 	font-weight: bold;
 	text-align: center;
 	margin-bottom: 4vh;
@@ -447,6 +447,7 @@ th {
 	margin-left: 25px;
 }
 
+
 .main_title_big {
 	position: absolute;
 	color: orangered;
@@ -458,25 +459,23 @@ th {
 	letter-spacing: 0.2vw;
 }
 
-
 .medium-main_title_big {
 	position: absolute;
 	color: orangered;
 	font-weight: bold;
 	text-align: left;
-	font-size: 10vw;
+	font-size: 3rem;
 	margin-top: -59vh;
 	letter-spacing: 0.2vw;
 	padding-left: 5vw;
 }
-
 
 .xsmall-main_title_big {
 	position: absolute;
 	color: orangered;
 	font-weight: bold;
 	text-align: left;
-	font-size: 10vw;
+	font-size: 1.5rem;
 	margin-top: -87vh;
 	letter-spacing: 0.2vw;
 	padding-left: 5vh;
@@ -490,7 +489,6 @@ th {
 	font-weight: bold;
 	color: #717070;
 	font-size: 4vw;
-	// margin-top: -4vh;
 	padding-top: 16vh;
 	padding-left: 6vw;
 }
@@ -500,7 +498,7 @@ th {
 	text-align: center;
 	font-weight: bold;
 	color: #717070;
-	font-size: 7vw;
+	font-size: 2.5rem;
 	margin-top: -37vh;
 	padding-left: 7vw;
 }
@@ -510,10 +508,11 @@ th {
 	text-align: center;
 	font-weight: bold;
 	color: #717070;
-	font-size: 7vw;
+	font-size: 1.2rem;
 	margin-left: -6vw;
 	margin-top: -68vh;
 }
+
 
 .tagline {
 	position: absolute;
@@ -531,7 +530,7 @@ th {
 	position: absolute;
 	text-align: center;
 	color: #212529;
-	font-size: 2.5vh;
+	font-size: 1.2rem;
 	font-weight: normal;
 	text-transform: uppercase;
 	letter-spacing: 0.2vw;
@@ -543,7 +542,7 @@ th {
 	position: absolute;
 	text-align: center;
 	color: #212529;
-	font-size: 3vh;
+	font-size: 0.7rem;
 	font-weight: normal;
 	text-transform: uppercase;
 	letter-spacing: 0.2vw;
@@ -564,23 +563,9 @@ header nav ul {
 
 nav ul li {
 	float: left;
-	font-size: 16px;
 	font-weight: bold;
 	transition: all 0.3s linear;
 }
-
-
-
-ul li a {
-	text-decoration: none;
-	font-size: 35px;
-	font-weight: bold;
-}
-
-ul li:hover a {
-	text-decoration: none; // *** supprime l'effet de lien souligné
-}
-
 
 .navbar-collapse {	// *** override CSS
 	z-index: 1;
@@ -595,7 +580,7 @@ ul li:hover a {
 	padding-bottom: 4vh;
 	padding-right: 15vw;
 	color: #FFF;
-	font-size: 1.6em;
+	font-size: 1.6rem;
 }
 
 .medium-text_column {
@@ -604,7 +589,7 @@ ul li:hover a {
 	padding-top: 20px;
 	padding-bottom: 4vh;
 	color: #FFF;
-	font-size: 1em;
+	font-size: 1rem;
 }
 
 .xsmall-text_column {
@@ -613,7 +598,7 @@ ul li:hover a {
 	padding-top: 20px;
 	padding-bottom: 4vh;
 	color: #FFF;
-	font-size: 1em;
+	font-size: 1rem;
 }
 
 
@@ -718,31 +703,15 @@ ul li:hover a {
 
 .parallax {
 	color: #FFFFFF;
-	font-size: 20px;
+	font-size: 1.5rem;
 	text-align: left;
 	padding-left: 8vw;
 	padding-top: 2vh; 
 	letter-spacing: 0.1em;
 }
 
-.parallax_description {
-	color: #FFFFFF;
-	text-align: right;
-	padding-right: 100px;
-	width: 30%;
-	float: right;
-	font-weight: bold;
-	line-height: 23px;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	margin-left: 0px;
-}
-
-
 
 // *** Footer Section:
-
 footer {
 	background-color: #EEEEEE;
 	padding-bottom: 35px;
@@ -811,7 +780,6 @@ footer .footer_column p {
 
 
 // *** liens:
-
 a:link {
 	color:#043745;
 	text-decoration: none;
@@ -848,12 +816,11 @@ a:active {
 
 
 .link_to_top {
-	font-size: 1em;
+	font-size: 1rem;
 }
 
 
 // *** boutons:
-
 .button {
 	margin-right: auto;
 	margin-bottom: -30px;
@@ -889,7 +856,7 @@ a:active {
 // *** CSS des 'Tabs':
 
 .mat-tab-label, .mat-tab-link {	// *** override css
-	font-size: 1.4em;
+	font-size: 1.4rem;
 	line-height: 7.5vh;
 }
 
@@ -952,14 +919,14 @@ a:active {
 }
 
 .map-tooltip {
-	font-size:1.3em;
+	font-size:1.3rem;
 }
 
 .map-legend {
 	background: grey;
 	opacity: 0.8;
 	color: black;
-	font-size: 1.3em;
+	font-size: 1.3rem;
 	text-align:left;
 }
 
@@ -968,7 +935,7 @@ a:active {
 }
 
 .map-attributions {
-	font-size: 1.2em;
+	font-size: 1.2rem;
 }
 
 
@@ -1022,7 +989,7 @@ a:active {
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	width: 100%; // 79.5vw; 235%;
+	width: 100%;
 	pointer-events: auto;
 	background-color: #fff;
 	background-clip: padding-box;
@@ -1068,7 +1035,7 @@ a:active {
 	#myfrugalmap { 
 		height: 70.6vh;
 		width: 78.7vw;
-		p, a { font-size: 1em; } 
+		p, a { font-size: 1rem; } 
 	}
 
 	.graphic-modal-content {
@@ -1089,7 +1056,7 @@ a:active {
 	#myfrugalmap {
 		height: 60.6vh;
 		width: 80vw;
-		p, a { font-size: 1em; }
+		p, a { font-size: 1rem; }
 	}
 
 	.graphic-modal-content {
@@ -1110,7 +1077,7 @@ a:active {
 	#myfrugalmap {
 		height: 75.6vh;
 		width: 84.9vw;
-		p, a { font-size: 1em; }
+		p, a { font-size: 1rem; }
 	}
 
 	.graphic-modal-content {
@@ -1141,7 +1108,7 @@ a:active {
 	#myfrugalmap {
 		height: 800px; 
 		width: 85.8vw;
-		p, a { font-size: 1em; }
+		p, a { font-size: 1rem; }
 	}
 
 	.graphic-modal-content {
@@ -1172,7 +1139,7 @@ a:active {
 		height: 800px;
 		width: 87.8vw;
 		margin: auto;
-		p, a { font-size: 1em; }
+		p, a { font-size: 1rem; }
 	}
 
 	.graphic-modal-content {

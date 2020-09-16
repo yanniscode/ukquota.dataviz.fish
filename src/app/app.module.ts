@@ -24,7 +24,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';  // *** carte Leaflet
 import { SatDatepickerModule, SatNativeDateModule } from '../../node_modules/saturn-datepicker/esm5/saturn-datepicker.js';
 
 
-// *** IMPORT DE SERVICES :
+// *** IMPORT DES SERVICES :
 import { FishService } from './todo-data-service/fish.service';
 import { HttpErrorHandler }     from './todo-data-service/http-error-handler.service';
 
@@ -38,17 +38,23 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
 
 
 // *** FORMULAIRES:
-import { AutocompleteFormInscriptionCleanComponent } from './todo-component/tabs/autocomplete-form-inscription-clean/autocomplete-form-inscription-clean.component';
-import { FormAdminConnexionComponent } from './todo-component/tabs/form-admin-connexion/form-admin-connexion.component';
-import { MembersListComponent } from './todo-component/tabs/members-list/members-list.component';
-import { FormConnexionComponent } from './todo-component/tabs/form-connexion/form-connexion.component';
-import { SearchFormComponent } from './todo-component/tabs/search-form/search-form.component';
+import { AutocompleteFormInscriptionCleanComponent } from './todo-component/forms/autocomplete-form-inscription-clean/autocomplete-form-inscription-clean.component';
+import { FormAdminConnectionComponent } from './todo-component/forms/form-admin-connection/form-admin-connection.component';
+import { FormConnectionComponent } from './todo-component/forms/form-connection/form-connection.component';
+import { SearchFormComponent } from './todo-component/forms/search-form/search-form.component';
 
-// *** TABLEAUX ET GRAPHIQUES:
-import { DataTableComponent } from './todo-component/tabs/data-table/data-table.component';
-import { DatesChartComponent } from './todo-component/tabs/dates-chart/dates-chart.component';
-import { SpeciesChartComponent } from './todo-component/tabs/species-chart/species-chart.component';
-import { ZonesMapComponent } from './todo-component/tabs/zones-map/zones-map.component';
+// *** TABLEAUX:
+import { MembersListComponent } from './todo-component/tables/members-list/members-list.component';
+import { DataTableComponent } from './todo-component/tables/data-table/data-table.component';
+
+// *** GRAPHIQUES:
+import { DatesChartComponent } from './todo-component/graphics/dates-chart/dates-chart.component';
+import { SpeciesChartComponent } from './todo-component/graphics/species-chart/species-chart.component';
+
+// *** CARTES:
+import { ZonesMapComponent } from './todo-component/maps/zones-map/zones-map.component';
+
+// *** PARTAGÉS:
 import { ChartUpdateComponent } from './shared/chart-update/chart-update.component';
 
 // *** HTML:
@@ -110,13 +116,13 @@ import { XsFooterComponent } from './html/xs-footer/xs-footer.component';
     AppComponent,
     TabsComponent,
     DataTableComponent,
-    FormConnexionComponent,
+    FormConnectionComponent,
     SearchFormComponent, 
     ChartUpdateComponent,
     DatesChartComponent,
     SpeciesChartComponent,
     ZonesMapComponent,
-    FormAdminConnexionComponent, 
+    FormAdminConnectionComponent, 
     AutocompleteFormInscriptionCleanComponent,
     MembersListComponent,
     PageNotFoundComponent,
