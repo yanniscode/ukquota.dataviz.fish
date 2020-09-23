@@ -21,9 +21,10 @@ const httpOptions = {
 })
 
 export class UsersService {
-  static getLogin(login: AbstractControl, mail: AbstractControl) {
-    throw new Error("Method not implemented.");
-  }
+
+  // static getLogin(login: AbstractControl, mail: AbstractControl) {
+  //   throw new Error("Method not implemented.");
+  // }
 
 
   usersUrl: string = 'http://localhost:3000/users-api/AllUsers';

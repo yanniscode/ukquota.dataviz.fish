@@ -8,56 +8,36 @@ import { ReactiveFormsModule } from '@angular/forms'; // 'reactive forms' utilis
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here !
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule, MatFormFieldModule, MatInputModule, MatTabsModule, MatAutocompleteModule, MatProgressSpinnerModule, MatSelectModule, MatButtonModule, NativeDateModule } from '@angular/material';  // pour la librairie 'material design'
-import { MatRangeDatepickerModule, MatRangeNativeDateModule } from '../../node_modules/mat-range-datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { Router } from '@angular/router';
 
+import { MatRangeDatepickerModule, MatRangeNativeDateModule } from '../../node_modules/mat-range-datepicker';
 
-import { AppRoutingModule } from './app-routing.module';
 
 // ** MODULES  EXTERNES (librairies) :
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; // librairie Bootstrap
-import { ChartsModule } from 'ng2-charts';  // graphiques 'chart.js' import !
-import { AgGridModule } from 'ag-grid-angular/main';  // tableau (données)
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';  // *** carte Leaflet
-
 // *** Note: complément pour material Angular (formulaire: plage de dates):
 import { SatDatepickerModule, SatNativeDateModule } from '../../node_modules/saturn-datepicker/esm5/saturn-datepicker.js';
+
+// *** MODULES COMPLÉMENTAIRES (CRÉÉS):
+import { AppRoutingModule } from './app-routing.module';
 
 
 // *** IMPORT DES SERVICES :
 import { FishService } from './todo-data-service/fish.service';
 import { HttpErrorHandler }     from './todo-data-service/http-error-handler.service';
 
+
 // *** IMPORT DES COMPOSANTS :
 
-// *** GENERALISTES:
+// *** COMPOSANTS GENERALISTES:
 import { AppComponent } from './app.component';
-import { TabsComponent } from './todo-component/tabs/tabs.component'; // essai d'onglets 1
 
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 
+// *** COMPOSANTS POUR FORMULAIRES:
+import { MainAuthComponent } from './todo-component/forms/main-auth/main-auth/main-auth.component';
 
-// *** FORMULAIRES:
-import { AutocompleteFormInscriptionCleanComponent } from './todo-component/forms/autocomplete-form-inscription-clean/autocomplete-form-inscription-clean.component';
-import { FormAdminConnectionComponent } from './todo-component/forms/form-admin-connection/form-admin-connection.component';
-import { FormConnectionComponent } from './todo-component/forms/form-connection/form-connection.component';
-import { SearchFormComponent } from './todo-component/forms/search-form/search-form.component';
-
-// *** TABLEAUX:
-import { MembersListComponent } from './todo-component/tables/members-list/members-list.component';
-import { DataTableComponent } from './todo-component/tables/data-table/data-table.component';
-
-// *** GRAPHIQUES:
-import { DatesChartComponent } from './todo-component/graphics/dates-chart/dates-chart.component';
-import { SpeciesChartComponent } from './todo-component/graphics/species-chart/species-chart.component';
-
-// *** CARTES:
-import { ZonesMapComponent } from './todo-component/maps/zones-map/zones-map.component';
-
-// *** PARTAGÉS:
-import { ChartUpdateComponent } from './shared/chart-update/chart-update.component';
-
-// *** HTML:
+// *** COMPOSANTS POUR LE HTML:
 import { MainComponent } from './html/main/main.component';
 
 import { HeaderComponent } from './html/header/header.component';
@@ -87,7 +67,6 @@ import { XsFooterComponent } from './html/xs-footer/xs-footer.component';
     MatProgressSpinnerModule,
     MatSelectModule,
     MatButtonModule,
-    NgbModule,
     MatRangeDatepickerModule,
     MatRangeNativeDateModule,
     MatDatepickerModule,
@@ -96,9 +75,6 @@ import { XsFooterComponent } from './html/xs-footer/xs-footer.component';
     SatDatepickerModule,
     SatNativeDateModule,
     MatMomentDateModule,
-    AgGridModule.withComponents([]),
-    ChartsModule,
-    LeafletModule.forRoot(),
     AppRoutingModule, // *** Note: Routing: import de 'app-routing-module.ts': le dernier déclaré les 'imports'
   ],
   exports: [
@@ -114,17 +90,7 @@ import { XsFooterComponent } from './html/xs-footer/xs-footer.component';
   ],
   declarations: [
     AppComponent,
-    TabsComponent,
-    DataTableComponent,
-    FormConnectionComponent,
-    SearchFormComponent, 
-    ChartUpdateComponent,
-    DatesChartComponent,
-    SpeciesChartComponent,
-    ZonesMapComponent,
-    FormAdminConnectionComponent, 
-    AutocompleteFormInscriptionCleanComponent,
-    MembersListComponent,
+    MainAuthComponent,
     PageNotFoundComponent,
     HeaderComponent,
     XsHeaderComponent,
@@ -137,11 +103,7 @@ import { XsFooterComponent } from './html/xs-footer/xs-footer.component';
     MediumFooterComponent,
     MediumInfosComponent,
   ],
-  entryComponents: [
-    DatesChartComponent,
-    SpeciesChartComponent,
-    ZonesMapComponent,
-  ],
+  entryComponents: [],
   bootstrap: [
     AppComponent,
   ],
@@ -153,4 +115,12 @@ import { XsFooterComponent } from './html/xs-footer/xs-footer.component';
 
 })
 
-export class AppModule { }
+export class AppModule { 
+
+  constructor(router: Router) {
+    // Use a custom replacer to display function names in the route configs
+    const replacer = (key, value) => (typeof value === 'function') ? value.name : value;
+    console.log('Routes: ', JSON.stringify(router.config, replacer, 2));
+  }
+
+}

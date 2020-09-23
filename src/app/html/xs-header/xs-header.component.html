@@ -1,5 +1,5 @@
 <!-- HEADER VERSION 2 (PETITS FORMATS: XS, SM) -->
-<header id="xsmall-header" class ="xsmall-header col-12 d-sm-none"><!-- class ="row" -->
+<header id="xsmall-header" class ="xsmall-header col-12 d-sm-none">
 
     <section class="xsmall-wrapper" id="wrapper">
 
@@ -20,21 +20,21 @@
                 </div>
 
                 <div class="row">
-                    <nav class="xsmall-header_menu col-12 nav-fill navbar navbar-expand-xl navbar-light"><!-- bg-dark -->
+                    <nav class="xsmall-header_menu col-12 nav-fill navbar navbar-expand-xl navbar-light">
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
 
                         <div class="col-12 col-sm-11 collapse navbar-collapse bg-dark" id="navbarSupportedContent">
-                            <ul class="navbar-nav text-center"><!-- xsmall-list_menu-b -->
+                            <ul class="navbar-nav text-center">
                                 <li>
-                                    <a class="nav-link text-light btn-outline-info" href="/main#fishing-data">STATISTIQUES DE PÊCHE</a>
+                                    <a class="nav-link" (click)=ScrollToMainDiv()>STATISTIQUES DE PÊCHE</a>
                                 </li>
-                                <!-- <li><a href="#news">NEWS</a></li> -->
+                            <!-- <li><a href="#news">NEWS</a></li> -->
                                 <li>
-                                    <a class="nav-link text-light btn-outline-info" href="/main#xsmall-about">A PROPOS</a>
-                                </li> 
+                                    <a class="nav-link" (click)=ScrollToAboutDiv()>A PROPOS</a>
+                                </li>
                             <!-- <li><a href="#contact">CONTACT</a></li> -->
                             </ul>
                         </div>

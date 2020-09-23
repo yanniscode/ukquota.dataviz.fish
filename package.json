@@ -73,7 +73,7 @@
     "sequelize": "^5.22.3",
     "sequelize-auto": "^0.5.4",
     "sequelize-cli": "^5.5.1",
-    "shpjs": "^3.5.0",
+    "shpjs": "^3.6.0",
     "tslib": "^1.13.0",
     "typescript": "~3.5",
     "zone.js": "^0.9.1"
@@ -86,7 +86,7 @@
     "@types/jasmine": "^3.5.14",
     "@types/jasminewd2": "^2.0.8",
     "@types/leaflet": "^1.5.17",
-    "@types/node": "^12.12.58",
+    "@types/node": "^12.12.62",
     "codelyzer": "^5.2.2",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",

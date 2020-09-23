@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { NavlinksService } from '../../shared/todo-service/navlinks.service';
+
 @Component({
   selector: 'app-xs-footer',
   templateUrl: './xs-footer.component.html',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class XsFooterComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private navlinksService: NavlinksService,
+  ) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+  
+
+  ScrollToTop() {
+
+    const myAnchor: string = 'xsmall-header';
+
+    this.navlinksService.ScrollTo(myAnchor);
+
   }
 
 }

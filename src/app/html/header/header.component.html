@@ -1,5 +1,5 @@
 <!-- HEADER VERSION 1 (GRANDS FORMATS: LG, XL) -->
-<header id="header" class ="header d-none d-lg-block col-lg-12"><!-- class ="row" -->
+<header id="header" class ="header d-none d-lg-block col-lg-12">
 
   <section class="wrapper" id="wrapper">
 
@@ -29,9 +29,13 @@
         <div class="row">
           <nav class="header_menu">
             <ul class="list_menu">
-              <li><a class="nav-link" href="/main#fishing-data">STATISTIQUES DE PÊCHE</a></li>       
+              <li>
+                <a class="nav-link" (click)=ScrollToMainDiv()>STATISTIQUES DE PÊCHE</a>
+              </li>
               <!-- <li><a href="#news">NEWS</a></li> -->
-              <li><a class="nav-link" href="/main#about">A PROPOS</a></li>
+              <li>
+                <a class="nav-link" (click)=ScrollToAboutDiv()>A PROPOS</a>
+              </li>
               <!-- <li><a href="#contact">CONTACT</a></li>  -->
             </ul>
           </nav>

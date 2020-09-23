@@ -20,8 +20,11 @@ A voir, si nécessaire:
 
 Fait:
 
-	Dernières modifications (15/09/2020):
+	Dernières modifications (23/09/2020):
 
+-- Commit 26 (23/09/2020): Pour version Test: ajout d'un formulaire général pour encapsuler l'application-test (+ routing)
+
+-- --------------------------------------------------------------------------------------------------
 
 -- Commit 25 (15/09/2020): optimisations de code (refactoring), routing, responsive (bootstrap et media queries), bdd renommée `dataviz_fish_uk`
 
@@ -39,10 +42,6 @@ Fait:
 
 	- ergonomie de la partie formulaire / graphique -> ajout de modales bootstrap sur les graphiques et carte
 
-
-
-
--- --------------------------------------------------------------------------------------------------
 
 -- Commit n° 24 : Modales (Bootstrap) d’affichage de graphiques (Chart.js) et de carte (Leaflet), formulaires de connexion (tests) pour membre et administrateur, formulaire --d’édition de profil (ajout, suppression, modification), tableau des membres (Bootstrap), Tabs Material Angular (datas, administrateur) – Angular 8.2, Node.js 12.14 (.gitignore : dossiers et fichers)
 

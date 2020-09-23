@@ -567,10 +567,6 @@ nav ul li {
 	transition: all 0.3s linear;
 }
 
-.navbar-collapse {	// *** override CSS
-	z-index: 1;
-}
-
 
 .text_column {
 	text-align: justify;
@@ -779,7 +775,34 @@ footer .footer_column p {
 }
 
 
-// *** liens:
+// *** Navbar:
+
+.nav-link {
+	color: #043745; /* #FFF; */
+	// text-shadow: 0.2px 0.1px #8b94aa; /* = ombre */
+	text-decoration: none; /* supprime l'effet de lien souligné */
+	font-size: 3vh;
+	font-weight: bold;
+}
+
+
+// *** Navbar (collapse):
+
+.navbar-collapse {	// *** override CSS
+	z-index: 1;
+}
+
+.navbar-light .navbar-nav .nav-link {	// *** Override CSS
+    color: #a7d2e3;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {	// *** Override CSS
+    color: #fefefe;
+}
+
+
+// *** Liens:
+
 a:link {
 	color:#043745;
 	text-decoration: none;

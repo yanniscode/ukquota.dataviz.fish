@@ -1,10 +1,12 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "baseUrl": "./", // add this line
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
+    "module": "esnext", // add this line
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -15,10 +17,10 @@
       "node_modules/@types",
     ],
     "lib": [
-      "es2017",
+      "es2020", // 2017
       "dom",
     ],
-    "module": "es2015",
-    "baseUrl": "./",
+    // "module": "es2015",
+    // "baseUrl": "./",
   }
 }
