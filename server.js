@@ -8,7 +8,7 @@ const http = require('http');
 
 
 // *** Note: Get our API routes:
-const api = require('./server/routes/api');
+const fishingApi = require('./server/routes/fishing-api');
 const usersApi = require('./server/routes/users-api');
 
 
@@ -33,7 +33,7 @@ app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // *** Note:  Set our api routes:
-app.use('/api', api);             // *** Note: api des dataquotas
+app.use('/fishing-api', fishingApi);             // *** Note: api des dataquotas
 app.use('/users-api', usersApi);  // *** Note: api des utilisateurs
 
 // *** Note: Catch all other routes and return the index file:

@@ -14,6 +14,19 @@ export class BarchartOptionsService {
 
     type: 'bar',
     responsive: true,
+    maintainAspectRatio: true,
+    layout: {
+      padding: {
+          left: 0,
+          right: 0,
+          top: 10,
+          bottom: 0
+      }
+    },
+    labels: [{
+      boxWidth: 50,
+      padding: 20,
+    }],
     tooltips: {       // *** Note: modif des infos bulles
       enabled: true,
       position: 'nearest',
@@ -89,7 +102,14 @@ export class BarchartOptionsService {
         }
       }]
     },
-    labels: [{ }],
+    title: {
+      padding: 20,
+    },
+    hover: {
+      animationDuration: 1000, // *** Note: duration of animations when hovering an item
+    },
+    responsiveAnimationDuration: 1000, // *** Note: animation duration after a resize
+
   };
 
 

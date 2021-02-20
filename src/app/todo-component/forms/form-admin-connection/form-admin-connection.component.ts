@@ -77,7 +77,7 @@ export class FormAdminConnectionComponent implements OnInit, AfterViewInit {
     const loginValue: string = this.adminForm.get('login').value;
     const mailValue: string = this.adminForm.get('mail').value;
 
-    const adminDataSubscription: Subscription = this.usersService.getAdminLogin(loginValue, mailValue)
+    const adminDataSubscription: Subscription = this.usersService.getAdmin(loginValue, mailValue)
       .subscribe(admin$ => {
 
       this.admin$ = admin$;
@@ -115,6 +115,7 @@ export class FormAdminConnectionComponent implements OnInit, AfterViewInit {
       } else {
         
         this.showAdminDatas = false;
+
         alert("Admin non répertorié...");
 
         return;
@@ -136,6 +137,7 @@ export class FormAdminConnectionComponent implements OnInit, AfterViewInit {
 
     setTimeout(() => {
       this.showAdminDatas = false;
+
       document.getElementById("adminform-connexion").className ="form-connection-container animated fadeIn";
     }, 1500);
 

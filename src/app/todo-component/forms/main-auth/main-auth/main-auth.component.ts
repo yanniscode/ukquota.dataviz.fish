@@ -112,7 +112,7 @@ export class MainAuthComponent implements OnInit, AfterViewInit {
     this.loginUserCheck = this.userForm.get('login').value;     // *** Note: méthode globale
     const mailValue: string = this.userForm.get('mail').value;  // *** Note: méthode locale
 
-    const userDataSubscription = this.usersService.getLogin(this.loginUserCheck, mailValue)
+    const userDataSubscription = this.usersService.getUser(this.loginUserCheck, mailValue)
       .subscribe(user$ => {
 
       this.user$ = user$;
@@ -140,6 +140,7 @@ export class MainAuthComponent implements OnInit, AfterViewInit {
           return;
           
         } else {
+
           this.isUserLoggedIn = false;
           console.log(this.isUserLoggedIn);
 
@@ -171,6 +172,7 @@ export class MainAuthComponent implements OnInit, AfterViewInit {
 
   
   public onUserDeconnect(): void {
+
     this.mainAuthService.logout();
     
     this.loginUserCheck = undefined;

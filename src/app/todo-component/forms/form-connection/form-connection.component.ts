@@ -79,7 +79,7 @@ export class FormConnectionComponent implements OnInit, AfterViewInit {
     const loginValue: string = this.userForm.get('login').value;
     const mailValue: string = this.userForm.get('mail').value;
 
-    const userDataSubscription = this.usersService.getLogin(loginValue, mailValue)
+    const userDataSubscription = this.usersService.getUser(loginValue, mailValue)
       .subscribe(user$ => {
 
       this.user$ = user$;

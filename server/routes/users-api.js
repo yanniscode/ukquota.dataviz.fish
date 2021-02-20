@@ -19,9 +19,9 @@ const UserModel = require('../models/users')
 
 
 
-const sequelize = new Sequelize("dataviz_fish_uk", "root", "test", {
+const sequelize = new Sequelize("dataviz_fish_uk", "root", "Kasparov29", {
 
-    host: "localhost",
+    host: "51.210.254.67",
     dialect: "mysql",
     pool: {
         max: 5,
@@ -53,27 +53,27 @@ router.get("/", (req, res) => {
 
 
 
-router.get("/AddNewUser/:user_firstname"), function(req, res, next) {
+// router.get("/AddNewUser/:user_firstname"), function(req, res, next) {
 
-    const userFirstName = req.params['user_firstname'];
+//     const userFirstName = req.params['user_firstname'];
 
-    sequelize.query("SELECT * FROM `users` WHERE user_firstname = '"+ userFirstName +"';", { type : sequelize.QueryTypes.SELECT })
-    .then(user => {
-        res.status(200).json(user);
-    })
-    .catch(error => {
-        res.status(500).send(error);
-    });
+//     sequelize.query("SELECT * FROM `users` WHERE user_firstname = '"+ userFirstName +"';", { type : sequelize.QueryTypes.SELECT })
+//     .then(user => {
+//         res.status(200).json(user);
+//     })
+//     .catch(error => {
+//         res.status(500).send(error);
+//     });
 
-}
+// }
 
 
 // ***********
 // REQUÊTE GÉNÉRALE qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
 
-router.get("/AllUsers", function(req, res, next) { 
-    // envoie la donnée sur http://localhost:3000/users-api/AllUsers (voir "server.js")
-    // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
+router.post("/AllUsers", function(req, res, next) {
+
+    // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données 'utilisateur' actuelles):
 
     sequelize.query("SELECT * FROM `users`;", { type : sequelize.QueryTypes.SELECT })
     .then(user => {
@@ -86,7 +86,7 @@ router.get("/AllUsers", function(req, res, next) {
 });
 
 // UPDATE D'UN USER :
-router.put("/AllUsers", function(req, res, next) {
+router.put("/UpdateUser", function(req, res, next) {
     // envoie la donnée sur http://localhost:3000/users-api/AllUsers (voir "server.js")
     // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
 
@@ -106,7 +106,7 @@ router.put("/AllUsers", function(req, res, next) {
 
 
 // SUPPRESSION D'UN USER :
-router.post("/DeleteUsers", function(req, res, next) { 
+router.post("/DeleteUser", function(req, res, next) { 
     // envoie la donnée sur http://localhost:3000/users-api/AllUsers/:id_user (voir "server.js")
 
     const requestedUserLogin = req.body['login'];
@@ -123,16 +123,16 @@ router.post("/DeleteUsers", function(req, res, next) {
 
 
 
-// SUPPRESSION D'UN USER -TEST AUTOCOMPLETE (dans une liste) : (marche moyen...)
+// SUPPRESSION D'UN USER -TEST AUTOCOMPLETE (dans une liste) :
 
-router.delete("/AllUsers/:login", function(req, res, next) { 
+router.delete("/DeleteUser/:login", function(req, res, next) { 
     // envoie la donnée sur http://localhost:3000/users-api/AllUsers/:id_user (voir "server.js")
 
     const requestedUserLogin = req.params['login'];
 
     sequelize.query("DELETE FROM `users` WHERE login='"+ requestedUserLogin +"';", { })
     .then(user => {  
-        res.status(200).json(user);   
+        res.status(200).json(user);
     })
     .catch(error => {
         res.status(500).send(error);
@@ -141,9 +141,10 @@ router.delete("/AllUsers/:login", function(req, res, next) {
 });
 
 
-// SUPPRESSION D'UN USER (dans une liste) :
+// *** SUPPRESSION D'UN USER (dans une liste) :
+// *** utilisée dans 'Members-list':
 
-router.delete("/AllUsers2/:id_user", function(req, res, next) { 
+router.delete("/DeleteUserByTable/:id_user", function(req, res, next) { 
     // envoie la donnée sur http://localhost:3000/users-api/AllUsers/:id_user (voir "server.js")
 
     const requestedUserId = req.params['id_user'];
@@ -159,10 +160,10 @@ router.delete("/AllUsers2/:id_user", function(req, res, next) {
 
 });
 
-router.get("/SingleLogin/:login&:mail", function(req, res, next) {
+router.post("/User", function(req, res, next) {
 
-    const requestedUserLogin = req.params['login'];
-    const requestedUserMail = req.params['mail'];
+    const requestedUserLogin = req.body['login'];
+    const requestedUserMail = req.body['mail'];
 
     // envoie la donnée sur http://localhost:3000/users-api/AllUsers (voir "server.js")
     // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
@@ -179,10 +180,10 @@ router.get("/SingleLogin/:login&:mail", function(req, res, next) {
 
 
 // admin login (requête sur le rôle ajouté à la BDD)
-router.get("/SingleAdminLogin/:login&:mail", function(req, res, next) {
+router.post("/Admin", function(req, res, next) {
 
-    const requestedUserLogin = req.params['login'];
-    const requestedUserMail = req.params['mail'];
+    const requestedUserLogin = req.body['login'];
+    const requestedUserMail = req.body['mail'];
 
     // envoie la donnée sur http://localhost:3000/users-api/AllUsers (voir "server.js")
     // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
@@ -199,7 +200,7 @@ router.get("/SingleAdminLogin/:login&:mail", function(req, res, next) {
 
 
 /* bonne version : (post) */
-router.post("/AllUsers", function(req, res) {
+router.post("/AddUser", function(req, res) {
 
     const requestedUserLogin = req.body["login"];
     const requestedUserMail = req.body["mail"];
@@ -216,27 +217,27 @@ router.post("/AllUsers", function(req, res) {
 
 
 
-router.get("/SingleLoginTest/:login", function(req, res, next) {
-    const requestedUserLogin = req.params['login'];
+// router.get("/SingleLoginTest/:login", function(req, res, next) {
+//     const requestedUserLogin = req.params['login'];
 
-    // envoie la donnée sur http://localhost:3000/users-api/AllUsers (voir "server.js")
-    // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
+//     // envoie la donnée sur http://localhost:3000/users-api/AllUsers (voir "server.js")
+//     // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
 
-    sequelize.query("INSERT INTO `users` (`login`) VALUES('"+ requestedUserLogin +"');", { type : sequelize.QueryTypes.INSERT })
-    .then(user => {
-        res.status(200).json(user);     
-    })
-    .catch(error => {
-        res.status(500).send(error);
-    });
+//     sequelize.query("INSERT INTO `users` (`login`) VALUES('"+ requestedUserLogin +"');", { type : sequelize.QueryTypes.INSERT })
+//     .then(user => {
+//         res.status(200).json(user);     
+//     })
+//     .catch(error => {
+//         res.status(500).send(error);
+//     });
 
-});
+// });
 
 
 
 /* RECHERCHE DE LA DONNÉE ID_USER, AVEC POUR PARAMETRE LE LOGIN DU MEMBRE SÉLECTIONNÉ (TEST : POUR L'UPDATE D'UN LOGIN) : méthode 'GET' */
-router.get("/SingleUserLogin/:login", function(req, res, next) {
-    const requestedUserLogin = req.params['login'];
+router.post("/SingleUserLogin", function(req, res, next) {
+    const requestedUserLogin = req.body['login'];
 
     // envoie la donnée sur http://localhost:3000/users-api/AllUsers (voir "server.js")
     // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
@@ -254,9 +255,9 @@ router.get("/SingleUserLogin/:login", function(req, res, next) {
 
 
 /* RECHERCHE DE LA DONNÉE ID_USER, AVEC POUR PARAMETRE LE LOGIN DU MEMBRE SÉLECTIONNÉ (TEST : POUR L'UPDATE D'UN LOGIN) : méthode 'GET' */
-router.get("/SingleUserMail/:mail", function(req, res, next) {
+router.post("/SingleUserMail", function(req, res, next) {
 
-    const requestedUserMail = req.params['mail'];
+    const requestedUserMail = req.body['mail'];
 
     sequelize.query("SELECT id_user, login, mail FROM `users` WHERE mail='"+ requestedUserMail +"';", { type : sequelize.QueryTypes.SELECT })
     .then(user => {

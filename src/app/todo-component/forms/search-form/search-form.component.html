@@ -5,7 +5,7 @@
     </div>
 
 
-    <div class="row graphic-buttons" style="margin-top: 4vh;">
+    <div class="row graphic-buttons">
 
         <!-- *** Note: currentnameSp (et autres) = ref aux exports de 'search-form.component.ts' 
             et [nameSpecieSelect] = ref aux imports dans 'date-chart.component.ts' -->
@@ -45,7 +45,7 @@
 
             <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
 
-                <div class="col align-self-center" style="margin-bottom:15px;">
+                <div class="col align-self-center">
                     <div class="col align-self-center">
                         <mat-form-field class="col align-self-center" id="datepicker">
                             <input matInput class="matselectclass" [formControl]="date2" placeholder="Choisir une plage de dates" [satDatepicker]="picker"> 
@@ -57,7 +57,7 @@
                     </div>
                 </div>
         
-                <div class="col align-self-center" style="margin-bottom:15px;">
+                <div class="col align-self-center">
                     <div class="col align-self-center" *ngFor="let nameSp of nameSp.controls; let i=index">
                         <mat-form-field class="col align-self-center">       
                             <mat-select placeholder="Toutes Espèces" [formControl]="nameSp">
@@ -67,7 +67,7 @@
                     </div>
                 </div>
 
-                <div class="col align-self-center" style="margin-bottom:15px;">
+                <div class="col align-self-center">
                     <div class="col align-self-center" *ngFor="let zone of zone.controls; let i=index">
                         <mat-form-field class="col align-self-center">
                             <mat-select placeholder="Toutes Zones" [formControl]="zone">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
 
-                <div class="col align-self-center" style="margin-bottom:15px;">
+                <div class="col align-self-center">
                     <div class="col align-self-center" *ngFor="let date of date.controls; let i=index">
                         <mat-form-field class="col align-self-center">
                             <mat-select class="col align-self-center" placeholder="Choisir une date" [formControl]="date">

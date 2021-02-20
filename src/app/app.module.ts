@@ -2,12 +2,23 @@
 import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { HttpClientModule } from '@angular/common/http';
-import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms'; // 'reactive forms' utilisés ici
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here !
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDatepickerModule, MatFormFieldModule, MatInputModule, MatTabsModule, MatAutocompleteModule, MatProgressSpinnerModule, MatSelectModule, MatButtonModule, NativeDateModule } from '@angular/material';  // pour la librairie 'material design'
+
+// *** pour la librairie 'material design':
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+
+import { MatNativeDateModule } from '@angular/material/core';
+
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { Router } from '@angular/router';
 
@@ -58,7 +69,6 @@ import { XsFooterComponent } from './html/xs-footer/xs-footer.component';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    HttpModule,
     FormsModule,
     MatTabsModule,
     MatFormFieldModule,
@@ -70,7 +80,7 @@ import { XsFooterComponent } from './html/xs-footer/xs-footer.component';
     MatRangeDatepickerModule,
     MatRangeNativeDateModule,
     MatDatepickerModule,
-    NativeDateModule,
+    MatNativeDateModule,
     ReactiveFormsModule,
     SatDatepickerModule,
     SatNativeDateModule,
@@ -120,7 +130,7 @@ export class AppModule {
   constructor(router: Router) {
     // Use a custom replacer to display function names in the route configs
     const replacer = (key, value) => (typeof value === 'function') ? value.name : value;
-    console.log('Routes: ', JSON.stringify(router.config, replacer, 2));
+    // console.log('Routes: ', JSON.stringify(router.config, replacer, 2));
   }
 
 }

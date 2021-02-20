@@ -183,7 +183,7 @@ private onPreDelete(user: User): void {
 
     this.users = this.users.filter(u => u !== user);
     const usersDataSubscription: Subscription = this.usersService
-      .deleteUser2(user)
+      .deleteUserByTable(user)
       .subscribe();
 
     setTimeout(() => {

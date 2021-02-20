@@ -26,12 +26,7 @@ export class ChartUpdateComponent implements OnInit, OnChanges, OnDestroy {
     private elementRef: ElementRef,
     private ngZone: NgZone
   ) {
-
-    setTimeout(() => {
-      this.create();
-    }, 300);
-
-    clearTimeout();
+	this.create();	
   }
 
 

@@ -13,9 +13,9 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 
-const sequelize = new Sequelize("dataviz_fish_uk", "root", "test", {
+const sequelize = new Sequelize("dataviz_fish_uk", "root", "Kasparov29", {
 
-    host: "localhost",
+    host: "51.210.254.67",
     dialect: "mysql",
 
     pool: {

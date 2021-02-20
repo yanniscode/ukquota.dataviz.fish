@@ -58,7 +58,7 @@ $eltex-theme: mat-dark-theme($eltex-primary, $eltex-accent);
 // *** CSS GENERAL:
 
 html, body, header {
-	padding: 2px; 	// *** marge de la page
+	padding: 2px;	// *** marge de la page
 	background-color: #EEE;
 	font-family: source-sans-pro;
 	font-style: normal;
@@ -209,7 +209,7 @@ h1 {
 }
 
 .delete {
-	margin-right: 1vw;
+	width: auto; // 30%;
 }
 
 .alert {	// *** override css: champs infos pour les saisies de l'utilisateur (Bootstrap)
@@ -235,13 +235,19 @@ h1 {
 	font-size: 1.4rem;
 }
 
-.mat-option { 	// *** override css
+.mat-option {	// *** override css
 	font-size: 1.4em;
 	line-height: 1em;
-	width: 25vw;
+	width: 100%;
 }
 
+#login_select {
+	line-height: 1em;
+}
 
+#login_select_text {
+	padding-left: 0.5em;
+}
 
 // **************
 
@@ -295,6 +301,12 @@ th {
 	clear: both;
 }
 
+
+// *** Tableau BOOTSTRAP:
+
+.table-sm th, .table-sm td { // *** Override CSS
+    padding: 0.75rem;
+}
 
 
 // ****************
@@ -565,6 +577,7 @@ nav ul li {
 	float: left;
 	font-weight: bold;
 	transition: all 0.3s linear;
+	cursor: pointer;
 }
 
 
@@ -662,7 +675,7 @@ nav ul li {
 }
 
 
-// *** animation pour bouton déconnexion (fade in/out):
+// *** animations pour intro et changements de composants (fade in/out):
 
 .animated {
 	-webkit-animation-duration: 1.5s;
@@ -686,6 +699,32 @@ nav ul li {
 	animation-name: fadeIn;
 }
 
+
+
+.animated-slow {
+	-webkit-animation-duration: 7s;
+	animation-duration: 7s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+
+@-webkit-keyframes slowFadeIn {
+	0% {opacity: 0;}
+	90% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
+@keyframes slowFadeIn {
+	0% {opacity: 0;}
+	90% {opacity: 0;}
+	100% {opacity: 1;}
+}
+  
+.slowFadeIn {
+	-webkit-animation-name: slowFadeIn;
+	animation-name: slowFadeIn;
+}
 
 
 
@@ -869,7 +908,7 @@ a:active {
 }
 
 .graphic-buttons {
-	margin-top: 7vh;
+	margin-top: 4vh;
 }
 
 

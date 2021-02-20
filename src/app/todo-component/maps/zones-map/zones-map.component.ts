@@ -83,7 +83,7 @@ export class ZonesMapComponent<D> implements OnInit, OnDestroy {
 
     this.map.addLayer(stamenWatercolorMap);
     this.map.addLayer(oceanMapRef);
-    this.map.setView([48.24, -4.4833], 2);  // *** Note : centré sur les coordonnées de Londres [48.24, -4.4833]
+    this.map.setView([31.271041, -42.333326], 2);  // *** Note : centré sur un point dans l'Atlantique [31.271041, -42.333326]
     
     return this.map;
   }

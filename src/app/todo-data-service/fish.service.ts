@@ -1,18 +1,30 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
+import { environment } from 'src/environments/environment';
+
 import { Fish } from '../shared/todo-class/fish';
 import { HttpErrorHandler, HandleError } from './http-error-handler.service';
 
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+    'Authorization': 'my-auth-token'
+  })
+};
 
 @Injectable({       // *** Note: manière de créer un service 'singleton' d'après Angular 6.0
   providedIn: 'root'
 })
 
 export class FishService {
+
+addrUrl: string = environment.backend.baseURL;
+// addrUrl: string = 'http://localhost:3000';
+
   
   private handleError: HandleError;
 
@@ -33,11 +45,11 @@ export class FishService {
 
 public getAllFishings(): Observable<Fish[]> { // UTILISÉE PAR LE TABLEAU DANS 'QUICKFILTER-BIS'
 
-  return this.http.get('http://localhost:3000/api/AllFishings')
+  return this.http.post<Fish[]>(this.addrUrl +'/fishing-api/AllFishings', httpOptions)
   .pipe(
-    map(
-      (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
-    ),
+    // map(
+    //   (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
+    // ),
       catchError(this.handleError('getAllFishings', [])
     ),
   );
@@ -46,11 +58,11 @@ public getAllFishings(): Observable<Fish[]> { // UTILISÉE PAR LE TABLEAU DANS '
 
 public getAllFishingsAtDate(): Observable<Fish[]> {   // *** Note: UTILISÉE PAR LE TABLEAU DANS 'QUICKFILTER-BIS'
   
-  return this.http.get('http://localhost:3000/api/AllFishingsAtDate')
+  return this.http.post<Fish[]>(this.addrUrl +'/fishing-api/AllFishingsAtDate', httpOptions)
   .pipe(
-    map(
-      (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
-    ),
+    // map(
+    //   (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
+    // ),
     catchError(
       this.handleError('getAllFishingsAtDate', [])
     ),
@@ -66,11 +78,11 @@ public getAllFishingsAtDate(): Observable<Fish[]> {   // *** Note: UTILISÉE PAR
 
 public getFishes(): Observable<Fish[]> {
   
-  return this.http.get('http://localhost:3000/api/NameSpecie')
+  return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/NameSpecie')
   .pipe(
-    map(
-      (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
-    ),
+    // map(
+    //   (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
+    // ),
     catchError(this.handleError('getFishes', [])
     ),
   );
@@ -79,11 +91,11 @@ public getFishes(): Observable<Fish[]> {
 
 public getSuperZone(): Observable<Fish[]> {
   
-  return this.http.get('http://localhost:3000/api/SuperZone')
+  return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/SuperZone')
   .pipe(
-    map(
-      (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
-    ),
+    // map(
+    //   (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
+    // ),
     catchError(this.handleError('getSuperZone', [])
     ),
   );
@@ -91,11 +103,11 @@ public getSuperZone(): Observable<Fish[]> {
 
 public getZone(): Observable<Fish[]> {
   
-  return this.http.get('http://localhost:3000/api/Zone')
+  return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/Zone')
   .pipe(
-    map(
-      (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
-    ),
+    // map(
+    //   (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
+    // ),
     catchError(this.handleError('getZone', [])
     ),
   );
@@ -104,11 +116,11 @@ public getZone(): Observable<Fish[]> {
 // appel à l'API pour une date simple :
 public getDate(): Observable<Fish[]> {
   
-  return this.http.get('http://localhost:3000/api/Date')
+  return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/Date')
   .pipe(
-    map(
-      (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
-    ),
+    // map(
+    //   (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
+    // ),
     catchError(this.handleError('getDate', [])
     ),
   );
@@ -117,11 +129,11 @@ public getDate(): Observable<Fish[]> {
 // appel à l'API pour une plage de dates :
 public getDate2(): Observable<Fish[]> {
 
-  return this.http.get('http://localhost:3000/api/Date')
+  return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/Date')
   .pipe(
-    map(
-      (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
-    ),
+    // map(
+    //   (jsonArray: Object[]) => jsonArray.map(jsonItem => Fish.fromJson(jsonItem)),
+    // ),
     catchError(this.handleError('getDate2', [])
     ),
   );
@@ -139,7 +151,7 @@ public getDate2(): Observable<Fish[]> {
 
 getNewZoneForSingleDate(name_specie: string, date: string): Observable<Fish[]> {
   
-  return this.http.get<Fish[]>('http://localhost:3000/api/newZoneForSingleDate/' + name_specie + '&' + date)
+  return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/newZoneForSingleDate/' + name_specie + '&' + date)
   .pipe(
     catchError(
       this.handleError('getNewZoneForSingleDate', [])
@@ -148,7 +160,7 @@ getNewZoneForSingleDate(name_specie: string, date: string): Observable<Fish[]> {
 };
 
 getNewNamespForSingleDate(zone: string, date: string): Observable<Fish[]> {
-  return this.http.get<Fish[]>('http://localhost:3000/api/newNameSpForSingleDate/' + zone + '&' + date)
+  return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/newNameSpForSingleDate/' + zone + '&' + date)
     .pipe(
       catchError(this.handleError('getNewNamespForSingleDate', [])
     ),
@@ -156,7 +168,7 @@ getNewNamespForSingleDate(zone: string, date: string): Observable<Fish[]> {
 };
 
 getNewDateForSingleDate(name_specie: string, zone: string): Observable<Fish[]> {
-  return this.http.get<Fish[]>('http://localhost:3000/api/newDateForSingleDate/' + name_specie + '&' + zone)
+  return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/newDateForSingleDate/' + name_specie + '&' + zone)
     .pipe(
       catchError(this.handleError('getNewDateForSingleDate', [])
     ),
@@ -175,7 +187,7 @@ getNewDateForSingleDate(name_specie: string, zone: string): Observable<Fish[]> {
 
 getNewZone(name_specie: string, date2Begin: string, date2End: string): Observable<Fish[]> {
 
-  return this.http.get<Fish[]>('http://localhost:3000/api/newZone/' + name_specie + '&' + date2Begin + '&' + date2End)
+  return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/newZone/' + name_specie + '&' + date2Begin + '&' + date2End)
     .pipe(
       catchError(this.handleError('getNewZone', [])
     ),
@@ -184,7 +196,7 @@ getNewZone(name_specie: string, date2Begin: string, date2End: string): Observabl
 
 getNewNameSp(zone: string, date2Begin: string, date2End: string): Observable<Fish[]> {
 
-  return this.http.get<Fish[]>('http://localhost:3000/api/newNameSp/' + zone + '&' + date2Begin + '&' + date2End)
+  return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/newNameSp/' + zone + '&' + date2Begin + '&' + date2End)
   .pipe(
     catchError(this.handleError('getNewNameSp', [])
     ),
@@ -193,7 +205,7 @@ getNewNameSp(zone: string, date2Begin: string, date2End: string): Observable<Fis
 
 getNewDate2(date2Begin: string, date2End: string): Observable<Fish[]> {
 
-  return this.http.get<Fish[]>('http://localhost:3000/api/newDate2/' + date2Begin + '&' + date2End)
+  return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/newDate2/' + date2Begin + '&' + date2End)
   .pipe(
     catchError(this.handleError('getNewDate2', [])
     ),
@@ -215,14 +227,14 @@ getNewDate2(date2Begin: string, date2End: string): Observable<Fish[]> {
 
   // getAllFishes(): Observable<Fish[]> {
     
-  //   return this.http.get<Fish[]>('http://localhost:3000/api/fishes');
+  //   return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/fishes');
   // }
 
 // I> MÉTHODE POUR DATES-CHART (ONINIT)
 
   getAllFishingDates(): Observable<Fish[]> {
 
-    return this.http.get<Fish[]>('http://localhost:3000/api/AllFishingDates')
+    return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/AllFishingDates')
       .pipe(
         catchError(this.handleError('getAllFishingDates', []))
       );
@@ -231,7 +243,7 @@ getNewDate2(date2Begin: string, date2End: string): Observable<Fish[]> {
 
   // II> MÉTHODE POUR SPECIES-CHART (ONINIT)
   getAllFishingSpecies(): Observable<Fish[]> {
-    return this.http.get<Fish[]>('http://localhost:3000/api/AllFishingSpecies')
+    return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/AllFishingSpecies')
       .pipe(
         catchError(this.handleError('getAllFishingSpecies', [])
       ),
@@ -241,7 +253,7 @@ getNewDate2(date2Begin: string, date2End: string): Observable<Fish[]> {
 
   // getAllFishingSpecies(date: string): Observable<Fish[]> {
 
-  //   return this.http.get<Fish[]>('http://localhost:3000/api/AllFishingSpecies/' + date);
+  //   return this.http.get<Fish[]>(':3000/fishing-api/AllFishingSpecies/' + date);
   // }
 
 
@@ -249,7 +261,7 @@ getNewDate2(date2Begin: string, date2End: string): Observable<Fish[]> {
 
   getAllFishingZones(): Observable<Fish[]> {
 
-    return this.http.get<Fish[]>('http://localhost:3000/api/AllFishingZones')
+    return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/AllFishingZones')
       .pipe(
         catchError(this.handleError('getAllFishingZones', [])
       ),
@@ -257,7 +269,7 @@ getNewDate2(date2Begin: string, date2End: string): Observable<Fish[]> {
   };
 
   // getAllFishingZones(date: string): Observable<Fish[]> {
-  //   return this.http.get<Fish[]>('http://localhost:3000/api/AllFishingZones/' + date);
+  //   return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/AllFishingZones/' + date);
   // }
 
 
@@ -274,7 +286,7 @@ getNewDate2(date2Begin: string, date2End: string): Observable<Fish[]> {
   // REQUÊTE 3 B : (SUBMIT)
   getAllZones(name_specie: string, zone: string, date: string): Observable<Fish[]> {
 
-    return this.http.get<Fish[]>('http://localhost:3000/api/zones/' + name_specie + '&' + zone + '&' + date)
+    return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/zones/' + name_specie + '&' + zone + '&' + date)
       .pipe(
         catchError(this.handleError('getAllZones', [])
       ),
@@ -284,7 +296,7 @@ getNewDate2(date2Begin: string, date2End: string): Observable<Fish[]> {
   // REQUÊTE 3 A (test): (SUBMIT) // UTILISÉE DANS 'CHART-CHANGE-COMPONENT' (= TEST)
   getAllZonesTest(name_specie: string, zone: string, dateend: string): Observable<Fish[]> {
     
-    return this.http.get<Fish[]>('http://localhost:3000/api/zones/' + name_specie + '&' + zone + '&' + dateend)
+    return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/zones/' + name_specie + '&' + zone + '&' + dateend)
       .pipe(
         catchError(this.handleError('getAllZonesTest', [])
       ),
@@ -298,7 +310,7 @@ getNewDate2(date2Begin: string, date2End: string): Observable<Fish[]> {
   // REQUÊTE 2 : (SUBMIT)
   getAllSpecies(name_specie: string, zone: string, date: string): Observable<Fish[]> {
 
-    return this.http.get<Fish[]>('http://localhost:3000/api/species/' + name_specie + '&' + zone + '&' + date)
+    return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/species/' + name_specie + '&' + zone + '&' + date)
       .pipe(
         catchError(this.handleError('getAllSpecies', [])
       ),
@@ -312,7 +324,7 @@ getNewDate2(date2Begin: string, date2End: string): Observable<Fish[]> {
 // REQUÊTE 1 B : (SUBMIT)
   getAllDates(name_specie: string, zone: string, datebegin: string, dateend: string): Observable<Fish[]> {
 
-    return this.http.get<Fish[]>('http://localhost:3000/api/dates/' + name_specie + '&' + zone + '&' + datebegin + '&' + dateend)
+    return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/dates/' + name_specie + '&' + zone + '&' + datebegin + '&' + dateend)
       .pipe(
         catchError(this.handleError('getAllDates', [])
       ),
@@ -322,7 +334,7 @@ getNewDate2(date2Begin: string, date2End: string): Observable<Fish[]> {
 // REQUÊTE 1 A : (SUBMIT) // UTILISÉE DANS 'CHART-CHANGE-COMPONENT' (= TEST)
   getOneSpecie(name_specie: string, zone: string, datebegin: string, dateend: string): Observable<Fish[]> {
 
-    return this.http.get<Fish[]>('http://localhost:3000/api/fishes/' + name_specie + '&' + zone + '&' + datebegin + '&' + dateend)
+    return this.http.get<Fish[]>(this.addrUrl +'/fishing-api/fishes/' + name_specie + '&' + zone + '&' + datebegin + '&' + dateend)
       .pipe(
         catchError(this.handleError('getOneSpecie', [])
       ),

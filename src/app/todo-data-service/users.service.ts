@@ -5,6 +5,8 @@ import { AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
+// import { environment } from 'src/environments/environment';
+
 import { User } from '../shared/todo-class/user';
 import { HttpErrorHandler, HandleError } from './http-error-handler.service';
 
@@ -26,17 +28,36 @@ export class UsersService {
   //   throw new Error("Method not implemented.");
   // }
 
+  // addrUrl: string = environment.backend.baseURL;
+  // addrUrl: string = 'http://localhost:3000';
+  
+  // usersUrl: string = this.addrUrl +'/users-api/AllUsers';
 
-  usersUrl: string = 'http://localhost:3000/users-api/AllUsers';
+  private user$: User[];
+  private user: User;
 
   private handleError: HandleError;
 
   public constructor(
     private http: HttpClient,
-    httpErrorHandler: HttpErrorHandler
-  ) { 
+    httpErrorHandler: HttpErrorHandler,
+  ) {
+    
     this.http = http;
     this.handleError = httpErrorHandler.createHandleError('UsersService');
+
+    this.user$ = [];
+
+    this.user = {
+      id_user: 0, 
+      user_firstname: '', 
+      user_lastname: '', 
+      login: '', 
+      password: '', 
+      mail: '',
+      role: '',
+    }
+
   }
 
 
@@ -49,7 +70,7 @@ export class UsersService {
 
   getUsers(): Observable<User[]> {
 
-    return this.http.get<User[]>(this.usersUrl)
+    return this.http.post<User[]>('users-api/AllUsers', httpOptions)
     .pipe(
       catchError(
         this.handleError('getUsers', []),
@@ -58,100 +79,104 @@ export class UsersService {
   };
 
 
-  public getAllUsers(): Observable<User[]> {
+  // public getAllUsers(): Observable<User[]> {
 
-    return this.http.get('http://localhost:3000/users-api/AllUsers')
-    .pipe(
-      map(
-        (jsonArray: Object[]) => jsonArray.map(jsonItem => User.fromJson(jsonItem)),
-      ),
-      catchError(
-        this.handleError<User[]>('getAllUsers', []),
-      ),
-    );
-  };
+  //   return this.http.get('users-api/AllUsers')
+  //   .pipe(
+  //     map(
+  //       (jsonArray: Object[]) => jsonArray.map(jsonItem => User.fromJson(jsonItem)),
+  //     ),
+  //     catchError(
+  //       this.handleError<User[]>('getAllUsers', []),
+  //     ),
+  //   );
+  // };
 
   
   // *** Pour la connexion à l'espace (user):
-  public getLogin(login: string, mail: string): Observable<User[]> {
+  public getUser(login: string, mail: string): Observable<User[]> {
 
-    return this.http.get<User[]>('http://localhost:3000/users-api/SingleLogin/' + login + '&' + mail)
-    .pipe(
-      map(
-        (jsonArray: Object[]) => jsonArray.map(jsonItem => User.fromJson(jsonItem)),
-      ),      
+    this.user.login = login;
+    this.user.mail = mail;
+
+    this.user$[0] = this.user;
+
+    return this.http.post<User[]>('users-api/User', this.user$[0], httpOptions)
+    .pipe(  
       catchError(
-        this.handleError<User[]>('getLogin', []),
+        this.handleError<User[]>('getUser', this.user$),
       ),    
     );    
   };
 
 
     // *** Pour la connexion à l'espace (admin):
-    public getAdminLogin(login: string, mail: string): Observable<User[]> {
+    public getAdmin(login: string, mail: string): Observable<User[]> {
   
-      return this.http.get<User[]>('http://localhost:3000/users-api/SingleAdminLogin/' + login + '&' + mail)
-      .pipe(
-        map(
-          (jsonArray: Object[]) => jsonArray.map(jsonItem => User.fromJson(jsonItem)),
-        ),      
+      this.user.login = login;
+      this.user.mail = mail;
+
+      this.user$[0] = this.user;
+
+      return this.http.post<User[]>('users-api/Admin/', this.user$[0], httpOptions)
+      .pipe(      
         catchError(
-          this.handleError<User[]>('getLogin', []),
+          this.handleError<User[]>('getAdmin', this.user$),
         ),   
       );
     };
 
 
   /* insertion : méthode 'GET' */
-  public getLoginTest(login: string): Observable<User[]> {
+  // public getLoginTest(login: string): Observable<User[]> {
 
-    return this.http.get<User[]>('http://localhost:3000/users-api/SingleLoginTest/'+ login)
-    .pipe(
-      map(
-        (jsonArray: Object[]) => jsonArray.map(jsonItem => User.fromJson(jsonItem)),
-      ),
-      catchError(
-        this.handleError<User[]>('getLoginTest', []),
-      ),    
-    );
-  };
+  //   return this.http.get<User[]>('users-api/SingleLoginTest/'+ login)
+  //   .pipe(
+  //     map(
+  //       (jsonArray: Object[]) => jsonArray.map(jsonItem => User.fromJson(jsonItem)),
+  //     ),
+  //     catchError(
+  //       this.handleError<User[]>('getLoginTest', []),
+  //     ),    
+  //   );
+  // };
 
 
   deleteUser(user: User): Observable<User> {
 
-    return this.http.post<User>('http://localhost:3000/users-api/DeleteUsers', user, httpOptions)
+    return this.http.post<User>('users-api/DeleteUser', user, httpOptions)
       .pipe(
         catchError(this.handleError('deleteUser', user),
       ),
     );
   };
 
+  // *** utilisée dans 'Members-list':
+  deleteUserByTable(user: User): Observable<User> {
 
-  deleteUser2(user: User): Observable<User> {
-
-    const url = `http://localhost:3000/users-api/AllUsers2/${ user.id_user }`;
+    const url = `users-api/DeleteUserByTable/${ user.id_user }`;
     
     return this.http.delete<User>(url, httpOptions)
     .pipe(
       catchError(
-        this.handleError('deleteUser2', user),
+        this.handleError('deleteUserByTable', user),
       ),
     );
   };
 
 
-  // MARCHE (autocomplete form)...
+  // Utilisé (autocomplete form)...
   deleteUserByLogin(login: string): Observable<User[]> {
 
-    const url = `${this.usersUrl}/`+login;
+    const url = 'users-api/DeleteUser/'+login;
     
     return this.http.delete<User[]>(url, httpOptions)
     .pipe(
-      map(
-        (jsonArray: Object[]) => jsonArray.map(jsonItem => User.fromJson(jsonItem)),
-      ),
+      // map(
+      //   (jsonArray: Object[]) => jsonArray.map(jsonItem => User.fromJson(jsonItem)),
+      // ),
       catchError(
-        this.handleError<User[]>('deleteUser3', []),
+        this.handleError<User[]>('deleteUserByLogin', []),
       ),    
     );
   };
@@ -160,7 +185,7 @@ export class UsersService {
   /* insertion user : méthode 'POST' */
   addUser(user: User): Observable<User> {
     
-    return this.http.post<User>(this.usersUrl, user, httpOptions)
+    return this.http.post<User>('users-api/AddUser', user, httpOptions)
     .pipe(   
       catchError(
         this.handleError('addUser', user),
@@ -172,7 +197,7 @@ export class UsersService {
   updateUser(user: User): Observable<User> {
     httpOptions.headers = httpOptions.headers.set('Autorization', 'my-new-auth-token');
 
-    return this.http.put<User>(this.usersUrl, user, httpOptions)
+    return this.http.put<User>('users-api/UpdateUser', user, httpOptions)
     .pipe(
       catchError(
         this.handleError('updateUser', user),
@@ -184,15 +209,14 @@ export class UsersService {
   /* RECHERCHE DE LA DONNÉE ID_USER, AVEC POUR PARAMETRE LE LOGIN DU MEMBRE SÉLECTIONNÉ (TEST : POUR L'UPDATE D'UN LOGIN) : méthode 'GET' */
   public getSingleUserLogin(login: string): Observable<User[]> {
 
-    return this.http.get<User[]>('http://localhost:3000/users-api/SingleUserLogin/'+ login)
+    this.user.login = login;
+
+    this.user$[0] = this.user;
+
+    return this.http.post<User[]>('users-api/SingleUserLogin', this.user$[0], httpOptions)
     .pipe(
-      map(
-        (jsonArray: Object[]) => jsonArray.map(
-          jsonItem => User.fromJson(jsonItem),
-        ),
-      ),
       catchError(
-        this.handleError<User[]>('getSingleUserLogin', []),
+        this.handleError<User[]>('getSingleUserLogin', this.user$),
       ),
     );
   };
@@ -201,14 +225,18 @@ export class UsersService {
   /* RECHERCHE DE LA DONNÉE ID_USER, AVEC POUR PARAMETRE LE MAIL DU MEMBRE SÉLECTIONNÉ (TEST : POUR L'UPDATE D'UN MAIL) : méthode 'GET' */
   public getSingleUserMail(mail: string): Observable<User[]> {
 
-      return this.http.get<User[]>('http://localhost:3000/users-api/SingleUserMail/'+ mail)
+    this.user.mail = mail;
+
+    this.user$[0] = this.user;
+
+      return this.http.post<User[]>('users-api/SingleUserMail', this.user$[0], httpOptions)
       .pipe(
-        map(
-          (jsonArray: Object[]) => jsonArray.map(
-            jsonItem => User.fromJson(jsonItem),
-          ),
-          catchError(this.handleError<User[]>('getSingleUserMail', []),
-          ),
+        // map(
+        //   (jsonArray: Object[]) => jsonArray.map(
+        //     jsonItem => User.fromJson(jsonItem),
+        // ),
+        catchError(
+          this.handleError<User[]>('getSingleUserMail', this.user$),
         ),
       );
     };

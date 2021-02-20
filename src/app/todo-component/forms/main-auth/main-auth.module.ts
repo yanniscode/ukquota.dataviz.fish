@@ -4,18 +4,27 @@ import { CommonModule } from '@angular/common';
 
 import { FormsModule }    from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; // reactive forms
-import { MatFormFieldModule, MatInputModule, MatTabsModule, MatAutocompleteModule,  MatProgressSpinnerModule,
-        MatSelectModule, MatButtonModule, NativeDateModule } from '@angular/material';
 
-import { MatDatepickerModule } from '@angular/material';
+// *** pour la librairie 'material design':
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+
+import { MatNativeDateModule } from '@angular/material/core';
+
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatRangeDatepickerModule, MatRangeNativeDateModule } from 'mat-range-datepicker';
+// import { MatRangeDatepickerModule, MatRangeNativeDateModule } from 'mat-range-datepicker';
 
 
 // ** MODULES  EXTERNES (librairies) :
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';   // librairie Bootstrap
 import { ChartsModule } from 'ng2-charts';                // graphiques 'chart.js' import !
-import { AgGridModule } from 'ag-grid-angular/main';      // tableau (données)
+import { AgGridModule } from 'ag-grid-angular';      // tableau (données)
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';  // *** carte Leaflet
 import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker/esm5/saturn-datepicker';
 
@@ -60,18 +69,19 @@ import { ChartUpdateComponent } from '../../../shared/chart-update/chart-update.
     MatProgressSpinnerModule,
     MatSelectModule,
     MatButtonModule,
-    NativeDateModule,
+    MatNativeDateModule,
+    // NativeDateModule,
     MatDatepickerModule,
     SatDatepickerModule,
     SatNativeDateModule,
     MatMomentDateModule,
-    MatRangeDatepickerModule,
-    MatRangeNativeDateModule,
+    // MatRangeDatepickerModule,
+    // MatRangeNativeDateModule,
     AgGridModule.withComponents([]),
     NgbModule,
     ChartsModule,
-    LeafletModule.forRoot(),
-    MainAuthRoutingModule
+    LeafletModule,
+    MainAuthRoutingModule,
   ],
   declarations: [
     TabsComponent,

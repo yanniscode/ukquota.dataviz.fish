@@ -20,7 +20,7 @@
  
 
 <!-- MODALE: -->
-<ng-template #content let-modal tabindex="-1" role="dialog" aria-labelledby="lineChartModale" aria-hidden="true" class="modal fade" role="document">
+<ng-template #content let-modal tabindex="-1" role="dialog" aria-labelledby="lineChartModale" aria-hidden="true">
 
     <div class="graphic-modal-content">
 
@@ -33,7 +33,7 @@
 
         <div class="graphic-modal-body col-12">
 
-            <app-chart-update class="animatedChart chartFadeIn" [type]="type" [data]="data" [options]="options">
+            <app-chart-update [type]="type" [data]="data" [options]="options">
             </app-chart-update>
             
         </div>
