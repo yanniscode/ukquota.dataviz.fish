@@ -6,6 +6,6 @@
 export const environment = {
 	production: false,
 	backend: {
-		baseURL:"localhost:3000",
+		baseURL:"http://localhost:3000",
 	}
 };
