@@ -99,9 +99,7 @@ export class UsersService {
     this.user.login = login;
     this.user.mail = mail;
 
-    this.user$[0] = this.user;
-
-    return this.http.post<User[]>('users-api/User', this.user$[0], httpOptions)
+    return this.http.post<User[]>('users-api/User', this.user, httpOptions)
     .pipe(  
       catchError(
         this.handleError<User[]>('getUser', this.user$),
@@ -116,9 +114,7 @@ export class UsersService {
       this.user.login = login;
       this.user.mail = mail;
 
-      this.user$[0] = this.user;
-
-      return this.http.post<User[]>('users-api/Admin/', this.user$[0], httpOptions)
+      return this.http.post<User[]>('users-api/Admin/', this.user, httpOptions)
       .pipe(      
         catchError(
           this.handleError<User[]>('getAdmin', this.user$),
@@ -211,9 +207,7 @@ export class UsersService {
 
     this.user.login = login;
 
-    this.user$[0] = this.user;
-
-    return this.http.post<User[]>('users-api/SingleUserLogin', this.user$[0], httpOptions)
+    return this.http.post<User[]>('users-api/SingleUserLogin', this.user, httpOptions)
     .pipe(
       catchError(
         this.handleError<User[]>('getSingleUserLogin', this.user$),
@@ -227,9 +221,7 @@ export class UsersService {
 
     this.user.mail = mail;
 
-    this.user$[0] = this.user;
-
-      return this.http.post<User[]>('users-api/SingleUserMail', this.user$[0], httpOptions)
+      return this.http.post<User[]>('users-api/SingleUserMail', this.user, httpOptions)
       .pipe(
         // map(
         //   (jsonArray: Object[]) => jsonArray.map(
