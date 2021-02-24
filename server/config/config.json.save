@@ -1,23 +1,23 @@
 {
   "development": {
     "username": "root",
-    "password": "Kasparov29",
+    "password": "",
     "database": "dataviz_fish_uk",
-    "host": "51.210.254.67",
+    "host": "",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "Kasparov29",
+    "password": "",
     "database": "dataviz_fish_uk",
-    "host": "51.210.254.67",
+    "host": "",
     "dialect": "mysql" 
   },
   "production": {
     "username": "root",
-    "password": "Kasparov29",
+    "password": "",
     "database": "dataviz_fish_uk",
-    "host": "51.210.254.67",
+    "host": "",
     "dialect": "mysql"
   }
 }
