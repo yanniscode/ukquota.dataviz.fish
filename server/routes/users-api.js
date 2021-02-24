@@ -19,9 +19,9 @@ const UserModel = require('../models/users')
 
 
 
-const sequelize = new Sequelize("dataviz_fish_uk", "root", "test", {
+const sequelize = new Sequelize("dataviz_fish_uk", "root", "Kasparov29", {
 
-    host: "localhost",
+    host: "51.210.254.67",
     dialect: "mysql",
     pool: {
         max: 5,

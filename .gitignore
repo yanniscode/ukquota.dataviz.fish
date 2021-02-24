@@ -5,6 +5,16 @@ infos_persos.txt
 client_secret.json
 /test_files
 
+#fichiers de config (connexion) :
+/server/config/config.json
+/server/config/config.save.json
+/server/routes/api.js
+/server/routes/fishing-api.js
+/server/routes/users-api.js
+/src/environments/environment.ts
+/src/proxy.conf.json
+
+
 # compiled output
 /dist
 /dist-server
