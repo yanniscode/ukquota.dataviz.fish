@@ -967,6 +967,11 @@ a:active {
 
 // *** CSS de Map (Leaflet):
 
+// override CSS:
+.leaflet-container {
+	font-weight: bolder;
+}
+
 .map_container {
 	background-color: #d9d9d9;
 	width: 90%;

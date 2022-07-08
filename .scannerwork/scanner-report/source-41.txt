@@ -1,0 +1,4 @@
+<div class="gallery" style="padding-top: 5vh;">
+    <h1 style="text-align: center;">Link Not Found</h1>
+    <p class="text_column" style="text-align: center;">We couldn't find that link! Not even with x-ray vision.</p>
+</div>

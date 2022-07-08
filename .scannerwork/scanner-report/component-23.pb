@@ -1,0 +1,1 @@
+ 2webX@hr7src/app/html/medium-header/medium-header.component.html

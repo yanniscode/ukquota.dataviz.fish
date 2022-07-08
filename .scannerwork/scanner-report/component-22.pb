@@ -1,0 +1,1 @@
+ 2tsXhr5src/app/html/medium-footer/medium-footer.component.ts

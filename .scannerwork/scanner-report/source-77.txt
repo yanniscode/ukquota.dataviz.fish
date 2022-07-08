@@ -1,0 +1,26 @@
+<div id="data_table" class="animated fadeIn">
+
+  <h2 class="table-subtitle">Dernières données</h2>
+
+  <div class="submit">
+    <button mat-button class="button" (click)="getSelectedRows()">Lignes sélectionnées</button>
+  </div>
+
+  <div align ="center" class="table_container">
+    <ag-grid-angular
+      id="agGrid"
+      class="ag-theme-balham"
+      [enableSorting]="true"
+      [enableFilter]="true"
+      [animateRows]="true"
+      [pagination]="true"
+      [rowHeight]="rowHeight"
+      [columnDefs]="columnDefs"
+      [sortingOrder]="sortingOrder"
+      rowSelection="multiple"
+      headerHeight="60"
+      (gridReady)="onGridReady($event)"
+    ></ag-grid-angular>
+  </div>
+
+</div>

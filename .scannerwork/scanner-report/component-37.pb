@@ -1,0 +1,1 @@
+% 2cssXhr-src/app/html/xs-infos/xs-infos.component.scss

@@ -1,0 +1,1 @@
+ 2webXhr'src/app/html/infos/infos.component.html

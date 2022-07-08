@@ -202,6 +202,8 @@ private onZonesLabels(): void {
         if (Object(fishes).length > 0) {
 
           if (z_coord.value_quota - z_coord.value_landing >= 0) { // si le quota n'est pas atteint
+            console.log("test zcoord:");
+            console.log(z_coord.z_coord);
 
             polygonColor = 'blue';
 

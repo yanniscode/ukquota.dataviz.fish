@@ -1,0 +1,1221 @@
+/* You can add global styles to this file, and also import other style files */
+@charset "UTF-8";
+
+/* bootstrap import : */
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+/* pour Material Angular : */
+@import './abstracts/variables';
+@import './abstracts/mixins';
+
+
+/* IMPORTS DE THEMES pour 'MATERIAL DESIGN' : */
+@import "../../node_modules/@angular/material/prebuilt-themes/purple-green.css";
+@import '../../node_modules/@angular/material/theming';
+
+// *** ATTENTION: 'saturn-datepicker' = librairie alternative pour le date picker (sat-datepiker remplace mat-datepicker): permet colorisation des plages de dates:
+@import '../../node_modules/saturn-datepicker/theming'; // POUR UN CHAMPS 'DATEPICKER'
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core(); // ?? ATTENTION : CONFLIT POSSIBLE AVEC LES THEMES 'MATERIAL DESIGN' CHOISIS
+
+
+// cf: https://material.angular.io/guide/theming#defining-a-custom-theme :
+// CSS POUR LE CHAMPS 'PLAGE DE DATES' :
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://www.google.com/design/spec/style/color.html
+
+// VARIABLE définie ici pour "$eltex-theme":
+$eltex-primary: mat-palette($mat-teal, 400); // *** Note : MODIFIE LA COULEUR DES LIGNES DE SÉLECTION DE 'TABULATIONS' ET DES CHAMPS (SELECT, DATEPICKER) => $mat-cyan, A700, A400, 800 (?? SEUL LE PREMIER ELEMENT COULEUR EST ACTIF ?? - )
+
+$eltex-accent: mat-palette($mat-cyan, 800, A400, 800); // ?? NÉCESSAIRE, mais valeurs appliquées ??
+
+// Create the theme object (a Sass map containing all of the palettes).
+$eltex-theme: mat-dark-theme($eltex-primary, $eltex-accent);
+
+@include sat-datepicker-theme($eltex-theme);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($eltex-theme); // ?? ATTENTION : CONFLIT AVEC THEMES DE BASE 'MATERIAL DESIGN'
+
+
+// IMPORT DE LA LIBRAIRIE 'AG-GRID': TESTS POUR UN TABLEAU FILTRABLE : (import nécessaire pour modifier les règles CSS)
+@import "../../node_modules/ag-grid-community/dist/styles/ag-grid.css";
+@import "../../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css";
+
+
+
+
+
+// ****************
+
+// *** CSS GENERAL:
+
+html, body, header {
+	padding: 2px;	// *** marge de la page
+	background-color: #EEE;
+	font-family: source-sans-pro;
+	font-style: normal;
+	font-weight: 200;
+	width: 99%;		// *** Note: évite ascenseur horizontal (bas de l'image)
+	margin: auto;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+h1 {
+	color: #369;
+	font-family: Arial, Helvetica, sans-serif; 
+	margin: 0;
+	padding: 0;
+}
+
+// *** 'container' = DIV DES GRAPHIQUES, TABLEAUX, CARTES:
+.container {
+	background-color: #d9d9d9;
+	max-width: 95%;
+	padding: 5vw;
+}
+
+.inscription-container {
+	background-color: #B3B3B3;
+	max-width: 95%;
+	margin-top:7vh;
+	padding: 5vw;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.subtitle {
+	text-align: right;
+}
+
+.subtitle_logo {
+	font-size: 1.5rem;
+	text-align: right;
+	width: 100%;
+	margin-top: 25px;
+	margin-bottom: 20px;
+	letter-spacing: 4px;
+	color: #212529;
+	padding-right: 2vw;
+}
+
+.grandimg {
+	width:100%;
+	height:80%;
+	position: relative;
+}
+
+.connexion_title {
+	font-size: 1.5rem;
+}
+
+
+// *** Ancre de page:
+#fishing_data {		// *** ajout pour résoudre les problèmes de marge à droite 
+	margin-top: -10vh;
+	position: relative;
+}
+
+// *** titre de tableaux et datas (viz):
+.title {
+	color: orangered;
+	text-align: left;
+	padding-top: 6vh;
+	padding-left: 10vw;
+}
+
+
+
+.datas-title {
+	color: orangered;
+	text-align: left;
+	padding-top: 10px;
+	padding-left: 40px;
+	margin-bottom: 55px;
+}
+
+.gallery {
+	clear: both;
+	width: 100%;
+	background-color: #8b94aa;
+	padding-bottom: 5vh;
+}
+
+
+.hidden {
+	display: none;
+}
+
+
+
+// *************
+
+// *** CSS POUR ANIMATIONS (général): TRANSITIONS POUR L'ARRIVÉE DE NOUVEAUX COMPOSANTS (CSS):
+
+@-webkit-keyframes fadeOut {
+	0% { opacity: 1; }
+	100% { opacity: 0; }
+}
+  
+@keyframes fadeOut {
+	0% { opacity: 1; }
+	100% { opacity: 0; }
+}
+  
+.fadeOut {
+	-webkit-animation-name: fadeOut;
+	animation-name: fadeOut;
+}
+
+
+
+// ***************
+
+// *** DIV DES FORMULAIRES DE CONNEXION:
+
+.form {
+	background-color: #8b94aa;
+	padding-left: 9vw;
+	padding-right: 9vw;
+	margin-top: 7vh;
+}
+
+.form-connection-container {
+	background-color: #B3B3B3;
+	max-width: 95%;
+	padding: 5vw;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#formsubmit {
+	margin: 10px;
+}
+
+#formInscription {
+	width: 80%;
+}
+
+.delete {
+	width: auto; // 30%;
+}
+
+.alert {	// *** override css: champs infos pour les saisies de l'utilisateur (Bootstrap)
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.mat-form-field { // *** override css
+	display: block;
+	position: relative;
+	text-align: left;
+	font-size: 1.4rem;
+}
+
+#datepicker {
+	width: 100%;
+	color: #FFF;
+}
+
+// *** champs 'select' pour un 'input' de type plage de date, par exemple
+.matselectclass {
+	font-size: 1.4rem;
+}
+
+.mat-option {	// *** override css
+	font-size: 1.4em;
+	line-height: 1em;
+	width: 100%;
+}
+
+#login_select {
+	line-height: 1em;
+}
+
+#login_select_text {
+	padding-left: 0.5em;
+}
+
+// **************
+
+// *** Tableau AG-GRID:
+
+#data_table {
+	position: relative;
+	z-index: 0;		// *** z-index 0 ou positif semble obligé, sinon perd son interactivité...
+}
+
+.table_container {
+	max-width: 100%;
+}
+
+.table-subtitle {
+	color: #043745;
+	text-align: center;
+	margin-top: 15vh;
+	margin-bottom: -2vh;
+}
+
+table, th, td {
+	margin: 10px 0;
+	border: solid 1px #333;
+	padding: 2px 4px;
+	font: 15px Verdana;
+	text-align: center;
+}
+
+th {
+	font-weight:bold;
+}
+
+.ag-theme-balham {	// *** override css 
+	font-size: 1.3rem;
+}
+
+.ag-theme-balham .ag-header {	// *** override css 
+	font-size: 1rem;
+}
+
+#agGrid {	// tableau de données (Ag Grid)
+	width: 95%;
+	height: 755px;
+}
+
+// *** Clear floats after the columns:
+.row:after {	// *** override css
+	content: "";
+	display: table;
+	clear: both;
+}
+
+
+// *** Tableau BOOTSTRAP:
+
+.table-sm th, .table-sm td { // *** Override CSS
+    padding: 0.75rem;
+}
+
+
+// ****************
+
+// *** Header Section:
+
+.wrapper {
+	background-color: transparent;
+	margin-bottom: 15vh;
+	width: 100%;
+}
+
+
+.medium-wrapper {
+	width:	99%;	// *** attention ! Pb: crée ascenseur horizontal en bas, si à 100%...
+	padding-top: 66vh;
+	background-color: transparent;
+}
+
+
+.xsmall-wrapper {
+	width: auto;	// *** peut être à 100% ou auto, ici	
+	padding-top: 95vh;
+	background-color: transparent;
+}
+
+
+
+.header {
+	position: relative;
+	background-image: url(../assets/img/SKNbusiness.png);	
+	background-repeat: no-repeat;
+	background-size: 96vw 65vh;
+	padding-bottom: 52vh;
+}
+
+.medium-header {
+	position: relative;
+	background-image: url(../assets/img/SKNbusiness.png);	
+	background-repeat: no-repeat;
+	background-size: 96vw 65vh;
+}
+
+.xsmall-header {
+	position: relative;
+	background-image: url(../assets/img/SKNbusiness.png);	
+	background-repeat: no-repeat;
+	background-size: 96vw 70vh;
+}
+
+
+
+
+
+.header_menu {
+	position: absolute;
+	width: 100%;
+	padding-top: 40vh;
+	padding-left: 2.5vw;
+}
+
+.medium-header_menu {
+	position: absolute;
+	width: 100%;
+	margin-top: -25vh;
+	margin-left: 10vw;
+}
+
+.xsmall-header_menu {
+	position: absolute;
+	width: 100%;
+	margin-top: -50vh;
+	padding-left: 18vw;
+}
+
+
+
+.list_menu {
+	padding-top: 10vh;
+	padding-right: 5vw;
+}
+
+
+
+.main_logo {
+	position: absolute;
+	color: #043745;
+	font-size: 2.5vw;
+	letter-spacing: 0.2vw;
+	padding-left: 4vw;
+	padding-top: 26vh;
+}
+
+.medium-main_logo {
+	position: absolute;
+	text-align: center;
+	font-size: 1.3rem;
+	color: #043745;
+	font-weight: bold;
+	letter-spacing: 0.2vw;
+	margin-top: -16vh;
+	padding-left: 25vw;
+}
+
+.xsmall-main_logo {
+	position: absolute;
+	text-align: center;
+	font-size: 1.3rem;
+	color: #043745;
+	font-weight: bold;
+	letter-spacing: 0.2vw;
+	margin-top: -15vh;
+}
+
+
+.logo2 {
+	color: #fff;
+	font-weight: bold;
+	text-align: left;
+	margin-left: 17vw;
+	margin-bottom: 4vh;
+	letter-spacing: 0.12em;
+}
+
+.medium-logo2 {
+	color: #fff;
+	font-size:1.1rem;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 4vh;
+	letter-spacing: 0.12em;
+}
+
+.xsmall-logo2 {
+	color: #fff;
+	font-size:1.1rem;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 4vh;
+	letter-spacing: 0.12em;
+}
+
+
+.site-logo{
+	position:relative;
+	display:block;
+	float:left;
+	width: 150px;
+	margin-top: 15px;
+	margin-left: 25px;
+}
+
+
+.main_title_big {
+	position: absolute;
+	color: orangered;
+	font-weight: bold;
+	text-align: left;
+	font-size: 6vw;
+	padding-top: 8.5vh;
+	padding-left: 6.9vw;
+	letter-spacing: 0.2vw;
+}
+
+.medium-main_title_big {
+	position: absolute;
+	color: orangered;
+	font-weight: bold;
+	text-align: left;
+	font-size: 3rem;
+	margin-top: -59vh;
+	letter-spacing: 0.2vw;
+	padding-left: 5vw;
+}
+
+.xsmall-main_title_big {
+	position: absolute;
+	color: orangered;
+	font-weight: bold;
+	text-align: left;
+	font-size: 1.5rem;
+	margin-top: -87vh;
+	letter-spacing: 0.2vw;
+	padding-left: 5vh;
+}
+
+
+
+.main_title_little {
+	position: absolute;
+	text-align: end;
+	font-weight: bold;
+	color: #717070;
+	font-size: 4vw;
+	padding-top: 16vh;
+	padding-left: 6vw;
+}
+
+.medium-main_title_little {
+	position: absolute;
+	text-align: center;
+	font-weight: bold;
+	color: #717070;
+	font-size: 2.5rem;
+	margin-top: -37vh;
+	padding-left: 7vw;
+}
+
+.xsmall-main_title_little {
+	position: absolute;
+	text-align: center;
+	font-weight: bold;
+	color: #717070;
+	font-size: 1.2rem;
+	margin-left: -6vw;
+	margin-top: -68vh;
+}
+
+
+.tagline {
+	position: absolute;
+	text-align: center;
+	font-size: 1.5rem;
+	color: #212529;
+	padding-top: 30vh;
+	padding-left: 2vw;
+	font-weight: normal;
+	text-transform: uppercase;
+	letter-spacing: 0.2vw;
+}
+
+.medium-tagline {
+	position: absolute;
+	text-align: center;
+	color: #212529;
+	font-size: 1.2rem;
+	font-weight: normal;
+	text-transform: uppercase;
+	letter-spacing: 0.2vw;
+	margin-top: -40vh;
+	padding-left: 5vw;
+}
+
+.xsmall-tagline {
+	position: absolute;
+	text-align: center;
+	color: #212529;
+	font-size: 0.7rem;
+	font-weight: normal;
+	text-transform: uppercase;
+	letter-spacing: 0.2vw;
+	margin-top: -70vh;
+	margin-left: -5vw;
+}
+
+
+nav {
+	float: left;
+	text-align: left;
+}
+
+header nav ul {
+	list-style: none;
+	float: left;
+}
+
+nav ul li {
+	float: left;
+	font-weight: bold;
+	transition: all 0.3s linear;
+	cursor: pointer;
+}
+
+
+.text_column {
+	text-align: justify;
+	line-height: 1.5em;
+	padding-top: 20px;
+	padding-left: 15vw;
+	padding-bottom: 4vh;
+	padding-right: 15vw;
+	color: #FFF;
+	font-size: 1.6rem;
+}
+
+.medium-text_column {
+	text-align: left;
+	line-height: 1.5em;
+	padding-top: 20px;
+	padding-bottom: 4vh;
+	color: #FFF;
+	font-size: 1rem;
+}
+
+.xsmall-text_column {
+	text-align: left;
+	line-height: 1.5em;
+	padding-top: 20px;
+	padding-bottom: 4vh;
+	color: #FFF;
+	font-size: 1rem;
+}
+
+
+
+// *** About Section:
+
+.about {
+	padding-top: 35px;
+	background-color: #043745;
+	width: 100%;
+}
+
+.medium-about {
+	padding-top: 35px;
+	background-color: #043745;
+	width: 100%;
+}
+
+.xsmall-about {
+	padding-top: 35px;
+	background-color: #043745;
+	width: 100%;
+}
+
+
+
+
+
+// *** boutons d'affichage des graphiques :
+
+.submit {
+	background: #8b94aa;
+	text-align: center;
+	margin: 2vw;
+}
+
+
+.submit-button {
+	padding-right: 55px;
+	padding-left: 55px;
+	margin: 1vw;
+}
+
+.thumbnail {
+	width: 33%;
+	text-align: center;
+	float: left;
+	margin-top: 35px;
+}
+
+.gallery .thumbnail h4 {
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	color: #52BAD5;
+}
+
+.gallery .thumbnail p {
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	color: #FFF;
+}
+
+
+// *** animations pour intro et changements de composants (fade in/out):
+
+.animated {
+	-webkit-animation-duration: 1.5s;
+	animation-duration: 1.5s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+  
+@-webkit-keyframes fadeIn {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+  
+@keyframes fadeIn {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+  
+.fadeIn {
+	-webkit-animation-name: fadeIn;
+	animation-name: fadeIn;
+}
+
+
+
+.animated-slow {
+	-webkit-animation-duration: 7s;
+	animation-duration: 7s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+
+@-webkit-keyframes slowFadeIn {
+	0% {opacity: 0;}
+	90% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
+@keyframes slowFadeIn {
+	0% {opacity: 0;}
+	90% {opacity: 0;}
+	100% {opacity: 1;}
+}
+  
+.slowFadeIn {
+	-webkit-animation-name: slowFadeIn;
+	animation-name: slowFadeIn;
+}
+
+
+
+// Parallax Section:
+
+.banner {
+	background-color: #2D9AB7;
+	background-repeat: no-repeat;
+	height: 100%;
+}
+
+.parallax {
+	color: #FFFFFF;
+	font-size: 1.5rem;
+	text-align: left;
+	padding-left: 8vw;
+	padding-top: 2vh; 
+	letter-spacing: 0.1em;
+}
+
+
+// *** Footer Section:
+footer {
+	background-color: #EEEEEE;
+	padding-bottom: 35px;
+}
+
+.footer_column {
+	width: 45%;
+	text-align: center;
+	padding-top: 30px;
+	float: left;
+}
+
+footer .footer_column h3 {
+	color: #212529;
+	text-align: center;
+}
+
+footer .footer_column p {
+	color: #717070;
+	background-color: #FFFFFF;
+}
+
+.cards {
+	width: 100%;
+	height: auto;
+	max-width: 600px;
+	max-height: 400px;
+}
+
+footer .footer_column p {
+	padding-left: 30px;
+	padding-right: 30px;
+	text-align: justify;
+	line-height: 25px;
+	font-weight: lighter;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+
+.copyright {
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background-color: #717070;
+	color: #FFFFFF;
+	text-transform: uppercase;
+	font-weight: lighter;
+	letter-spacing: 2px;
+	border-top-width: 2px;
+	width: 100%;
+}
+
+.footer_banner {
+	background-color: #B3B3B3;
+	padding-top: 30px;
+	padding-bottom: 60px;
+	margin-bottom: 0px;
+	background-repeat: repeat;
+	width: 100%;
+}
+
+.footer {
+	display: inline-block;
+}
+
+
+// *** Navbar:
+
+.nav-link {
+	color: #043745; /* #FFF; */
+	// text-shadow: 0.2px 0.1px #8b94aa; /* = ombre */
+	text-decoration: none; /* supprime l'effet de lien souligné */
+	font-size: 3vh;
+	font-weight: bold;
+}
+
+
+// *** Navbar (collapse):
+
+.navbar-collapse {	// *** override CSS
+	z-index: 1;
+}
+
+.navbar-light .navbar-nav .nav-link {	// *** Override CSS
+    color: #a7d2e3;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {	// *** Override CSS
+    color: #fefefe;
+}
+
+
+// *** Liens:
+
+a:link {
+	color:#043745;
+	text-decoration: none;
+	background-color: transparent;
+	font-weight: bold;
+	font-size: 3vh;
+}
+
+a:visited {
+	color: #043745;
+	text-decoration: none;
+	background-color: transparent;
+	font-weight: bold;
+	font-size: 3vh;
+}
+
+a:hover {
+	color: #a7d2e3;
+	text-decoration: none;
+	background-color: transparent;
+	font-weight: bold;
+	font-size: 3vh;
+}
+
+a:active {
+	color: #fefefe;
+	text-decoration: none;
+	background-color: transparent;
+	font-weight: bold;
+	font-size: 3vh;
+}
+
+
+
+
+.link_to_top {
+	font-size: 1rem;
+}
+
+
+// *** boutons:
+.button {
+	margin-right: auto;
+	margin-bottom: -30px;
+	margin-left: auto;
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+	text-align: center;
+	border-radius: 0px;
+	text-transform: uppercase;
+	font-weight: bold;
+	letter-spacing: 2px;
+	border: 3px solid #ffffff;
+	color: #eeeeee;
+	transition: all 0.3s linear;
+}
+
+.button:hover {
+	background-color: #fefefe;
+	color: #a7d2e3;
+	cursor: pointer;
+}
+
+.graphic-buttons {
+	margin-top: 4vh;
+}
+
+
+
+
+
+// *** CSS des 'Tabs':
+
+.mat-tab-label, .mat-tab-link {	// *** override css
+	font-size: 1.4rem;
+	line-height: 7.5vh;
+}
+
+.mat-tab-body { // *** override css
+	padding-top: 2vh;
+}
+
+.mat-tab-body.mat-tab-body-active { // *** override css
+	padding-top: 2vh;
+}
+
+// *** classe perso sur les tabs:
+:host ::ng-deep .mat-tab-body-content { // *** css override
+	overflow: hidden;	// *** sinon: ascenseur horizontal en bas du tableau, lorsque connexion
+}
+
+
+// **************
+
+// *** css des charts (chart.js):
+
+.animatedChart {
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+@-webkit-keyframes chartFadeIn {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+  
+@keyframes chartFadeIn {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+  
+.chartFadeIn {
+	-webkit-animation-name: fadeIn;
+	animation-name: fadeIn;
+}
+
+
+// ************
+
+// *** CSS de Map (Leaflet):
+
+.map_container {
+	background-color: #d9d9d9;
+	width: 90%;
+	padding: 20px;
+}
+
+.map {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 90%;
+}
+
+.map-tooltip {
+	font-size:1.3rem;
+}
+
+.map-legend {
+	background: grey;
+	opacity: 0.8;
+	color: black;
+	font-size: 1.3rem;
+	text-align:left;
+}
+
+.map-legend-title {
+	text-align: center;
+}
+
+.map-attributions {
+	font-size: 1.2rem;
+}
+
+
+// *** Animation sur map (fade in):
+
+.animatedMap {
+	background-color: #2d9ab7;
+	-webkit-animation-duration: 5s;
+	animation-duration: 5s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+@-webkit-keyframes mapFadeIn {
+	0% {opacity: 0;}
+	80% {opacity: 0.1;}
+	100% {opacity: 1;}
+}
+  
+@keyframes mapFadeIn {
+	0% {opacity: 0;}
+	80% {opacity: 0.1;}
+	100% {opacity: 1;}
+}
+  
+.mapFadeIn {
+	-webkit-animation-name: fadeIn;
+	animation-name: fadeIn;
+}
+
+
+// *** CSS des 'Modales':
+
+//  override du css de base de 'modal-dialog' (chart.js graphiques, pas pour la carte Leaflet):
+.modal-dialog {
+	overflow-x: auto;
+	max-width: 80%;
+}
+
+
+.graphic-modal-body {
+	width: 98%;
+	background-color: #eeeeee;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+//  override du css de base de 'modal-content' (chart.js graphiques, pas pour la carte Leaflet):
+.modal-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	pointer-events: auto;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 0.3rem;
+	outline: 0;
+	overflow: scroll;
+}
+
+
+// *** override du css de base de 'modal-content' pour la carte (permet de retrouver les valeurs par défaut):
+.map-modal-content {
+	pointer-events: auto;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 0.3rem;
+	outline: 0;
+}
+
+.map-modal-body {
+	width: 100%;
+	background-color: #eeeeee;
+	text-align: center;
+}
+
+
+// *******
+
+
+// *** Note: utilisation supplémentaires de Media Queries (remplace Bootstrap Grid Responsive) pour résoudre un problème de modale (map): ?? cause: modale dans 'index.html' ??
+
+// ***  '@media only' : dit aux anciens navigateurs de ne pas appliquer cela (encore nécessaire ?)
+
+@media only screen and (min-width: 1200px) {	// *** ecrans 'xl' (limite Bootstrap)
+
+	.modal-dialog {
+		overflow-x: auto;
+		max-width: 80%;
+	}
+
+
+	#myfrugalmap { 
+		height: 70.6vh;
+		width: 78.7vw;
+		p, a { font-size: 1rem; } 
+	}
+
+	.graphic-modal-content {
+		width:100%;
+	}
+
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {	// *** ecrans 'lg' (limite Bootstrap)
+
+	.modal-dialog {
+		overflow-x: auto;
+		max-width: 90%;
+	}
+
+
+	#myfrugalmap {
+		height: 60.6vh;
+		width: 80vw;
+		p, a { font-size: 1rem; }
+	}
+
+	.graphic-modal-content {
+		width:100%;
+	}
+
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {	// *** ecrans 'md (limite Bootstrap)
+
+	.modal-dialog {
+		overflow-x: auto;
+		max-width: 90%;
+	}
+
+
+	#myfrugalmap {
+		height: 75.6vh;
+		width: 84.9vw;
+		p, a { font-size: 1rem; }
+	}
+
+	.graphic-modal-content {
+		width:100%;
+	}
+
+	.navbar-toggler-icon {	// *** override css
+		display: inline-block;
+		width: 3em;
+		height: 3em;
+		vertical-align: middle;
+		content: "";
+		background: no-repeat center center;
+		background-size: 100% 100%;
+	}
+
+}
+
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {	// *** ecrans 'sm' (limite Bootstrap)
+
+	.modal-dialog {
+		overflow-x: auto;
+		max-width: 90%;
+	}
+
+
+	#myfrugalmap {
+		height: 800px; 
+		width: 85.8vw;
+		p, a { font-size: 1rem; }
+	}
+
+	.graphic-modal-content {
+		width:100%;
+	}
+
+	.navbar-toggler-icon {	// *** override css
+		display: inline-block;
+		width: 3em;
+		height: 3em;
+		vertical-align: middle;
+		content: "";
+		background: no-repeat center center;
+		background-size: 100% 100%;
+	}
+
+}
+
+
+@media only screen and (max-width: 575px) {	// *** ecrans 'xs' (limite Bootstrap)
+
+	.modal-dialog {
+		overflow-x: auto;
+		max-width: 100%;
+	}
+
+	#myfrugalmap {
+		height: 800px;
+		width: 87.8vw;
+		margin: auto;
+		p, a { font-size: 1rem; }
+	}
+
+	.graphic-modal-content {
+		width: 200%;
+	}
+
+	.navbar-toggler-icon {	// *** override css
+		display: inline-block;
+		width: 1.5em;
+		height: 1.5em;
+		vertical-align: middle;
+		content: "";
+		background: no-repeat center center;
+		background-size: 100% 100%;
+	}
+
+}
