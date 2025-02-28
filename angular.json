@@ -143,7 +143,6 @@
       }
     }
   },
-  "defaultProject": "sakana-api",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

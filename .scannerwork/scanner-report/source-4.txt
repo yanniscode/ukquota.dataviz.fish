@@ -1,0 +1,17 @@
+<div class="general">
+
+  <app-header></app-header>
+  <app-medium-header></app-medium-header> 
+  <app-xs-header></app-xs-header>
+
+  <app-main></app-main>
+
+  <app-infos></app-infos>
+  <app-medium-infos></app-medium-infos>
+  <app-xs-infos></app-xs-infos>
+
+  <app-footer></app-footer>
+  <app-medium-footer></app-medium-footer>
+  <app-xs-footer></app-xs-footer>
+
+</div>

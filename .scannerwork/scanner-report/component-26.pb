@@ -1,0 +1,1 @@
+ 2webXhr5src/app/html/medium-infos/medium-infos.component.html

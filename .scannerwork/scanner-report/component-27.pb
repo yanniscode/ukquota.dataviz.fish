@@ -1,0 +1,1 @@
+ 2cssXhr5src/app/html/medium-infos/medium-infos.component.scss

@@ -1,0 +1,1 @@
+ 2tsXhr3src/app/html/medium-infos/medium-infos.component.ts

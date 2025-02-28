@@ -63,7 +63,8 @@ export class ZonesMapComponent<D> implements OnInit, OnDestroy {
     // *** Note: LAYER DES SOUS-ZONES MARITIMES :
 
     // *** Note: LAYER AQUARELLE (MARCHE)
-    const stamenWatercolorMap: L.TileLayer = L.tileLayer('http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+    // voir doc: https://docs.stadiamaps.com/guides/migrating-from-stamen-map-tiles/ car tiles non maintenues par Stamen, avec cette url: http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg
+    const stamenWatercolorMap: L.TileLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg', {
       minZoom: 2,
       maxZoom: 8,
     }); // *** Note: zoom : 2 -> 10 à la base
@@ -76,8 +77,7 @@ export class ZonesMapComponent<D> implements OnInit, OnDestroy {
 
 
     // *** Note: ajout des attributions (copyright):
-    const attributions: string = '<div class="map-attributions"><p>Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/ copyright">OpenStreetMap</a> contributors &mdash; Sources: Esri, GEBCO, NOAA, National Geographic, Garmin, HERE, Geonames.org, and other contributor</p></div>';
-
+    const attributions: string = '&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a> <a href="https://stamen.com/" target="_blank">&copy; Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/about" target="_blank">OpenStreetMap</a> contributors';
     this.tilesAttributions.addAttribution(attributions);
     this.tilesAttributions.addTo(this.map);
 
@@ -202,6 +202,8 @@ private onZonesLabels(): void {
         if (Object(fishes).length > 0) {
 
           if (z_coord.value_quota - z_coord.value_landing >= 0) { // si le quota n'est pas atteint
+            console.log("test zcoord:");
+            console.log(z_coord.z_coord);
 
             polygonColor = 'blue';
 

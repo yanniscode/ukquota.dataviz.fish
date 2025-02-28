@@ -1,0 +1,20 @@
+<div id="gallery" class="gallery">
+
+  <mat-tab-group id="fishing-data" class="custom-tab-group">
+
+    <mat-tab label="Graphiques et Carte">
+        
+      <app-form-connection></app-form-connection>
+      <app-data-table></app-data-table>
+
+    </mat-tab>
+
+    <mat-tab label="Administrateur">
+
+      <app-form-admin-connection></app-form-admin-connection>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</div>

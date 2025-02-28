@@ -702,8 +702,8 @@ nav ul li {
 
 
 .animated-slow {
-	-webkit-animation-duration: 7s;
-	animation-duration: 7s;
+	-webkit-animation-duration: 3s;
+	animation-duration: 3s;
 	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
 }
@@ -966,6 +966,11 @@ a:active {
 // ************
 
 // *** CSS de Map (Leaflet):
+
+// override CSS:
+.leaflet-container {
+	font-weight: bolder;
+}
 
 .map_container {
 	background-color: #d9d9d9;

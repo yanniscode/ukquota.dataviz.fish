@@ -25,7 +25,6 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';   // librairie Bootstrap
 import { ChartsModule } from 'ng2-charts';                // graphiques 'chart.js' import !
 import { AgGridModule } from 'ag-grid-angular';      // tableau (données)
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';  // *** carte Leaflet
 import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker/esm5/saturn-datepicker';
 
 // *** MODULES COMPLÉMENTAIRES (CRÉÉS):
@@ -80,7 +79,6 @@ import { ChartUpdateComponent } from '../../../shared/chart-update/chart-update.
     AgGridModule.withComponents([]),
     NgbModule,
     ChartsModule,
-    LeafletModule,
     MainAuthRoutingModule,
   ],
   declarations: [

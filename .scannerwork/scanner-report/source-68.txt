@@ -1,0 +1,47 @@
+<!-- VERSION 1: lg -> xl (Bouton): -->
+<div class="d-none d-lg-block d-lg-block col-lg-12">
+    <a href="" data-toggle="modal" (click)="onDatesLabels(content)"><img id="formsubmit" src ="../../../../assets/img/linechart_link.png" width="400" height="200" title="Fishing LineChart" alt="Fishing LineChart"></a>  
+</div>
+
+<!-- VERSION 2: md (Bouton): -->
+<div class="d-none d-md-block col-md-12 d-lg-none">
+    <a href="" data-toggle="modal" (click)="onDatesLabels(content)"><img id="formsubmit" src ="../../../../assets/img/linechart_link.png" width="350" height="175" title="Fishing LineChart" alt="Fishing LineChart"></a>  
+</div>
+
+<!-- VERSION 3: sm (Bouton): -->
+<div class="d-none d-sm-block col-sm-12 d-md-none">
+    <a href="" data-toggle="modal" (click)="onDatesLabels(content)"><img id="formsubmit" src ="../../../../assets/img/linechart_link.png" width="250" height="125" title="Fishing LineChart" alt="Fishing LineChart"></a>  
+</div>
+
+<!-- VERSION 4: xs (Bouton): -->
+<div class="col-12 d-sm-none">
+    <a href="" data-toggle="modal" (click)="onDatesLabels(content)"><img id="formsubmit" src ="../../../../assets/img/linechart_link.png" width="150" height="80" title="Fishing LineChart" alt="Fishing LineChart"></a>  
+</div>
+ 
+
+<!-- MODALE: -->
+<ng-template #content let-modal tabindex="-1" role="dialog" aria-labelledby="lineChartModale" aria-hidden="true">
+
+    <div class="graphic-modal-content">
+
+        <div class="modal-header col-12">
+            <h5 class="modal-title" id="lineChartModaleLongTitle">Courbe de périodes</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click');">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="graphic-modal-body col-12">
+
+            <app-chart-update [type]="type" [data]="data" [options]="options">
+            </app-chart-update>
+            
+        </div>
+
+        <div class="modal-footer col-12">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.dismiss('Close click');">Fermer</button>
+        </div>
+
+    </div>
+
+</ng-template>

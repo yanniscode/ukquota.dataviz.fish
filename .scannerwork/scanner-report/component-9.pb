@@ -1,0 +1,1 @@
+	 2cssXhr)src/app/html/footer/footer.component.scss

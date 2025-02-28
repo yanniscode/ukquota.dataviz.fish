@@ -1,0 +1,1 @@
+ 2cssXhr7src/app/html/medium-footer/medium-footer.component.scss

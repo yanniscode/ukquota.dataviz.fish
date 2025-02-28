@@ -1,0 +1,1 @@
+& 2tsXhr+src/app/html/xs-infos/xs-infos.component.ts

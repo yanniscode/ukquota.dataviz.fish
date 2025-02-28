@@ -14,10 +14,6 @@ client_secret.json
 /src/environments/environment.ts
 /src/proxy.conf.json
 
-<<<<<<< HEAD
-
-=======
->>>>>>> cce2d201741c839e9696ae9089fd27aaad284f89
 # compiled output
 /dist
 /dist-server
@@ -59,3 +55,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+package-lock.json
