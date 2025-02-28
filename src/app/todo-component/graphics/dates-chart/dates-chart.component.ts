@@ -157,7 +157,7 @@ export class DatesChartComponent<D> implements OnInit, OnDestroy {
 
     //  indiquer ici la route vers l'api choisie : getAllDates()...
     const fishingDataSubscription: Subscription = this.fishService.getAllDates(nameSpDatas, zoneDatas, dateBeginToString, dateEndToString)
-      .subscribe(fishing$ => {   
+      .subscribe(fishing$ => {
 
         this.fishing$ = fishing$;
 
