@@ -1,21 +1,21 @@
 {
   "development": {
-    "protocol": "http",
-    "host": "localhost",
-    "port": "3000",
-    "username": "root",
-    "password": "test",
-    "database": "dataviz_fish_uk",
-    "dialect": "mysql"
+    "protocol": "",
+    "host": "",
+    "port": "",
+    "username": "",
+    "password": "",
+    "database": "",
+    "dialect": ""
   },
   "test": {
-    "protocol": "http",
-    "host": "localhost",
-    "port": "3000",
-    "username": "root",
-    "password": "test",
-    "database": "dataviz_fish_uk",
-    "dialect": "mysql" 
+    "protocol": "",
+    "host": "",
+    "port": "",
+    "username": "",
+    "password": "",
+    "database": "",
+    "dialect": ""
   },
   "production": {
     "protocol": "",
