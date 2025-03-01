@@ -1,3 +1,12 @@
+
 export const environment = {
-  production: true
+    production: true,
+    backend: {
+        baseURL:"",
+    },
+    dbHost: '',
+    dbName: '',
+    dbUserName: '',
+    dbPassword: '',
+    dbDialect: ''
 };

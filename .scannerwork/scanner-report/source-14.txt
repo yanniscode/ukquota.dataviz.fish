@@ -1,7 +1,0 @@
-  <!-- About us Section -->
-  
-  <!-- VERSION 1 (GRANDS FORMATS: LG, XL) -->
-  <section class="about d-none d-lg-block col-lg-12" id="about">
-    <h4 class="logo2">A PROPOS - SAKANA CONSULTANTS</h4>
-    <p class="text_column">Association créée par Seb, économiste et enseignant. Notre objectif est de vulgariser les données de pêche non agrégées. Nous souhaitons donner un accès simple aux informations publiques disponibles.</p>
-  </section>

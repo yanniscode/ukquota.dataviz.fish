@@ -1,1 +1,0 @@
-  2tsXhr-src/app/html/xs-footer/xs-footer.component.ts

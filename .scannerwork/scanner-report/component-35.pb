@@ -1,1 +1,0 @@
-# 2tsX'hr-src/app/html/xs-header/xs-header.component.ts

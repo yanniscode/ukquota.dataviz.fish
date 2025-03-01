@@ -1,1 +1,0 @@
- 2cssXhr/src/app/html/xs-footer/xs-footer.component.scss

@@ -26,11 +26,11 @@ Fait:
 
 -- --------------------------------------------------------------------------------------------------
 
--- Commit 25 (15/09/2020): optimisations de code (refactoring), routing, responsive (bootstrap et media queries), bdd renommée `dataviz_fish_uk`
+-- Commit 25 (15/09/2020): optimisations de code (refactoring), routing, responsive (bootstrap et media queries), bdd renommée ``
 
 	- nettoyage global du code
 
-	- BDD renommée `dataviz_fish_uk`
+	- BDD renommée
 
 	- refactorisation: composants, services, html...
 

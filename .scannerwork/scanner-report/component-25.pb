@@ -1,1 +1,0 @@
- 2tsX'hr5src/app/html/medium-header/medium-header.component.ts
