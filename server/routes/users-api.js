@@ -17,12 +17,15 @@ const Op = Sequelize.Op;
 
 const UserModel = require('../models/users')
 
+// pour utiliser des variables d'environnement:
+var env = process.env.NODE_ENV || 'development';
+var config = require(__dirname + '/../config/config.json')[env];
 
 
-const sequelize = new Sequelize("", "root", "", {
+const sequelize = new Sequelize(config.database, config.username, config.password, {
 
-    host: "",
-    dialect: "mysql",
+    host: config.host,
+    dialect: config.dialect,
     pool: {
         max: 5,
         min: 0,
@@ -69,12 +72,8 @@ router.get("/", (req, res) => {
 
 
 // ***********
-// REQUÊTE GÉNÉRALE qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
-
+// REQUÊTE GÉNÉRALE (pour tableau) - prend toutes les données actuelles :
 router.post("/AllUsers", function(req, res, next) {
-
-    // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données 'utilisateur' actuelles):
-
     sequelize.query("SELECT * FROM `users`;", { type : sequelize.QueryTypes.SELECT })
     .then(user => {
         res.status(200).json(user); // OK : réussite de la requête       
@@ -88,8 +87,6 @@ router.post("/AllUsers", function(req, res, next) {
 // UPDATE D'UN USER :
 router.put("/UpdateUser", function(req, res, next) {
     // envoie la donnée sur http://localhost:3000/users-api/AllUsers (voir "server.js")
-    // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
-
     const requestedUserLogin = req.body['login'];
     const requestedUserMail = req.body['mail'];
     const requestedUserId = req.body['id_user'];
@@ -166,8 +163,7 @@ router.post("/User", function(req, res, next) {
     const requestedUserMail = req.body['mail'];
 
     // envoie la donnée sur http://localhost:3000/users-api/AllUsers (voir "server.js")
-    // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
-
+    // REQUÊTE GÉNÉRALE (pour tableau) - prend toutes les données actuelles :
     sequelize.query("SELECT login, mail FROM `users` WHERE login='"+ requestedUserLogin +"' AND mail='"+ requestedUserMail +"';", { type : sequelize.QueryTypes.SELECT })
     .then(user => {
         res.status(200).json(user);  
@@ -186,8 +182,7 @@ router.post("/Admin", function(req, res, next) {
     const requestedUserMail = req.body['mail'];
 
     // envoie la donnée sur http://localhost:3000/users-api/AllUsers (voir "server.js")
-    // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
-
+    // REQUÊTE GÉNÉRALE (pour tableau) - prend toutes les données actuelles :
     sequelize.query("SELECT * FROM `users` WHERE role='admin' AND login='"+ requestedUserLogin +"' AND mail='"+ requestedUserMail +"';", { type : sequelize.QueryTypes.SELECT })
     .then(user => {
         res.status(200).json(user);  
@@ -221,8 +216,7 @@ router.post("/AddUser", function(req, res) {
 //     const requestedUserLogin = req.params['login'];
 
 //     // envoie la donnée sur http://localhost:3000/users-api/AllUsers (voir "server.js")
-//     // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
-
+//     // REQUÊTE GÉNÉRALE (pour tableau) - prend toutes les données actuelles :
 //     sequelize.query("INSERT INTO `users` (`login`) VALUES('"+ requestedUserLogin +"');", { type : sequelize.QueryTypes.INSERT })
 //     .then(user => {
 //         res.status(200).json(user);     
@@ -238,10 +232,8 @@ router.post("/AddUser", function(req, res) {
 /* RECHERCHE DE LA DONNÉE ID_USER, AVEC POUR PARAMETRE LE LOGIN DU MEMBRE SÉLECTIONNÉ (TEST : POUR L'UPDATE D'UN LOGIN) : méthode 'GET' */
 router.post("/SingleUserLogin", function(req, res, next) {
     const requestedUserLogin = req.body['login'];
-
     // envoie la donnée sur http://localhost:3000/users-api/AllUsers (voir "server.js")
-    // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
-
+    // REQUÊTE GÉNÉRALE (pour tableau) - prend toutes les données actuelles:
     sequelize.query("SELECT id_user, login, mail FROM `users` WHERE login='"+ requestedUserLogin +"';", { type : sequelize.QueryTypes.SELECT })
     .then(user => { 
         res.status(200).json(user);  

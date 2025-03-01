@@ -1,1 +1,0 @@
- 2webXhr7src/app/html/medium-footer/medium-footer.component.html

@@ -29,7 +29,6 @@ export class UsersService {
   // }
 
   // addrUrl: string = environment.backend.baseURL;
-  // addrUrl: string = 'http://localhost:3000';
   
   // usersUrl: string = this.addrUrl +'/users-api/AllUsers';
 
