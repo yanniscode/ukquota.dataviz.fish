@@ -5,7 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o & node server.js",
-    "build": "ng build && node server.js",
+    "prebuild": "node prebuild.js",
+    "build": "ng build --configuration= && node server.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -41,6 +42,7 @@
     "core-js": "^3.36.1",
     "cors": "^2.8.5",
     "csv-parse": "^4.16.3",
+    "dotenv": "^16.4.7",
     "express": "^4.18.2",
     "html5shiv": "^3.7.3",
     "jquery": "^3.6.3",
@@ -52,6 +54,7 @@
     "mysql2": "^1.7.0",
     "ng2-charts": "^2.4.3",
     "node-cron": "^2.0.3",
+    "node-ini": "^1.0.0",
     "node-schedule": "^1.3.3",
     "node-xlsx": "^0.15.1",
     "npm": "^6.14.18",

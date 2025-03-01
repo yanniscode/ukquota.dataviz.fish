@@ -23,8 +23,6 @@ const httpOptions = {
 export class FishService {
 
 addrUrl: string = environment.backend.baseURL;
-// addrUrl: string = 'http://localhost:3000';
-
   
   private handleError: HandleError;
 

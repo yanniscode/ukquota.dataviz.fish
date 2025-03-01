@@ -1,4 +1,0 @@
-<!-- <div class="container" id="myfrugalmap"> -->
-    <!-- style="position: relative; height:40vh; width:60vw" -->
-    <!-- <canvas class="chart-canvas"  id="chart"></canvas>
-</div>  -->

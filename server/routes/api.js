@@ -12,12 +12,14 @@ const router = express.Router();
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
+// pour utiliser des variables d'environnement:
+var env = process.env.NODE_ENV || 'development';
+var config = require(__dirname + '/../config/config.json')[env];
 
-const sequelize = new Sequelize("", "root", "", {
+const sequelize = new Sequelize(config.database, config.username, config.password, {
 
-    host: "",
-    dialect: "mysql",
-
+    host: config.host,
+    dialect: config.dialect,
     pool: {
         max: 5,
         min: 0,
@@ -87,43 +89,30 @@ const sequelize = new Sequelize("", "root", "", {
 // ***********
 
 // REQUÊTE GÉNÉRALE (pour tableau) - prend toutes les données actuelles :
-
 router.get("/AllFishings", function(req, res, next) {
-
     // envoie la donnée sur http://localhost:3000/api/AllFishings
-    // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
-
     // REQUÊTE BDD 5.3 : infos sur toutes les dates :
     sequelize.query("SELECT id_fishing, name_specie, zone, super_zone, date, value_landing, value_quota, z_coord FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN species ON fishzone_join.id_specie = species.id_specie INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone INNER JOIN super_zones ON fishzone_join.id_super_zone = super_zones.id_super_zone ORDER BY id_fishing DESC;", { type : sequelize.QueryTypes.SELECT })
-
-
     .then(fishing => {
         res.status(200).json(fishing); // OK : réussite de la requête
     })
     .catch(error => {
     res.status(500).send(error); // Internal Server Error = erreur générique
     });
-
 });
 
 
-// REQUÊTE GÉNÉRALE (pour tableau)  qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
-
+// REQUÊTE GÉNÉRALE (pour tableau) qui prend toutes les données actuelles:
 router.get("/AllFishingsAtDate", function(req, res, next) {
-
     // envoie la donnée sur http://localhost:3000/api/AllFishingsAtDate
-
-    // REQUÊTE BDD 5.3 : infos sur la dernière date : test
+    // REQUÊTE BDD 5.3 : infos sur la dernière date:
     sequelize.query("SELECT id_fishing, name_specie, zone, super_zone, max(date) AS date, value_landing, value_quota FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN species ON fishzone_join.id_specie = species.id_specie INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone INNER JOIN super_zones ON fishzone_join.id_super_zone = super_zones.id_super_zone WHERE date IN (SELECT max(date) FROM fishing) GROUP BY id_fishing ORDER BY id_fishing;", { type : sequelize.QueryTypes.SELECT })
-
-
     .then(fishing => {
         res.status(200).json(fishing); 
     })
     .catch(error => {
     res.status(500).send(error); 
     });
-
 });
 
 

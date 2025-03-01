@@ -1,1 +1,0 @@
-T 2cssXhr/src/app/todo-component/tabs/tabs.component.scss

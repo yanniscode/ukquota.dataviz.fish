@@ -1,1 +1,0 @@
- 2cssXhr7src/app/html/medium-header/medium-header.component.scss

@@ -24,34 +24,21 @@ const Sequelize = require('sequelize');
 
 const Op = Sequelize.Op;
 
+// pour utiliser des variables d'environnement:
+var env = process.env.NODE_ENV || 'development';
+var config = require(__dirname + '/../config/config.json')[env];
 
 
+const sequelize = new Sequelize(config.database, config.username, config.password, {
 
-
-const sequelize = new Sequelize("", "root", "", {
-
-
-
-    host: "",
-
-    dialect: "mysql",
-
-
-
+    host: config.host,
+    dialect: config.dialect,
     pool: {
-
         max: 5,
-
         min: 0,
-
         acquire: 30000,
-
         idle: 10000
-
     }
-
-
-
 });
 
 
@@ -175,21 +162,9 @@ router.get("/", (req, res) => {
 
 
 // REQUÊTE GÉNÉRALE (pour tableau) - prend toutes les données actuelles :
-
-
-
 router.post("/AllFishings", function(req, res, next) {
-
-
-
     // envoie la donnée sur http://localhost:3000/api/AllFishings
-
-    // requête générale qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
-
-
-
     // REQUÊTE BDD 5.3 : infos sur toutes les dates :
-
     sequelize.query("SELECT id_fishing, name_specie, zone, super_zone, date, value_landing, value_quota, z_coord FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN species ON fishzone_join.id_specie = species.id_specie INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone INNER JOIN super_zones ON fishzone_join.id_super_zone = super_zones.id_super_zone ORDER BY id_fishing DESC;", { type : sequelize.QueryTypes.SELECT })
 
 
@@ -216,64 +191,26 @@ router.post("/AllFishings", function(req, res, next) {
 
 
 
-// REQUÊTE GÉNÉRALE (pour tableau)  qui marche (pour 'dataviz_fish_uk'): (prend toutes les données actuelles):
-
-
-
+// REQUÊTE GÉNÉRALE (pour tableau) qui marche et prend toutes les données actuelles:
 router.post("/AllFishingsAtDate", function(req, res, next) {
-
-
-
     // envoie la donnée sur http://localhost:3000/api/AllFishingsAtDate
-
-
-
     // REQUÊTE BDD 5.3 : infos sur la dernière date : test
-
     sequelize.query("SELECT id_fishing, name_specie, zone, super_zone, max(date) AS date, value_landing, value_quota FROM fishing INNER JOIN fishzone_join ON fishing.id_fishzone_join = fishzone_join.id_fishzone_join INNER JOIN species ON fishzone_join.id_specie = species.id_specie INNER JOIN zones ON fishzone_join.id_zone = zones.id_zone INNER JOIN super_zones ON fishzone_join.id_super_zone = super_zones.id_super_zone WHERE date IN (SELECT max(date) FROM fishing) GROUP BY id_fishing ORDER BY id_fishing;", { type : sequelize.QueryTypes.SELECT })
-
-
-
-
-
     .then(fishing => {
-
         res.status(200).json(fishing);
-
     })
-
     .catch(error => {
-
-    res.status(500).send(error);
-
+        res.status(500).send(error);
     });
-
-
-
 });
 
 
 
-
-
 // *****************************************************************************************************************//
-
-
-
 // REQUETES GÉNÉRIQUES (POUR UN GRAPHIQUE DE BASE DANS LA METHODE 'ONINIT' - CF : LES DIFFÉRENTS 'CHART.COMPONENT')
-
-
-
 // *****************************************************************************************************************//
-
-
-
-
-
-
 
 // ******
-
 // I> Pour 'DATES-CHART' :
 
 
